@@ -8,5 +8,13 @@
 *.war
 *.ear
 
+# Additional files or directories that don't need to be version-controlled
+bin/
+*.DS_Store
+.metadata/
+log
+.classpath
+.project
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
