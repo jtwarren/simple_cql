@@ -26,7 +26,6 @@ public class BufferPool {
     public static final int DEFAULT_PAGES = 50;
     
     private int numPages;
-    private static Catalog catalog;
     private ConcurrentHashMap<PageId, Page> pages;
 
     /**
@@ -37,10 +36,6 @@ public class BufferPool {
     public BufferPool(int numPages) {
         this.numPages = numPages;
         pages = new ConcurrentHashMap<PageId, Page> ();
-    }
-    
-    public static void setCatalog(Catalog c) {
-    	catalog = c;
     }
     
     public static int getPageSize() {
@@ -77,7 +72,7 @@ public class BufferPool {
         }
         
         int tableid = pid.getTableId();
-        Page page = BufferPool.catalog.getDatabaseFile(tableid).readPage(pid);
+        Page page = Database.getCatalog().getDatabaseFile(tableid).readPage(pid);
         pages.put(pid, page);
         return page;
     }
