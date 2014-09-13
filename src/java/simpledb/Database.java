@@ -24,6 +24,7 @@ public class Database {
     private Database() {
         _catalog = new Catalog();
         _bufferpool = new BufferPool(BufferPool.DEFAULT_PAGES);
+        BufferPool.setCatalog(_catalog);
         LogFile tmp = null;
         try {
             tmp = new LogFile(new File(LOGFILENAME));
