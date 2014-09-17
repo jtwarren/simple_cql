@@ -41,10 +41,18 @@ public class Catalog {
      * conflict exists, use the last table to be added as the table for a given name.
      */
     public void addTable(DbFile file, String name, String pkeyField) {
-    	int id = file.getId();
-        tables.put(id, file);
-        tableNames.put(id, name);
-        pkeyFields.put(id, pkeyField);
+    	int fileId = file.getId();
+    	
+    	for (int id : tables.keySet()) {
+    		if (tableNames.get(id).equals(name)) {
+    			tables.remove(id);
+    			tableNames.remove(id);
+    			pkeyFields.remove(id);
+    		}
+    	}
+        tables.put(fileId, file);
+        tableNames.put(fileId, name);
+        pkeyFields.put(fileId, pkeyField);
     }
 
     public void addTable(DbFile file, String name) {
