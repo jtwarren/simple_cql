@@ -1,0 +1,14 @@
+1. Design decisions
+This lab didn't really require any major design decisions. However, I did decide to separate out the HeapFileIterator into its own separate class (in its own separate file -- HeapFileIterator.java)
+
+2. API Changes
+No changes to the API were made.
+
+3. Missing or incomplete parts of your code
+Everything required in this lab has been completed.
+
+4. How long I spent on the lab / anything I found difficult or confusing
+I spent around 5 hours (in one stretch) on the lab. Overall, the lab was fairly straightforward, apart from a few minor things--
+  (i) In BufferPool's getPage() method, I wasn't quite sure how to get the tableId corresponding to the given page, and invented a few really hacky ways of accomplishing this, until I realized the right way of doing this.
+  (ii) It wasn't immediately quite clear how HeapFile's iterator() method needed to work.
+
