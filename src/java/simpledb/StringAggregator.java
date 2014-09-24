@@ -1,11 +1,21 @@
 package simpledb;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Knows how to compute some aggregate over a set of StringFields.
  */
 public class StringAggregator implements Aggregator {
 
     private static final long serialVersionUID = 1L;
+    
+    private int gbfield;
+    private Type gbfieldtype;
+    private Op what;
+    
+    private HashMap<Field, Integer> groups;
 
     /**
      * Aggregate constructor
@@ -17,7 +27,13 @@ public class StringAggregator implements Aggregator {
      */
 
     public StringAggregator(int gbfield, Type gbfieldtype, int afield, Op what) {
-        // some code goes here
+        this.gbfield = gbfield;
+        this.gbfieldtype = gbfieldtype;
+        if (what != Op.COUNT)
+        	throw new IllegalArgumentException("Illegal argument!");
+        this.what = what;
+        
+        groups = new HashMap<Field, Integer>();
     }
 
     /**
@@ -25,7 +41,16 @@ public class StringAggregator implements Aggregator {
      * @param tup the Tuple containing an aggregate field and a group-by field
      */
     public void mergeTupleIntoGroup(Tuple tup) {
-        // some code goes here
+    	Field groupField = null;
+        if (gbfield != NO_GROUPING)
+        	groupField = tup.getField(gbfield);
+        if (!groups.containsKey(groupField)) {
+        	groups.put(groupField, 0);
+        }
+        int curAggrValue = groups.get(groupField);
+        if (what == Op.COUNT) {
+        	groups.put(groupField, curAggrValue + 1);
+        }
     }
 
     /**
@@ -37,8 +62,29 @@ public class StringAggregator implements Aggregator {
      *   aggregate specified in the constructor.
      */
     public DbIterator iterator() {
-        // some code goes here
-        throw new UnsupportedOperationException("please implement me for lab2");
+    	List<Tuple> aggregatedTupleResults = new ArrayList<Tuple>();
+    	
+    	TupleDesc td;
+    	if (gbfield == NO_GROUPING) {
+    		td = new TupleDesc(new Type[] { Type.INT_TYPE });
+    	} else {
+    		td = new TupleDesc(new Type[] { gbfieldtype, Type.INT_TYPE });
+    	}
+    	
+    	for (Field f : groups.keySet()) {
+    		int aggrField = groups.get(f);
+    		
+    		Tuple tuple = new Tuple(td);
+    		if (gbfield == NO_GROUPING) {
+    			tuple.setField(0, new IntField(aggrField));
+    		} else {
+    			tuple.setField(0, f);
+    			tuple.setField(1, new IntField(aggrField));
+    		}
+    		aggregatedTupleResults.add(tuple);
+    	}
+    	
+    	return new AggregateIterator(aggregatedTupleResults, td);
     }
 
 }
