@@ -2,6 +2,8 @@ package simpledb;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Map.Entry;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -69,7 +71,7 @@ public class BufferPool {
         	return pages.get(pid);
         }
         if (pages.size() == numPages) {
-        	throw new DbException("Eviction policy not implemented yet!");
+        	evictPage();
         }
         
         int tableid = pid.getTableId();
@@ -176,9 +178,11 @@ public class BufferPool {
      *     break simpledb if running in NO STEAL mode.
      */
     public synchronized void flushAllPages() throws IOException {
-        // some code goes here
-        // not necessary for lab1
-
+        for (Entry<PageId, Page> entry : pages.entrySet()) {
+        	PageId pid = entry.getKey();
+        	
+        	flushPage(pid);
+        }
     }
 
     /** Remove the specific page id from the buffer pool.
@@ -196,8 +200,12 @@ public class BufferPool {
      * @param pid an ID indicating the page to flush
      */
     private synchronized  void flushPage(PageId pid) throws IOException {
-        // some code goes here
-        // not necessary for lab1
+        Page page = pages.get(pid);
+        if (page.isDirty() != null) {
+        	DbFile file = Database.getCatalog().getDatabaseFile(pid.getTableId());
+        	file.writePage(page);
+        	page.markDirty(false, null);
+        }
     }
 
     /** Write all pages of the specified transaction to disk.
@@ -212,8 +220,20 @@ public class BufferPool {
      * Flushes the page to disk to ensure dirty pages are updated on disk.
      */
     private synchronized  void evictPage() throws DbException {
-        // some code goes here
-        // not necessary for lab1
+    	// Pick a random page to evict from the BufferPool
+    	Random generator = new Random();
+        Object[] entries = pages.entrySet().toArray();
+        if (entries.length > 0) {
+	        Entry<PageId, Page> entry = (Entry<PageId, Page>) entries[generator.nextInt(entries.length)];
+	        
+	        PageId pid = entry.getKey();
+	        try {
+				flushPage(pid);
+			} catch (IOException e) {
+				throw new DbException("Error while flushing page");
+			}
+	        pages.remove(pid);
+        }
     }
 
 }
