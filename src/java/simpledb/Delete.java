@@ -68,6 +68,7 @@ public class Delete extends Operator {
     	int numDeleted = 0;
         while (child.hasNext()) {
         	Tuple t = child.next();
+        	// Works very similarly to insert
         	try {
 				Database.getBufferPool().deleteTuple(tid, t);
 				numDeleted++;

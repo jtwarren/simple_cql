@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class AggregateIterator implements DbIterator {
+	
+	// DbIterator that helps to iterate through the results of an aggregate operation
 
 	private static final long serialVersionUID = 1L;
 

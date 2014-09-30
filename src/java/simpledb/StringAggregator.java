@@ -49,6 +49,7 @@ public class StringAggregator implements Aggregator {
         }
         int curAggrValue = groups.get(groupField);
         if (what == Op.COUNT) {
+        	// Update count as necessary
         	groups.put(groupField, curAggrValue + 1);
         }
     }

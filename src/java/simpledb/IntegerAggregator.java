@@ -16,6 +16,8 @@ public class IntegerAggregator implements Aggregator {
     private int afield;
     private Op what;
     
+    // Counts keeps track of the counts corresponding to each group, Groups keeps track of the running
+    // aggregates corresponding to each group
     private HashMap<Field, Integer> counts;
     private HashMap<Field, Integer> groups;
     /**
@@ -54,6 +56,7 @@ public class IntegerAggregator implements Aggregator {
         Field groupField = null;
         if (gbfield != NO_GROUPING)
         	groupField = tup.getField(gbfield);
+        // If seeing group for the first time, set count and aggregate value to 0
         if (!groups.containsKey(groupField)) {
         	groups.put(groupField, 0);
         	counts.put(groupField, 0);
@@ -65,6 +68,8 @@ public class IntegerAggregator implements Aggregator {
         if (what == Op.COUNT) {
         	groups.put(groupField, curAggrValue + 1);
         } else if (what == Op.SUM || what == Op.AVG) {
+        	// Maintain sum for average as well, final average is computed
+        	// at the end after all tuples have been merged in
         	int newAggrValue = curAggrValue + tupValue;
         	groups.put(groupField, newAggrValue);
         } else if (what == Op.MAX) {
@@ -79,6 +84,7 @@ public class IntegerAggregator implements Aggregator {
         	}
         	groups.put(groupField, newAggrValue);
         }
+        // Increment count of appropriate group by 1
     	counts.put(groupField, curCount + 1);
     }
 
@@ -102,6 +108,7 @@ public class IntegerAggregator implements Aggregator {
     	
     	for (Field f : groups.keySet()) {
     		int aggrField;
+    		// If aggregation operation is AVG, compute average for each group
     		if (what == Op.AVG) {
 	    		int sumGroup = groups.get(f);
 	    		int countGroup = counts.get(f);

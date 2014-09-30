@@ -85,12 +85,14 @@ public class Insert extends Operator {
         while (child.hasNext()) {
         	Tuple t = child.next();
         	try {
+        		// Insert new tuple into the page (which is accessed through the BufferPool)
 				Database.getBufferPool().insertTuple(tid, tableid, t);
 				numInserted++;
 			} catch (IOException e) {
 				throw new DbException("IO error while inserting tuple");
 			}
         }
+        // Mark iteration as over, so future insertion operations will fail
         isIterationOver = true;
         
         Tuple newTuple = new Tuple(td);

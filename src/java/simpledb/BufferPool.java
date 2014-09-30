@@ -200,6 +200,7 @@ public class BufferPool {
      * @param pid an ID indicating the page to flush
      */
     private synchronized  void flushPage(PageId pid) throws IOException {
+    	// Simple page flushing -- if page is dirty, write to disk
         Page page = pages.get(pid);
         if (page.isDirty() != null) {
         	DbFile file = Database.getCatalog().getDatabaseFile(pid.getTableId());

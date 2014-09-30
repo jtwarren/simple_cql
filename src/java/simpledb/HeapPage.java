@@ -241,6 +241,8 @@ public class HeapPage implements Page {
      * @param t The tuple to delete
      */
     public void deleteTuple(Tuple t) throws DbException {
+    	// First, check if the page the tuple's record Id says its on
+    	// is the same as the current page
     	RecordId recordId = t.getRecordId();
     	if (!recordId.getPageId().equals(pid)) {
     		throw new DbException("Wrong page!");
@@ -248,6 +250,8 @@ public class HeapPage implements Page {
     	if (!isSlotUsed(recordId.tupleno())) {
     		throw new DbException("Tuple slot already empty!");
     	}
+    	// If page Ids match, the slot in which the tuple is currently stored,
+    	// is marked as empty
     	markSlotUsed(recordId.tupleno(), false);
     }
 
@@ -263,6 +267,7 @@ public class HeapPage implements Page {
     		throw new DbException("Tupledesc's do not match!");
     	}
         for (int i = 0; i < numSlots; i++) {
+        	// Insert the tuple into a free slot on the current page
         	if (!isSlotUsed(i)) {
         		markSlotUsed(i, true);
         		tuples[i] = t;
@@ -271,6 +276,7 @@ public class HeapPage implements Page {
         		return;
         	}
         }
+        // Page doesn't have any free slots
         throw new DbException("No empty slots!");
     }
 
@@ -320,6 +326,8 @@ public class HeapPage implements Page {
      * Abstraction to fill or clear a slot on this page.
      */
     private void markSlotUsed(int i, boolean value) {
+    	// Use bit hacks to set / clear the appropriate bit in the header of the
+    	// page
         int byteNumber = i / 8;
         int bitNumber = i % 8;
         if (value) {

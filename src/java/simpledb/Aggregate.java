@@ -46,6 +46,7 @@ public class Aggregate extends Operator {
 		Type gfieldType = null;
 		if (gfield != -1)
 			gfieldType = child.getTupleDesc().getFieldType(gfield);
+		// Create an appropriate aggregator depending on the aggregator field type
 		if (afieldType == Type.INT_TYPE) {
 			aggregator = new IntegerAggregator(gfield, gfieldType, afield, aop);
 		} else {
@@ -56,6 +57,7 @@ public class Aggregate extends Operator {
     private void mergeAllTuples() throws DbException, TransactionAbortedException {
     	child.open();
     	
+    	// Merge all child tuples into the aggregator
     	while (child.hasNext()) {
     		Tuple tuple = child.next();
     		aggregator.mergeTupleIntoGroup(tuple);
@@ -126,6 +128,8 @@ public class Aggregate extends Operator {
      * aggregate. Should return null if there are no more tuples.
      */
     protected Tuple fetchNext() throws TransactionAbortedException, DbException {
+    	// Use the appropriate aggregator's iterator to iterate through the tuples
+    	// of the result of the aggregate operation
 		while (iterator.hasNext()) {
 			return iterator.next();
 		}

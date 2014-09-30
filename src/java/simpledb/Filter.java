@@ -62,6 +62,7 @@ public class Filter extends Operator {
             TransactionAbortedException, DbException {
         while (child.hasNext()) {
         	Tuple nextTuple = child.next();
+        	// Check if current tuple satisfies provided predicate
         	if (p.filter(nextTuple)) {
         		return nextTuple;
         	}

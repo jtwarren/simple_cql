@@ -102,6 +102,7 @@ public class Join extends Operator {
      * @see JoinPredicate#filter
      */
     protected Tuple fetchNext() throws TransactionAbortedException, DbException {
+    	// Simple nested for loops
         while (curTuple != null || child1.hasNext()) {
         	if (curTuple == null) {
         		curTuple = child1.next();
@@ -110,6 +111,7 @@ public class Join extends Operator {
         	while (child2.hasNext()) {
         		Tuple nextTuple = child2.next();
             	if (p.filter(curTuple, nextTuple)) {
+            		// Set all fields
             		int offset = curTuple.getTupleDesc().numFields();
             		Tuple newTuple = new Tuple(getTupleDesc());
             		for (int i = 0; i < curTuple.getTupleDesc().numFields(); i++) {
@@ -123,8 +125,9 @@ public class Join extends Operator {
             		return newTuple;
             	}
         	}
+        	// Done with a pass through child2, reset child2 pointer to the beginning
         	child2.rewind();
-        	curTuple = null;
+        	curTuple = null;  // Set curTuple to null to signal need to advance child1 pointer
         }
         return null;
     }
