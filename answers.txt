@@ -1,10 +1,14 @@
+===============================
+Lab 1 writeup
+===============================
+
 1. Design decisions
 This lab didn't really require any major design decisions. However, I did decide to separate out the HeapFileIterator into its own separate class (in its own separate file -- HeapFileIterator.java)
 
 2. API Changes
 No changes to the API were made.
 
-3. Missing or incomplete parts of your code
+3. Missing or incomplete parts of my code for this lab
 Everything required in this lab has been completed.
 
 4. How long I spent on the lab / anything I found difficult or confusing
@@ -12,3 +16,23 @@ I spent around 5 hours (in one stretch) on the lab. Overall, the lab was fairly 
   (i) In BufferPool's getPage() method, I wasn't quite sure how to get the tableId corresponding to the given page, and invented a few really hacky ways of accomplishing this, until I realized the right way of doing this.
   (ii) It wasn't immediately quite clear how HeapFile's iterator() method needed to work.
 
+
+===============================
+Lab 2 writeup
+===============================
+
+1. Design decisions
+I used a simple nested loop join, which isn't the most efficient, but is simple to implement.
+I used a very simple page eviction policy as well -- I chose a random page in the BufferPool to evict, which is again easy to implement. I will probably improve the policy used for page eviction in future labs.
+I also created a separate AggregateIterator that iterates through the output of an aggregate operation.
+Also, when inserting a tuple into a new page, I immediately write the new page to the end of the existing file (basically, append a new page to the end of the file)
+
+2. API Changes
+No changes to the API were made.
+
+3. Missing or incomplete parts of my code for this lab
+Everything required in this lab was completed.
+
+4. How long I spent on the lab / anything I found difficult or confusing
+I spent around 5 or 6 hours on the lab, across multiple days. The lab was pretty interesting, and gave me insight into how operations that I basically took for granted before, work under the hood.
+I found the JavaDocs confusing in some places (sentences didn't end / were weirdly formatted and incomplete), but beyond that, lab was relatively well-explained. Took me some time to figure out the different methods of class implementing the Operator abstract class needed to work.
