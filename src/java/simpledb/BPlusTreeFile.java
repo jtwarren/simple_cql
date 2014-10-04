@@ -194,8 +194,26 @@ public class BPlusTreeFile implements DbFile {
 	BPlusTreeLeafPage findLeafPage(TransactionId tid, Field f, BPlusTreePageId pid,
 			Permissions perm) 
 					throws DbException, TransactionAbortedException {
-		// some code goes here
-        return null;
+		if (pid.pgcateg() == BPlusTreePageId.LEAF) {
+			BPlusTreeLeafPage leafPage = (BPlusTreeLeafPage) Database.getBufferPool().getPage(tid, pid, perm);
+			return leafPage;
+		}
+		BPlusTreeInternalPage internalPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(tid, pid, Permissions.READ_ONLY);
+		Iterator<BPlusTreeEntry> entriesIterator = internalPage.iterator();
+		BPlusTreeEntry nextEntry = null;
+		while (entriesIterator.hasNext()) {
+			nextEntry = entriesIterator.next();
+			Field entryField = nextEntry.getKey();
+			if (f == null || (f.compare(Op.LESS_THAN_OR_EQ, entryField))) {
+				BPlusTreePageId leftChildId = nextEntry.getLeftChild();
+				return findLeafPage(tid, f, leftChildId, perm);
+			}
+		}
+		if (nextEntry != null) {
+			BPlusTreePageId rightChildId = nextEntry.getRightChild();
+			return findLeafPage(tid, f, rightChildId, perm);
+		}
+		return null;
 	}
 
 	/**
