@@ -232,10 +232,83 @@ public class BPlusTreeFile implements DbFile {
 	 */
 	private BPlusTreeLeafPage splitLeafPage(BPlusTreeLeafPage page, TransactionId tid, HashSet<Page> dirtypages, Field field) 
 			throws DbException, IOException, TransactionAbortedException {
-		BPlusTreePageId parentId = page.getParentId();
-		// some code goes here
-        return null;
+		Iterator<Tuple> tuplesIterator = page.iterator();
 		
+		// Find the point at which new tuple needs to be inserted
+		int insertionPoint = 0;
+		while (tuplesIterator.hasNext()) {
+			Tuple nextTuple = tuplesIterator.next();
+			if (field.compare(Op.LESS_THAN_OR_EQ, nextTuple.getField(keyField))) {
+				break;
+			}
+			insertionPoint++;
+		}
+		
+		// Get new page for split
+		int newPgNo = getEmptyPage(tid, dirtypages);
+		BPlusTreePageId siblingId = new BPlusTreePageId(page.getId().getTableId(), newPgNo, BPlusTreePageId.LEAF);
+		BPlusTreeLeafPage siblingPage = (BPlusTreeLeafPage) Database.getBufferPool().getPage(
+				tid, siblingId, Permissions.READ_WRITE);
+		
+		// Set sibling pointers of new / old pages correctly
+		BPlusTreePageId oldRightSiblingId = page.getRightSiblingId();
+		page.setRightSiblingId(siblingId);
+		siblingPage.setLeftSiblingId(page.getId());
+		siblingPage.setRightSiblingId(oldRightSiblingId);
+		
+		// Move over all tuples as necessary
+		int numTuplesToBeMoved = page.getNumTuples() / 2;
+		tuplesIterator = page.iterator();
+		int i = 0;
+		while (tuplesIterator.hasNext()) {
+			Tuple nextTuple = tuplesIterator.next();
+			if (i >= numTuplesToBeMoved) {
+				page.deleteTuple(nextTuple);
+				siblingPage.insertTuple(nextTuple);
+			}
+			i++;
+		}
+		
+		// parentField here refers to the left-most field of the new right sibling
+		Field parentField = siblingPage.iterator().next().getField(keyField);
+		
+		// Now copy over left-most node of second page to parent internal node and recursively split
+		// parent page as needed
+		BPlusTreeInternalPage parentPage;
+		BPlusTreePageId parentId = page.getParentId();
+		if (parentId.pgcateg() == BPlusTreePageId.ROOT_PTR) {
+			int rootPgNo = getEmptyPage(tid, dirtypages);
+			parentId = new BPlusTreePageId(page.getId().getTableId(), rootPgNo, BPlusTreePageId.INTERNAL);
+			
+			// Update the root page
+			BPlusTreeRootPtrPage rootPtrPage = (BPlusTreeRootPtrPage) Database.getBufferPool().getPage(
+					tid, BPlusTreeRootPtrPage.getId(tableid), Permissions.READ_WRITE);
+			
+			rootPtrPage.setRootId(parentId);
+			dirtypages.add(rootPtrPage);
+		}
+		
+		parentPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(
+				tid, parentId, Permissions.READ_WRITE);
+		if (parentPage.getNumEmptySlots() == 0) {
+			parentPage = splitInternalPage(parentPage, tid, dirtypages, parentField);
+		}
+		
+		// Set parent pointers of leaf pages
+		siblingPage.setParentId(parentPage.getId());
+		page.setParentId(parentPage.getId());
+
+		parentPage.insertEntry(new BPlusTreeEntry(parentField, page.getId(), siblingPage.getId()));
+		
+		// Set parent pointers appropriately
+		updateParentPointers(tid, parentPage, dirtypages);
+		
+		// Add all changed pages to set of dirty pages
+		dirtypages.add(siblingPage);
+		dirtypages.add(page);
+		dirtypages.add(parentPage);
+		
+        return (insertionPoint > numTuplesToBeMoved) ? siblingPage : page;
 	}
 
 	/**
@@ -255,8 +328,78 @@ public class BPlusTreeFile implements DbFile {
 	private BPlusTreeInternalPage splitInternalPage(BPlusTreeInternalPage page, TransactionId tid, 
 			HashSet<Page> dirtypages, Field field) 
 					throws DbException, IOException, TransactionAbortedException {
-		// some code goes here
-        return null;
+		Iterator<BPlusTreeEntry> entriesIterator = page.iterator();
+		
+		// Find the point at which new tuple needs to be inserted
+		int insertionPoint = 0;
+		while (entriesIterator.hasNext()) {
+			BPlusTreeEntry nextEntry = entriesIterator.next();
+			if (field.compare(Op.LESS_THAN_OR_EQ, nextEntry.getKey())) {
+				break;
+			}
+			insertionPoint++;
+		}
+		
+		// Get new page for split
+		int newPgNo = getEmptyPage(tid, dirtypages);
+		PageId siblingId = new BPlusTreePageId(page.getId().getTableId(), newPgNo, BPlusTreePageId.INTERNAL);
+		BPlusTreeInternalPage siblingPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(
+				tid, siblingId, Permissions.READ_WRITE);
+		
+		// Move over all tuples as necessary
+		int numEntriesToBeMoved = page.getNumEntries() / 2;
+		entriesIterator = page.iterator();
+		BPlusTreeEntry middleEntry = null;
+		int i = 0;
+		while (entriesIterator.hasNext()) {
+			BPlusTreeEntry nextEntry = entriesIterator.next();
+			if (i > numEntriesToBeMoved) {
+				page.deleteEntry(nextEntry);
+				siblingPage.insertEntry(nextEntry);
+			} else if (i == numEntriesToBeMoved) {
+				middleEntry = nextEntry;
+				page.deleteEntry(nextEntry);
+			}
+			i++;
+		}
+		
+		// Now move middle element up one level
+		BPlusTreeInternalPage parentPage;
+		BPlusTreePageId parentId = (BPlusTreePageId) page.getParentId();
+		if (parentId.pgcateg() == BPlusTreePageId.ROOT_PTR) {
+			int rootPgNo = getEmptyPage(tid, dirtypages);
+			parentId = new BPlusTreePageId(page.getId().getTableId(), rootPgNo, BPlusTreePageId.INTERNAL);
+			
+			// Update the root page
+			BPlusTreeRootPtrPage rootPtrPage = (BPlusTreeRootPtrPage) Database.getBufferPool().getPage(
+					tid, BPlusTreeRootPtrPage.getId(tableid), Permissions.READ_WRITE);
+			
+			rootPtrPage.setRootId(parentId);
+			dirtypages.add(rootPtrPage);
+		}
+
+		parentPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(
+				tid, parentId, Permissions.READ_WRITE);
+		if (parentPage.getNumEmptySlots() == 0) {
+			parentPage = splitInternalPage(parentPage, tid, dirtypages, middleEntry.getKey());
+		}
+		
+		siblingPage.setParentId(parentPage.getId());
+		page.setParentId(parentPage.getId());
+
+		parentPage.insertEntry(new BPlusTreeEntry(middleEntry.getKey(), page.getId(), siblingPage.getId()));
+		
+		// Set parent pointers appropriately
+		updateParentPointers(tid, siblingPage, dirtypages);
+		updateParentPointers(tid, page, dirtypages);
+		updateParentPointers(tid, parentPage, dirtypages);
+		
+		// Add all changed pages to set of dirty pages
+		dirtypages.add(siblingPage);
+		dirtypages.add(page);
+		dirtypages.add(parentPage);
+		
+        return (insertionPoint > numEntriesToBeMoved) ? siblingPage : page;
 	}
 
 	/**
