@@ -221,19 +221,29 @@ public class BufferPool {
      */
     private synchronized  void evictPage() throws DbException {
     	// Pick a random page to evict from the BufferPool
-    	Random generator = new Random();
-        Object[] entries = pages.entrySet().toArray();
-        if (entries.length > 0) {
-	        Entry<PageId, Page> entry = (Entry<PageId, Page>) entries[generator.nextInt(entries.length)];
-	        
-	        PageId pid = entry.getKey();
-	        try {
-				flushPage(pid);
-			} catch (IOException e) {
-				throw new DbException("Error while flushing page");
-			}
-	        pages.remove(pid);
-        }
+    	boolean evictionSuccessful = false;
+	    while (!evictionSuccessful) {
+	    	Random generator = new Random();
+	        Object[] entries = pages.entrySet().toArray();
+	        if (entries.length > 0) {
+		        Entry<PageId, Page> entry = (Entry<PageId, Page>) entries[generator.nextInt(entries.length)];
+		        
+		        PageId pid = entry.getKey();
+		        Page page = entry.getValue();
+		        if (page.isDirty() != null) {
+		        	continue;
+		        }
+		        try {
+					flushPage(pid);
+				} catch (IOException e) {
+					throw new DbException("Error while flushing page");
+				}
+		        pages.remove(pid);
+		        evictionSuccessful = true;
+	        } else {
+	        	evictionSuccessful = true;
+	        }
+    	}
     }
 
 }
