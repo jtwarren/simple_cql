@@ -491,9 +491,6 @@ public class BPlusTreeFile implements DbFile {
 		// insert the tuple into the leaf page
 		leafPage.insertTuple(t);
 		dirtypages.add(leafPage);
-		for (Page dirtypage : dirtypages) {
-			dirtypage.markDirty(true, tid);
-		}
 
 		ArrayList<Page> dirtyPagesArr = new ArrayList<Page>();
 		dirtyPagesArr.addAll(dirtypages);
