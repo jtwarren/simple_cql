@@ -191,8 +191,7 @@ public class BufferPool {
         cache.
     */
     public synchronized void discardPage(PageId pid) {
-        // some code goes here
-        // only necessary for lab5
+        pages.remove(pid);
     }
 
     /**
