@@ -509,7 +509,6 @@ public class BPlusTreeFile implements DbFile {
 			BPlusTreeLeafPage leftSibling,
 			BPlusTreeLeafPage rightSibling,
 			boolean stealFromLeft) throws DbException {
-		//System.out.println("MoveTuples called...");
 		Iterator<BPlusTreeEntry> entryIterator = parent.iterator();
 		BPlusTreeEntry toBeUpdatedEntry = null;
 		while (entryIterator.hasNext()) {
@@ -518,8 +517,6 @@ public class BPlusTreeFile implements DbFile {
 				toBeUpdatedEntry = nextEntry;
 			}
 		}
-		if (toBeUpdatedEntry == null)
-			System.out.println("ToBeUpdated is null");
 		BPlusTreeLeafPage stealingFrom = null;
 		BPlusTreeLeafPage stealingTo = null;
 		if (stealFromLeft) {
@@ -558,17 +555,6 @@ public class BPlusTreeFile implements DbFile {
 			BPlusTreeInternalPage rightSibling,
 			BPlusTreeEntry parentEntry,
 			boolean stealFromLeft) throws DbException {
-		System.out.println("MoveEntries called...");
-		Iterator<BPlusTreeEntry> entryIterator = parent.iterator();
-		BPlusTreeEntry toBeUpdatedEntry = null;
-		while (entryIterator.hasNext()) {
-			BPlusTreeEntry nextEntry = entryIterator.next();
-			if (nextEntry.getLeftChild().equals(leftSibling.getId()) && nextEntry.getRightChild().equals(rightSibling.getId())) {
-				toBeUpdatedEntry = nextEntry;
-			}
-		}
-		if (toBeUpdatedEntry == null)
-			System.out.println("ToBeUpdated is null");
 		BPlusTreeInternalPage stealingFrom = null;
 		BPlusTreeInternalPage stealingTo = null;
 		if (stealFromLeft) {
@@ -598,21 +584,25 @@ public class BPlusTreeFile implements DbFile {
 			rightChild = entryList.get(0).getLeftChild();
 		}
 		stealingTo.insertEntry(new BPlusTreeEntry(parentEntry.getKey(), leftChild, rightChild));
-
+		
 		int i = 0;
-		while (stealingFrom.getNumEmptySlots() < stealingTo.getNumEmptySlots()) {
+		while (stealingFrom.getNumEmptySlots() <= stealingTo.getNumEmptySlots()) {
 			if (i >= entryList.size()) {
 				break;
 			}
 			BPlusTreeEntry nextEntry = entryList.get(i);
-			stealingFrom.deleteEntry(nextEntry);
+			stealingFrom.deleteEntry(nextEntry, stealFromLeft);
 			stealingTo.insertEntry(nextEntry);
 			i++;
 		}
+		
+		BPlusTreeEntry newParentEntry = entryList.get(i);
+		stealingFrom.deleteEntry(newParentEntry, stealFromLeft);
+
 		// Update key field in parent
-		parent.deleteEntry(toBeUpdatedEntry);
+		parent.deleteEntry(parentEntry);
 		parent.insertEntry(new BPlusTreeEntry(
-				rightSibling.iterator().next().getKey(), leftSibling.getId(), rightSibling.getId()));
+				newParentEntry.getKey(), leftSibling.getId(), rightSibling.getId()));
 	}
 
 	/**
@@ -857,7 +847,6 @@ public class BPlusTreeFile implements DbFile {
 	private void mergeInternalPages(TransactionId tid, BPlusTreeInternalPage leftPage, 
 			BPlusTreeInternalPage rightPage, BPlusTreeInternalPage parent, BPlusTreeEntry parentEntry, HashSet<Page> dirtypages) 
 					throws DbException, IOException, TransactionAbortedException {
-		System.out.println("MergeInternalPages called...");
 		// delete the entry in the parent corresponding to the two pages.  If
 		// the parent is below minimum occupancy, get some tuples from its siblings
 		// or merge with one of the siblings
