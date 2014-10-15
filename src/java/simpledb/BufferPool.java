@@ -145,6 +145,7 @@ public class BufferPool {
         
         for (Page page : pages) {
         	page.markDirty(true, tid);
+        	this.pages.put(page.getId(), page);
         }
     }
 
@@ -164,11 +165,12 @@ public class BufferPool {
         throws DbException, IOException, TransactionAbortedException {
     	PageId pid = t.getRecordId().getPageId();
     	int tableid = pid.getTableId();
-        HeapFile file = (HeapFile) Database.getCatalog().getDatabaseFile(tableid);
+        DbFile file = Database.getCatalog().getDatabaseFile(tableid);
         ArrayList<Page> pages = file.deleteTuple(tid, t);
         
         for (Page page : pages) {
         	page.markDirty(true, tid);
+        	this.pages.put(page.getId(), page);
         }
     }
 

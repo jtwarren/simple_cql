@@ -247,6 +247,9 @@ public class BPlusTreeFile implements DbFile {
 		// Get new page for split
 		int newPgNo = getEmptyPage(tid, dirtypages);
 		BPlusTreePageId siblingId = new BPlusTreePageId(page.getId().getTableId(), newPgNo, BPlusTreePageId.LEAF);
+		writePage(new BPlusTreeLeafPage(siblingId, BPlusTreeHeaderPage.createEmptyPageData(), keyField));
+		// Make sure the page is not in the buffer pool
+		Database.getBufferPool().discardPage(siblingId);
 		BPlusTreeLeafPage siblingPage = (BPlusTreeLeafPage) Database.getBufferPool().getPage(
 				tid, siblingId, Permissions.READ_WRITE);
 		
@@ -254,6 +257,7 @@ public class BPlusTreeFile implements DbFile {
 		BPlusTreePageId oldRightSiblingId = page.getRightSiblingId();
 		page.setRightSiblingId(siblingId);
 		siblingPage.setRightSiblingId(oldRightSiblingId);
+		siblingPage.setLeftSiblingId(page.getId());
 		
 		// Move over all tuples as necessary
 		int numTuplesToBeMoved = page.getNumTuples() / 2;
@@ -290,16 +294,16 @@ public class BPlusTreeFile implements DbFile {
 		parentPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(
 				tid, parentId, Permissions.READ_WRITE);
 		if (parentPage.getNumEmptySlots() == 0) {
+			dirtypages.add(parentPage);
 			parentPage = splitInternalPage(parentPage, tid, dirtypages, parentField);
 		}
-
-		page.setParentId(parentPage.getId());
-		siblingPage.setParentId(parentPage.getId());
 
 		parentPage.insertEntry(new BPlusTreeEntry(parentField, page.getId(), siblingPage.getId()));
 		
 		// Set parent pointers appropriately
-		updateParentPointers(tid, parentPage, dirtypages);
+		page.setParentId(parentPage.getId());
+		siblingPage.setParentId(parentPage.getId());
+		// updateParentPointers(tid, parentPage, dirtypages);
 		
 		// Add all changed pages to set of dirty pages
 		dirtypages.add(siblingPage);
@@ -340,7 +344,10 @@ public class BPlusTreeFile implements DbFile {
 		
 		// Get new page for split
 		int newPgNo = getEmptyPage(tid, dirtypages);
-		PageId siblingId = new BPlusTreePageId(page.getId().getTableId(), newPgNo, BPlusTreePageId.INTERNAL);
+		BPlusTreePageId siblingId = new BPlusTreePageId(page.getId().getTableId(), newPgNo, BPlusTreePageId.INTERNAL);
+		writePage(new BPlusTreeInternalPage(siblingId, BPlusTreeHeaderPage.createEmptyPageData(), keyField));
+		// Make sure the page is not in the buffer pool
+		Database.getBufferPool().discardPage(siblingId);
 		BPlusTreeInternalPage siblingPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(
 				tid, siblingId, Permissions.READ_WRITE);
 		
@@ -379,6 +386,7 @@ public class BPlusTreeFile implements DbFile {
 		parentPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(
 				tid, parentId, Permissions.READ_WRITE);
 		if (parentPage.getNumEmptySlots() == 0) {
+			dirtypages.add(parentPage);
 			parentPage = splitInternalPage(parentPage, tid, dirtypages, middleEntry.getKey());
 		}
 		
@@ -501,6 +509,7 @@ public class BPlusTreeFile implements DbFile {
 			BPlusTreeLeafPage leftSibling,
 			BPlusTreeLeafPage rightSibling,
 			boolean stealFromLeft) throws DbException {
+		//System.out.println("MoveTuples called...");
 		Iterator<BPlusTreeEntry> entryIterator = parent.iterator();
 		BPlusTreeEntry toBeUpdatedEntry = null;
 		while (entryIterator.hasNext()) {
@@ -509,6 +518,8 @@ public class BPlusTreeFile implements DbFile {
 				toBeUpdatedEntry = nextEntry;
 			}
 		}
+		if (toBeUpdatedEntry == null)
+			System.out.println("ToBeUpdated is null");
 		BPlusTreeLeafPage stealingFrom = null;
 		BPlusTreeLeafPage stealingTo = null;
 		if (stealFromLeft) {
@@ -519,13 +530,22 @@ public class BPlusTreeFile implements DbFile {
 			stealingTo = leftSibling;
 		}
 		Iterator<Tuple> iterator = stealingFrom.iterator();
-		while (stealingFrom.getNumEmptySlots() > stealingTo.getNumEmptySlots()) {
-			if (!iterator.hasNext()) {
+		List<Tuple> tupleList = new ArrayList<Tuple>();
+		while (iterator.hasNext()) {
+			tupleList.add(iterator.next());
+		}
+		if (stealFromLeft) {
+			Collections.reverse(tupleList);
+		}
+		int i = 0;
+		while (stealingFrom.getNumEmptySlots() < stealingTo.getNumEmptySlots()) {
+			if (i >= tupleList.size()) {
 				break;
 			}
-			Tuple nextTuple = iterator.next();
+			Tuple nextTuple = tupleList.get(i);
 			stealingFrom.deleteTuple(nextTuple);
 			stealingTo.insertTuple(nextTuple);
+			i++;
 		}
 		// Update key field in parent
 		parent.deleteEntry(toBeUpdatedEntry);
@@ -536,7 +556,9 @@ public class BPlusTreeFile implements DbFile {
 	private void moveEntries(BPlusTreeInternalPage parent,
 			BPlusTreeInternalPage leftSibling,
 			BPlusTreeInternalPage rightSibling,
+			BPlusTreeEntry parentEntry,
 			boolean stealFromLeft) throws DbException {
+		System.out.println("MoveEntries called...");
 		Iterator<BPlusTreeEntry> entryIterator = parent.iterator();
 		BPlusTreeEntry toBeUpdatedEntry = null;
 		while (entryIterator.hasNext()) {
@@ -545,6 +567,8 @@ public class BPlusTreeFile implements DbFile {
 				toBeUpdatedEntry = nextEntry;
 			}
 		}
+		if (toBeUpdatedEntry == null)
+			System.out.println("ToBeUpdated is null");
 		BPlusTreeInternalPage stealingFrom = null;
 		BPlusTreeInternalPage stealingTo = null;
 		if (stealFromLeft) {
@@ -555,13 +579,35 @@ public class BPlusTreeFile implements DbFile {
 			stealingTo = leftSibling;
 		}
 		Iterator<BPlusTreeEntry> iterator = stealingFrom.iterator();
-		while (stealingFrom.getNumEmptySlots() > stealingTo.getNumEmptySlots()) {
-			if (!iterator.hasNext()) {
+		List<BPlusTreeEntry> entryList = new ArrayList<BPlusTreeEntry>();
+		while (iterator.hasNext()) {
+			entryList.add(iterator.next());
+		}
+		
+		BPlusTreePageId leftChild = null;
+		BPlusTreePageId rightChild = null;
+		if (stealFromLeft) {
+			Collections.reverse(entryList);
+			leftChild = entryList.get(0).getRightChild();
+			rightChild = stealingTo.iterator().next().getLeftChild();
+		} else {
+			iterator = stealingTo.iterator();
+			while (iterator.hasNext()) {
+				leftChild = iterator.next().getRightChild();
+			}
+			rightChild = entryList.get(0).getLeftChild();
+		}
+		stealingTo.insertEntry(new BPlusTreeEntry(parentEntry.getKey(), leftChild, rightChild));
+
+		int i = 0;
+		while (stealingFrom.getNumEmptySlots() < stealingTo.getNumEmptySlots()) {
+			if (i >= entryList.size()) {
 				break;
 			}
-			BPlusTreeEntry nextEntry = iterator.next();
+			BPlusTreeEntry nextEntry = entryList.get(i);
 			stealingFrom.deleteEntry(nextEntry);
 			stealingTo.insertEntry(nextEntry);
+			i++;
 		}
 		// Update key field in parent
 		parent.deleteEntry(toBeUpdatedEntry);
@@ -629,7 +675,7 @@ public class BPlusTreeFile implements DbFile {
 			dirtypages.add(leftSibling);
 			dirtypages.add(parent);
 		}
-		else if(rightSiblingId != null) {	
+		else if(rightSiblingId != null) {
 			BPlusTreeLeafPage rightSibling = (BPlusTreeLeafPage) Database.getBufferPool().getPage(
 					tid, rightSiblingId, Permissions.READ_WRITE);
 			// if the right sibling is at minimum occupancy, merge with it. Otherwise
@@ -705,7 +751,7 @@ public class BPlusTreeFile implements DbFile {
 				// that the entries are evenly distributed. Be sure to update
 				// the corresponding parent entry. Be sure to update the parent
 				// pointers of all children in the entries that were moved.
-				moveEntries(parent, leftSibling, page, true);
+				moveEntries(parent, leftSibling, page, leftEntry, true);
 				updateParentPointers(tid, parent, dirtypages);
 			}
 			dirtypages.add(leftSibling);
@@ -724,7 +770,7 @@ public class BPlusTreeFile implements DbFile {
 				// that the entries are evenly distributed. Be sure to update
 				// the corresponding parent entry. Be sure to update the parent
 				// pointers of all children in the entries that were moved.
-				moveEntries(parent, page, rightSibling, false);
+				moveEntries(parent, page, rightSibling, rightEntry, false);
 				updateParentPointers(tid, parent, dirtypages);
 			}
 			dirtypages.add(rightSibling);
@@ -747,7 +793,7 @@ public class BPlusTreeFile implements DbFile {
 	 * @throws TransactionAbortedException
 	 */
 	private void mergeLeafPages(TransactionId tid, BPlusTreeLeafPage leftPage, 
-			BPlusTreeLeafPage rightPage, BPlusTreeInternalPage parent, BPlusTreeEntry parentEntry, HashSet<Page> dirtypages) 
+			BPlusTreeLeafPage rightPage, BPlusTreeInternalPage parent, BPlusTreeEntry parentEntry, HashSet<Page> dirtypages)
 					throws DbException, IOException, TransactionAbortedException {
 		// delete the entry in the parent corresponding to the two pages. If
 		// the parent is below minimum occupancy, get some tuples from its siblings
@@ -774,11 +820,24 @@ public class BPlusTreeFile implements DbFile {
 		else if(parent.getNumEmptySlots() > maxEmptySlots) { 
 			handleMinOccupancyInternalPage(tid, parent, dirtypages);
 		}
-
-		// some code goes here
-        // YOUR CODE HERE: 
+ 
 		// Move all the tuples from the right page to the left page, update
 		// the sibling pointers, and make the right page available for reuse
+		Iterator<Tuple> iterator = rightPage.iterator();
+		while (iterator.hasNext()) {
+			Tuple nextTuple = iterator.next();
+			rightPage.deleteTuple(nextTuple);
+			leftPage.insertTuple(nextTuple);
+		}
+		
+		leftPage.setRightSiblingId(rightPage.getRightSiblingId());
+		
+		// Update dirty pages
+		dirtypages.add(leftPage);
+		dirtypages.add(rightPage);
+		dirtypages.add(parent);
+		
+		setEmptyPage(tid, dirtypages, rightPage.getId().pageNumber());
 	}
 
 	/**
@@ -798,6 +857,7 @@ public class BPlusTreeFile implements DbFile {
 	private void mergeInternalPages(TransactionId tid, BPlusTreeInternalPage leftPage, 
 			BPlusTreeInternalPage rightPage, BPlusTreeInternalPage parent, BPlusTreeEntry parentEntry, HashSet<Page> dirtypages) 
 					throws DbException, IOException, TransactionAbortedException {
+		System.out.println("MergeInternalPages called...");
 		// delete the entry in the parent corresponding to the two pages.  If
 		// the parent is below minimum occupancy, get some tuples from its siblings
 		// or merge with one of the siblings
@@ -824,11 +884,33 @@ public class BPlusTreeFile implements DbFile {
 			handleMinOccupancyInternalPage(tid, parent, dirtypages);
 		}
 
-		// some code goes here
-        // YOUR CODE HERE:
         // Move all the entries from the right page to the left page, update
 		// the parent pointers of the children in the entries that were moved, 
 		// and make the right page available for reuse
+		BPlusTreePageId rightChild = rightPage.iterator().next().getLeftChild();
+		BPlusTreePageId leftChild = null;
+		Iterator<BPlusTreeEntry> entryIterator = leftPage.iterator();
+		while (entryIterator.hasNext()) {
+			leftChild = entryIterator.next().getRightChild();
+		}
+
+		Iterator<BPlusTreeEntry> iterator = rightPage.iterator();
+		while (iterator.hasNext()) {
+			BPlusTreeEntry nextEntry = iterator.next();
+			rightPage.deleteEntry(nextEntry);
+			leftPage.insertEntry(nextEntry);
+		}
+		
+		leftPage.insertEntry(new BPlusTreeEntry(parentEntry.getKey(), leftChild, rightChild));
+		updateParentPointers(tid, parent, dirtypages);
+		updateParentPointers(tid, leftPage, dirtypages);
+		
+		// Update dirty pages
+		dirtypages.add(leftPage);
+		dirtypages.add(rightPage);
+		dirtypages.add(parent);
+		
+		setEmptyPage(tid, dirtypages, rightPage.getId().pageNumber());
 	}
 
 	/**
