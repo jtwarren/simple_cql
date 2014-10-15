@@ -544,6 +544,7 @@ public class BPlusTreeFile implements DbFile {
 			stealingTo.insertTuple(nextTuple);
 			i++;
 		}
+
 		// Update key field in parent
 		parent.deleteEntry(toBeUpdatedEntry);
 		parent.insertEntry(new BPlusTreeEntry(
@@ -564,6 +565,7 @@ public class BPlusTreeFile implements DbFile {
 			stealingFrom = rightSibling;
 			stealingTo = leftSibling;
 		}
+
 		Iterator<BPlusTreeEntry> iterator = stealingFrom.iterator();
 		List<BPlusTreeEntry> entryList = new ArrayList<BPlusTreeEntry>();
 		while (iterator.hasNext()) {
@@ -583,10 +585,11 @@ public class BPlusTreeFile implements DbFile {
 			}
 			rightChild = entryList.get(0).getLeftChild();
 		}
+
 		stealingTo.insertEntry(new BPlusTreeEntry(parentEntry.getKey(), leftChild, rightChild));
 		
 		int i = 0;
-		while (stealingFrom.getNumEmptySlots() <= stealingTo.getNumEmptySlots()) {
+		while ((stealingFrom.getNumEmptySlots() + 2) < stealingTo.getNumEmptySlots()) {
 			if (i >= entryList.size()) {
 				break;
 			}
@@ -824,10 +827,10 @@ public class BPlusTreeFile implements DbFile {
 		
 		// Update dirty pages
 		dirtypages.add(leftPage);
-		dirtypages.add(rightPage);
 		dirtypages.add(parent);
 		
 		setEmptyPage(tid, dirtypages, rightPage.getId().pageNumber());
+		Database.getBufferPool().discardPage(rightPage.getId());
 	}
 
 	/**
@@ -883,6 +886,7 @@ public class BPlusTreeFile implements DbFile {
 			leftChild = entryIterator.next().getRightChild();
 		}
 
+		leftPage.insertEntry(new BPlusTreeEntry(parentEntry.getKey(), leftChild, rightChild));
 		Iterator<BPlusTreeEntry> iterator = rightPage.iterator();
 		while (iterator.hasNext()) {
 			BPlusTreeEntry nextEntry = iterator.next();
@@ -890,16 +894,15 @@ public class BPlusTreeFile implements DbFile {
 			leftPage.insertEntry(nextEntry);
 		}
 		
-		leftPage.insertEntry(new BPlusTreeEntry(parentEntry.getKey(), leftChild, rightChild));
 		updateParentPointers(tid, parent, dirtypages);
 		updateParentPointers(tid, leftPage, dirtypages);
 		
 		// Update dirty pages
 		dirtypages.add(leftPage);
-		dirtypages.add(rightPage);
 		dirtypages.add(parent);
 		
 		setEmptyPage(tid, dirtypages, rightPage.getId().pageNumber());
+		Database.getBufferPool().discardPage(rightPage.getId());
 	}
 
 	/**
