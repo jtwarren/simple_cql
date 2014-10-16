@@ -194,6 +194,8 @@ public class BPlusTreeFile implements DbFile {
 	BPlusTreeLeafPage findLeafPage(TransactionId tid, Field f, BPlusTreePageId pid,
 			Permissions perm) 
 					throws DbException, TransactionAbortedException {
+		// If page corresponding to provided pid is a leaf, return the page
+		// Otherwise, find the right child to recurse on
 		if (pid.pgcateg() == BPlusTreePageId.LEAF) {
 			BPlusTreeLeafPage leafPage = (BPlusTreeLeafPage) Database.getBufferPool().getPage(tid, pid, perm);
 			return leafPage;
@@ -248,6 +250,7 @@ public class BPlusTreeFile implements DbFile {
 		int newPgNo = getEmptyPage(tid, dirtypages);
 		BPlusTreePageId siblingId = new BPlusTreePageId(page.getId().getTableId(), newPgNo, BPlusTreePageId.LEAF);
 		writePage(new BPlusTreeLeafPage(siblingId, BPlusTreeHeaderPage.createEmptyPageData(), keyField));
+
 		// Make sure the page is not in the buffer pool
 		Database.getBufferPool().discardPage(siblingId);
 		BPlusTreeLeafPage siblingPage = (BPlusTreeLeafPage) Database.getBufferPool().getPage(
@@ -293,6 +296,8 @@ public class BPlusTreeFile implements DbFile {
 		
 		parentPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(
 				tid, parentId, Permissions.READ_WRITE);
+		
+		// Recursively split parent if necessary
 		if (parentPage.getNumEmptySlots() == 0) {
 			dirtypages.add(parentPage);
 			parentPage = splitInternalPage(parentPage, tid, dirtypages, parentField);
@@ -346,6 +351,7 @@ public class BPlusTreeFile implements DbFile {
 		int newPgNo = getEmptyPage(tid, dirtypages);
 		BPlusTreePageId siblingId = new BPlusTreePageId(page.getId().getTableId(), newPgNo, BPlusTreePageId.INTERNAL);
 		writePage(new BPlusTreeInternalPage(siblingId, BPlusTreeHeaderPage.createEmptyPageData(), keyField));
+
 		// Make sure the page is not in the buffer pool
 		Database.getBufferPool().discardPage(siblingId);
 		BPlusTreeInternalPage siblingPage = (BPlusTreeInternalPage) Database.getBufferPool().getPage(
@@ -505,6 +511,14 @@ public class BPlusTreeFile implements DbFile {
 		return dirtyPagesArr;
 	}
 	
+	/**
+	 * Move tuples between sibling leaf pages
+	 * @param parent Parent of the two siblings
+	 * @param leftSibling Left sibling
+	 * @param rightSibling Right sibling
+	 * @param stealFromLeft If true, steal from the left sibling, otherwise steal from the right sibling
+	 * @throws DbException
+	 */
 	private void moveTuples(BPlusTreeInternalPage parent,
 			BPlusTreeLeafPage leftSibling,
 			BPlusTreeLeafPage rightSibling,
@@ -517,6 +531,8 @@ public class BPlusTreeFile implements DbFile {
 				toBeUpdatedEntry = nextEntry;
 			}
 		}
+		
+		// Determine which page to steal entries from
 		BPlusTreeLeafPage stealingFrom = null;
 		BPlusTreeLeafPage stealingTo = null;
 		if (stealFromLeft) {
@@ -526,6 +542,7 @@ public class BPlusTreeFile implements DbFile {
 			stealingFrom = rightSibling;
 			stealingTo = leftSibling;
 		}
+
 		Iterator<Tuple> iterator = stealingFrom.iterator();
 		List<Tuple> tupleList = new ArrayList<Tuple>();
 		while (iterator.hasNext()) {
@@ -534,6 +551,8 @@ public class BPlusTreeFile implements DbFile {
 		if (stealFromLeft) {
 			Collections.reverse(tupleList);
 		}
+
+		// Move tuples from stealingFrom to stealingTo
 		int i = 0;
 		while (stealingFrom.getNumEmptySlots() < stealingTo.getNumEmptySlots()) {
 			if (i >= tupleList.size()) {
@@ -551,11 +570,21 @@ public class BPlusTreeFile implements DbFile {
 				rightSibling.iterator().next().getField(keyField), leftSibling.getId(), rightSibling.getId()));
 	}
 	
+	/***
+	 * Move entries between sibling internal pages
+	 * @param parent Parent of the two siblings
+	 * @param leftSibling Left sibling
+	 * @param rightSibling Right sibling
+	 * @param parentEntry Entry in parent
+	 * @param stealFromLeft If true, steal from the left sibling; otherwise steal from the right sibling
+	 * @throws DbException
+	 */
 	private void moveEntries(BPlusTreeInternalPage parent,
 			BPlusTreeInternalPage leftSibling,
 			BPlusTreeInternalPage rightSibling,
 			BPlusTreeEntry parentEntry,
 			boolean stealFromLeft) throws DbException {
+		// Determine which page to steal entries from
 		BPlusTreeInternalPage stealingFrom = null;
 		BPlusTreeInternalPage stealingTo = null;
 		if (stealFromLeft) {
@@ -588,6 +617,7 @@ public class BPlusTreeFile implements DbFile {
 
 		stealingTo.insertEntry(new BPlusTreeEntry(parentEntry.getKey(), leftChild, rightChild));
 		
+		// Move tuples from stealingFrom to stealingTo
 		int i = 0;
 		while ((stealingFrom.getNumEmptySlots() + 2) < stealingTo.getNumEmptySlots()) {
 			if (i >= entryList.size()) {
