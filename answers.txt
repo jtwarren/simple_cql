@@ -36,3 +36,21 @@ Everything required in this lab was completed.
 4. How long I spent on the lab / anything I found difficult or confusing
 I spent around 5 or 6 hours on the lab, across multiple days. The lab was pretty interesting, and gave me insight into how operations that I basically took for granted before, work under the hood.
 I found the JavaDocs confusing in some places (sentences didn't end / were weirdly formatted and incomplete), but beyond that, lab was relatively well-explained. Took me some time to figure out the different methods of class implementing the Operator abstract class needed to work.
+
+
+===============================
+Lab 3 writeup
+===============================
+
+1. Design decisions
+Overall the lab was hard to get right. I did not make any major design decisions in this lab, apart from separating out the Move functionality in Delete to separate helper methods (MoveTuples and MoveEntries).
+
+2. API Changes
+No changes to the API were made.
+
+3. Missing or incomplete parts of my code for this lab
+Everything required in this lab has been completed.
+
+4. How long I spent on the lab / anything I found difficult or confusing
+I spent approximately 20-30 hours on this lab. In particular, I struggled with the Insert and Delete functionality. In particular, I had a bug in my BufferPool implementation that was really hard to find (partially because of the seemingly unrelated errors I was seeing). In general, reasoning why certain things weren't working was very hard in this lab.
+
