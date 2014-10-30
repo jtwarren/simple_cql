@@ -2,6 +2,7 @@ package simpledb;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -30,6 +31,8 @@ public class BufferPool {
     
     private int numPages;
     private ConcurrentHashMap<PageId, Page> pages;
+    
+    private PageLockManager pageLockManager;
 
     /**
      * Creates a BufferPool that caches up to numPages pages.
@@ -39,6 +42,7 @@ public class BufferPool {
     public BufferPool(int numPages) {
         this.numPages = numPages;
         pages = new ConcurrentHashMap<PageId, Page> ();
+        pageLockManager = new PageLockManager();
     }
     
     public static int getPageSize() {
@@ -67,6 +71,9 @@ public class BufferPool {
      */
     public  Page getPage(TransactionId tid, PageId pid, Permissions perm)
         throws TransactionAbortedException, DbException {
+    	
+    	pageLockManager.acquire(tid, pid, perm);
+    	
         if (pages.containsKey(pid)) {
         	return pages.get(pid);
         }
@@ -90,8 +97,7 @@ public class BufferPool {
      * @param pid the ID of the page to unlock
      */
     public  void releasePage(TransactionId tid, PageId pid) {
-        // some code goes here
-        // not necessary for lab1|lab2
+    	pageLockManager.release(tid, pid);
     }
 
     /**
@@ -100,15 +106,12 @@ public class BufferPool {
      * @param tid the ID of the transaction requesting the unlock
      */
     public void transactionComplete(TransactionId tid) throws IOException {
-        // some code goes here
-        // not necessary for lab1|lab2
+    	transactionComplete(tid, true);
     }
 
     /** Return true if the specified transaction has a lock on the specified page */
-    public boolean holdsLock(TransactionId tid, PageId p) {
-        // some code goes here
-        // not necessary for lab1|lab2
-        return false;
+    public boolean holdsLock(TransactionId tid, PageId pid) {
+    	return pageLockManager.holdsLock(tid, pid);
     }
 
     /**
@@ -120,8 +123,32 @@ public class BufferPool {
      */
     public void transactionComplete(TransactionId tid, boolean commit)
         throws IOException {
-        // some code goes here
-        // not necessary for lab1|lab2
+		if (commit) {
+			for (Map.Entry<PageId, Page> entry : pages.entrySet()) {
+				PageId pid = entry.getKey();
+				Page page = entry.getValue();
+				
+				TransactionId ttid = page.isDirty();
+				
+				if (ttid == tid) {
+					flushPage(pid);
+					page.setBeforeImage();
+				}
+			}
+		} else {
+			for (Map.Entry<PageId, Page> entry : pages.entrySet()) {
+				PageId pid = entry.getKey();
+				Page page = entry.getValue();
+				
+				TransactionId ttid = page.isDirty();
+				
+				if (ttid == tid) {
+					pages.put(pid, page.getBeforeImage());
+					page.markDirty(false, null);
+				}
+			}
+		}
+		pageLockManager.release(tid);
     }
 
     /**
