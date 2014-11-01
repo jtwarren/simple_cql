@@ -31,6 +31,11 @@ public class PageLockManager {
 			
 			// Attempt to acquire shared lock
 			while (true) {
+				// Timeout if necessary
+				if ((System.currentTimeMillis() - ts) > TIMEOUT) {
+					throw new TransactionAbortedException();
+				}
+
 				// Check if exclusive locks are held
 				if (exclusiveLocks.get(pid) == null || exclusiveLocks.get(pid) == tid) {
 					// Acquire shared lock
@@ -39,10 +44,6 @@ public class PageLockManager {
 					break;
 				}
 				
-				// Timeout if necessary
-				if ((System.currentTimeMillis() - ts) > TIMEOUT) {
-					throw new TransactionAbortedException();
-				}
 			}
 		} else if (perm == Permissions.READ_WRITE) {
 			// Return if we already have write permissions.
@@ -52,6 +53,10 @@ public class PageLockManager {
 			
 			// Attempt to acquire write exclusive lock
 			while (true) {
+				// Timeout if necessary
+				if ((System.currentTimeMillis() - ts) > TIMEOUT) {
+					throw new TransactionAbortedException();
+				}
 				
 				// Check exclusive locks
 				if (exclusiveLocks.get(pid) != null) {
@@ -69,17 +74,13 @@ public class PageLockManager {
 					exclusiveLocks.put(pid, tid);
 					break;
 				}
-				
-				// Timeout if necessary
-				if ((System.currentTimeMillis() - ts) > TIMEOUT) {
-					throw new TransactionAbortedException();
-				}
+
 			}
 		}
 	}
 
 	public void release(TransactionId tid, PageId pid) {
-		exclusiveLocks.remove(pid);
+		exclusiveLocks.remove(pid, tid);
 		if (sharedLocks.containsKey(pid)) {
 			sharedLocks.get(pid).remove(tid);
 		}
@@ -97,6 +98,22 @@ public class PageLockManager {
 			exclusiveLocks.remove(pid, tid);
 		}
 
+	}
+	
+	public List<PageId> getAffectedPages(TransactionId tid) {
+		List<PageId> affectedPages = new ArrayList<PageId> ();
+		for (Entry<PageId, List<TransactionId>> entry : sharedLocks.entrySet()) {
+			if (entry.getValue().contains(tid)) {
+				affectedPages.add(entry.getKey());
+			}
+		}
+				
+		for (Entry<PageId, TransactionId> entry : exclusiveLocks.entrySet()) {
+			if (entry.getValue().equals(tid)) {
+				affectedPages.add(entry.getKey());
+			}
+		}
+		return affectedPages;
 	}
 
 	public boolean holdsLock(TransactionId tid, PageId pid) {

@@ -2,6 +2,7 @@ package simpledb;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -230,7 +231,7 @@ public class BufferPool {
     private synchronized  void flushPage(PageId pid) throws IOException {
     	// Simple page flushing -- if page is dirty, write to disk
         Page page = pages.get(pid);
-        if (page.isDirty() != null) {
+        if (page != null && page.isDirty() != null) {
         	DbFile file = Database.getCatalog().getDatabaseFile(pid.getTableId());
         	file.writePage(page);
         	page.markDirty(false, null);
@@ -240,8 +241,9 @@ public class BufferPool {
     /** Write all pages of the specified transaction to disk.
      */
     public synchronized  void flushPages(TransactionId tid) throws IOException {
-        // some code goes here
-        // not necessary for lab1|lab2
+    	for (PageId pid : pageLockManager.getAffectedPages(tid)) {
+    		flushPage(pid);
+    	}
     }
 
     /**
@@ -251,11 +253,17 @@ public class BufferPool {
     private synchronized  void evictPage() throws DbException {
     	// Pick a random page to evict from the BufferPool
     	boolean evictionSuccessful = false;
+    	HashSet<Integer> triedIndices = new HashSet<Integer> ();
 	    while (!evictionSuccessful) {
 	    	Random generator = new Random();
 	        Object[] entries = pages.entrySet().toArray();
+	        if (triedIndices.size() == entries.length) {
+	        	throw new DbException("No pages left to be evicted");
+	        }
 	        if (entries.length > 0) {
-		        Entry<PageId, Page> entry = (Entry<PageId, Page>) entries[generator.nextInt(entries.length)];
+	        	int index = generator.nextInt(entries.length);
+	        	triedIndices.add(index);
+		        Entry<PageId, Page> entry = (Entry<PageId, Page>) entries[index];
 		        
 		        PageId pid = entry.getKey();
 		        Page page = entry.getValue();
