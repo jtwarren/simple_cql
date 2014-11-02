@@ -54,3 +54,25 @@ Everything required in this lab has been completed.
 4. How long I spent on the lab / anything I found difficult or confusing
 I spent approximately 20-30 hours on this lab. In particular, I struggled with the Insert and Delete functionality. In particular, I had a bug in my BufferPool implementation that was really hard to find (partially because of the seemingly unrelated errors I was seeing). In general, reasoning why certain things weren't working was very hard in this lab.
 
+===============================
+Lab 4 writeup
+===============================
+
+TODO: These are just place holders.
+
+Note: This lab was completed by Deepak Narayanan and Jeffrey Warren.  As per Piazza post @508, we worked together to reduce debugging of old code.
+
+1. Design decisions
+PageLockManager a seperate class to isolate logic and functionality.
+Page level lock granularity.
+Currently timeout, will implement dependency graph.
+Abort self.
+
+2. API Changes
+No changes to the API were made.
+
+3. Missing or incomplete parts of my code for this lab
+Everything required in this lab has been completed.
+
+4. How long I spent on the lab / anything I found difficult or confusing
+5-8 hours so far.
