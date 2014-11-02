@@ -58,15 +58,23 @@ I spent approximately 20-30 hours on this lab. In particular, I struggled with t
 Lab 4 writeup
 ===============================
 
-TODO: These are just place holders.
-
-Note: This lab was completed by Deepak Narayanan and Jeffrey Warren.  As per Piazza post @508, we worked together to reduce debugging of old code.
+Note: This lab was completed by Deepak Narayanan and Jeffrey Warren.  As per
+Piazza post @508, we worked together to reduce debugging of old code.
 
 1. Design decisions
-PageLockManager a seperate class to isolate logic and functionality.
-Page level lock granularity.
-Currently timeout, will implement dependency graph.
-Abort self.
+There were several decisions made in this lab.  First, we chose to make a
+PageLockManager class that separates and isolates the locking functionality.
+This allowed the locking mechanics and logic to be separated from the use,
+which helped with reasoning about implementation and helped debugging.
+
+We chose to implement page level locking since it was recommended for the lab.
+Our implementation of locks should allow for a tuple granularity, but we did
+not implement it.
+
+We chose to implement a simple timeout policy for aborting (self) transactions.
+This is clearly not as performant as a dependency graph, which can immediately
+abort transactions when a cycle is detected, but works well for now -- we
+preferred a simple solution over a complex one.
 
 2. API Changes
 No changes to the API were made.
@@ -75,4 +83,5 @@ No changes to the API were made.
 Everything required in this lab has been completed.
 
 4. How long I spent on the lab / anything I found difficult or confusing
-5-8 hours so far.
+We worked together on this lab, pair coded when possible, and it took about 25
+hours in total.
