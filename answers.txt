@@ -3,7 +3,8 @@ Lab 1 writeup
 ===============================
 
 1. Design decisions
-This lab didn't really require any major design decisions. However, I did decide to separate out the HeapFileIterator into its own separate class (in its own separate file -- HeapFileIterator.java)
+This lab didn't really require any major design decisions. However, I did decide to separate
+out the HeapFileIterator into its own separate class (in its own separate file -- HeapFileIterator.java)
 
 2. API Changes
 No changes to the API were made.
@@ -12,8 +13,11 @@ No changes to the API were made.
 Everything required in this lab has been completed.
 
 4. How long I spent on the lab / anything I found difficult or confusing
-I spent around 5 hours (in one stretch) on the lab. Overall, the lab was fairly straightforward, apart from a few minor things--
-  (i) In BufferPool's getPage() method, I wasn't quite sure how to get the tableId corresponding to the given page, and invented a few really hacky ways of accomplishing this, until I realized the right way of doing this.
+I spent around 5 hours (in one stretch) on the lab. Overall, the lab was fairly straightforward,
+apart from a few minor things--
+  (i) In BufferPool's getPage() method, I wasn't quite sure how to get the tableId corresponding
+to the given page, and invented a few really hacky ways of accomplishing this, until I realized
+the right way of doing this.
   (ii) It wasn't immediately quite clear how HeapFile's iterator() method needed to work.
 
 
@@ -23,9 +27,12 @@ Lab 2 writeup
 
 1. Design decisions
 I used a simple nested loop join, which isn't the most efficient, but is simple to implement.
-I used a very simple page eviction policy as well -- I chose a random page in the BufferPool to evict, which is again easy to implement. I will probably improve the policy used for page eviction in future labs.
+I used a very simple page eviction policy as well -- I chose a random page in the BufferPool to
+evict, which is again easy to implement. I will probably improve the policy used for page eviction
+in future labs.
 I also created a separate AggregateIterator that iterates through the output of an aggregate operation.
-Also, when inserting a tuple into a new page, I immediately write the new page to the end of the existing file (basically, append a new page to the end of the file)
+Also, when inserting a tuple into a new page, I immediately write the new page to the end of the
+existing file (basically, append a new page to the end of the file)
 
 2. API Changes
 No changes to the API were made.
@@ -34,8 +41,11 @@ No changes to the API were made.
 Everything required in this lab was completed.
 
 4. How long I spent on the lab / anything I found difficult or confusing
-I spent around 5 or 6 hours on the lab, across multiple days. The lab was pretty interesting, and gave me insight into how operations that I basically took for granted before, work under the hood.
-I found the JavaDocs confusing in some places (sentences didn't end / were weirdly formatted and incomplete), but beyond that, lab was relatively well-explained. Took me some time to figure out the different methods of class implementing the Operator abstract class needed to work.
+I spent around 5 or 6 hours on the lab, across multiple days. The lab was pretty interesting, and
+gave me insight into how operations that I basically took for granted before, work under the hood.
+I found the JavaDocs confusing in some places (sentences didn't end / were weirdly formatted and
+incomplete), but beyond that, lab was relatively well-explained. Took me some time to figure out the
+different methods of class implementing the Operator abstract class needed to work.
 
 
 ===============================
@@ -43,7 +53,8 @@ Lab 3 writeup
 ===============================
 
 1. Design decisions
-Overall the lab was hard to get right. I did not make any major design decisions in this lab, apart from separating out the Move functionality in Delete to separate helper methods (MoveTuples and MoveEntries).
+Overall the lab was hard to get right. I did not make any major design decisions in this lab, apart
+from separating out the Move functionality in Delete to separate helper methods (MoveTuples and MoveEntries).
 
 2. API Changes
 No changes to the API were made.
@@ -52,7 +63,11 @@ No changes to the API were made.
 Everything required in this lab has been completed.
 
 4. How long I spent on the lab / anything I found difficult or confusing
-I spent approximately 20-30 hours on this lab. In particular, I struggled with the Insert and Delete functionality. In particular, I had a bug in my BufferPool implementation that was really hard to find (partially because of the seemingly unrelated errors I was seeing). In general, reasoning why certain things weren't working was very hard in this lab.
+I spent approximately 20-30 hours on this lab. In particular, I struggled with the Insert and Delete
+functionality. In particular, I had a bug in my BufferPool implementation that was really hard to find
+(partially because of the seemingly unrelated errors I was seeing). In general, reasoning why certain things
+weren't working was very hard in this lab.
+
 
 ===============================
 Lab 4 writeup
@@ -65,7 +80,8 @@ Piazza post @508, we worked together to reduce debugging of old code.
 There were several decisions made in this lab.  First, we chose to make a
 PageLockManager class that separates and isolates the locking functionality.
 This allowed the locking mechanics and logic to be separated from the use,
-which helped with reasoning about implementation and helped debugging.
+which helped with reasoning about implementation and helped debugging, and in
+general made our code a lot cleaner and readable.
 
 We chose to implement page level locking since it was recommended for the lab.
 Our implementation of locks should allow for a tuple granularity, but we did
@@ -84,4 +100,5 @@ Everything required in this lab has been completed.
 
 4. How long I spent on the lab / anything I found difficult or confusing
 We worked together on this lab, pair coded when possible, and it took about 25
-hours in total.
+hours in total. In general, dealing with concurrency was challenging, but the
+lab was much more doable than Lab 3.
