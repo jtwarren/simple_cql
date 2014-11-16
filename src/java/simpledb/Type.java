@@ -24,6 +24,21 @@ public enum Type implements Serializable {
             }
         }
 
+    }, TS_TYPE() {
+        @Override
+        public int getLen() {
+            return 4;
+        }
+
+        @Override
+        public Field parse(DataInputStream dis) throws ParseException {
+            try {
+                return new TSField(dis.readInt());
+            }  catch (IOException e) {
+                throw new ParseException("couldn't parse", 0);
+            }
+        }
+
     }, STRING_TYPE() {
         @Override
         public int getLen() {
