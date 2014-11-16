@@ -15,6 +15,7 @@ public class Tuple implements Serializable {
     private TupleDesc td;
     private RecordId recordId;
     private Field[] fields;
+    private int ts;
 
     /**
      * Create a new tuple with the specified schema (type).
@@ -51,6 +52,24 @@ public class Tuple implements Serializable {
      */
     public void setRecordId(RecordId rid) {
         recordId = rid;
+    }
+    
+    /**
+     * Get the timestamp of this tuple.
+     * 
+     * @return The timestamp associated with the tuple.
+     */
+    public int getTimeStamp() {
+    	return ts;
+    }
+    
+    /**
+     * Set the timestamp of this tuple.
+     * 
+     * @param ts Timestamp associated with this tuple.
+     */
+    public void setTimeStamp(int ts) {
+    	this.ts = ts;
     }
 
     /**

@@ -160,6 +160,8 @@ public class TupleDesc implements Serializable {
         for (TDItem tupleItem : tupleItems) {
         	size += tupleItem.fieldType.getLen();
         }
+        // Add 4 bytes for timestamp field
+        size += 4;
         return size;
     }
 
