@@ -102,3 +102,4 @@ Everything required in this lab has been completed.
 We worked together on this lab, pair coded when possible, and it took about 25
 hours in total. In general, dealing with concurrency was challenging, but the
 lab was much more doable than Lab 3.
+
