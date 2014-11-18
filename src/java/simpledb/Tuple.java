@@ -53,6 +53,15 @@ public class Tuple implements Serializable {
         recordId = rid;
     }
     
+    /**
+     * Return whether or not the tuple has a time stamp.
+     * 
+     * @return whether or not the tuple has a time stamp
+     */
+    public boolean hasTimeStamp() {
+    	return td.getFieldType(fields.length - 1) == Type.TS_TYPE;
+    }
+    
 
     /**
      * Change the value of the ith field of this tuple.

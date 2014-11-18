@@ -15,6 +15,12 @@ import simpledb.*;
 public class SystemTestUtil {
     public static final TupleDesc SINGLE_INT_DESCRIPTOR =
             new TupleDesc(new Type[]{Type.INT_TYPE});
+    
+    public static final TupleDesc TS_DESCRIPTOR =
+            new TupleDesc(new Type[]{Type.INT_TYPE, Type.TS_TYPE});
+    
+    public static final TupleDesc BAD_TS_DESCRIPTOR =
+            new TupleDesc(new Type[]{Type.TS_TYPE, Type.INT_TYPE});
 
     private static final int MAX_RAND_VALUE = 1 << 16;
 
