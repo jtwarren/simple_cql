@@ -2,9 +2,9 @@ package simpledb;
 
 public class RelationStreamConverter extends Operator {
 	
-	private Relation relation;
+	private DbIterator relation;
 	
-	public RelationStreamConverter(Relation relation) {
+	public RelationStreamConverter(DbIterator relation) {
 		this.relation = relation;
 	}
 
