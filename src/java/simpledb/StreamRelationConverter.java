@@ -1,6 +1,10 @@
 package simpledb;
 
 public class StreamRelationConverter extends Operator {
+	
+	public StreamRelationConverter(Stream stream) {
+		
+	}
 
 	@Override
 	public void rewind() throws DbException, TransactionAbortedException {
