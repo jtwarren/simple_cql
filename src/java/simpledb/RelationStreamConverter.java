@@ -1,6 +1,12 @@
 package simpledb;
 
 public class RelationStreamConverter extends Operator {
+	
+	private Relation relation;
+	
+	public RelationStreamConverter(Relation relation) {
+		this.relation = relation;
+	}
 
 	@Override
 	public void rewind() throws DbException, TransactionAbortedException {
