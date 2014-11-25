@@ -19,6 +19,8 @@ public class StreamToRelationTimeWindowConverter {
 		relation = new ArrayList<Tuple>();
 	}
 
+	// This function can only be called when we know the stream has seen all tuples upto curTimestamp, that
+	// is, it has seen at least one tuple with timestamp curTimestamp + 1
 	public void updateRelation() {
 		Tuple nextTuple = stream.getNext(curTimestamp);
 		while (nextTuple != null) {
@@ -26,10 +28,12 @@ public class StreamToRelationTimeWindowConverter {
 			nextTuple = stream.getNext(curTimestamp);
 		}
 		
-		Tuple nextTupleToDelete = stream.getNext(curTimestamp - windowSize - 1);
-		if (curTimestamp > windowSize) {
-			relation.remove(nextTupleToDelete);
-			nextTupleToDelete = stream.getNext(curTimestamp - windowSize - 1);
+		if (curTimestamp - windowSize - 1 >= 0) {
+			Tuple nextTupleToDelete = stream.getNext(curTimestamp - windowSize - 1);
+			while (nextTupleToDelete != null) {
+				relation.remove(nextTupleToDelete);
+				nextTupleToDelete = stream.getNext(curTimestamp - windowSize - 1);
+			}
 		}
 		
 		curTimestamp++;

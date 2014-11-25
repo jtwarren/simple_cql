@@ -58,4 +58,10 @@ public class FileStreamReader implements StreamReader {
 		return tuple;
 	}
 
+	@Override
+	public TupleDesc getTupleDesc() {
+		// TODO: Implement this
+		return null;
+	}
+
 }

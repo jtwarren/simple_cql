@@ -69,4 +69,9 @@ public class SimpleStreamReader implements StreamReader {
 		return tuple;
 	}
 
+	@Override
+	public TupleDesc getTupleDesc() {
+		return td;
+	}
+
 }

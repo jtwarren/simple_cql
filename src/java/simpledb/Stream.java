@@ -8,6 +8,6 @@ public class Stream {
 	}
 	
 	public Tuple getNext(int ts) {
-		return this.sr.getNext(ts);
+		return sr.getNext(ts);
 	}
 }
