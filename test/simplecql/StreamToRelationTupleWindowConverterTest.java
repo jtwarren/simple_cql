@@ -12,12 +12,12 @@ import simpledb.DbIterator;
 import simpledb.IntField;
 import simpledb.SimpleStreamReader;
 import simpledb.Stream;
-import simpledb.StreamToRelationTimeWindowConverter;
+import simpledb.StreamToRelationTupleWindowConverter;
 import simpledb.TransactionAbortedException;
 import simpledb.Tuple;
 
-public class StreamToRelationTimeWindowConverterTest {
-	
+public class StreamToRelationTupleWindowConverterTest {
+
 	public class Pair<X, Y> { 
 		public final X ele1; 
 		public final Y ele2; 
@@ -28,21 +28,15 @@ public class StreamToRelationTimeWindowConverterTest {
 	} 
 	
 	@Test
-	public void SimpleStreamTestZeroWindow()
-			throws NoSuchElementException, DbException, TransactionAbortedException {
-		SimpleStreamTestHelper(0);
-	}
-	
-	@Test
 	public void SimpleStreamTestSmallWindow()
 			throws NoSuchElementException, DbException, TransactionAbortedException {
-		SimpleStreamTestHelper(2);
+		SimpleStreamTestHelper(4);
 	}
 	
 	@Test
 	public void SimpleStreamTestLargeWindow()
 			throws NoSuchElementException, DbException, TransactionAbortedException {
-		SimpleStreamTestHelper(10);
+		SimpleStreamTestHelper(40);
 	}
 
 	public void SimpleStreamTestHelper(int windowSize)
@@ -50,43 +44,50 @@ public class StreamToRelationTimeWindowConverterTest {
 		SimpleStreamReader sr = new SimpleStreamReader();
 		Stream stream = new Stream(sr);
 		
-		HashMap<Integer, Pair<Integer, Integer>> startAndEndTimes = new HashMap<Integer, Pair<Integer, Integer>> ();
+		HashMap<Integer, Integer> endTimes = new HashMap<Integer, Integer> ();
 		
 		// Insert tuple for timestamps upto 10 units
 		for (int i = 0; i < 10; i++) {
 			Tuple tuple = sr.addTuple();
     		IntField field;
-    		int start = -1;
     		int end = -1;
-    		boolean isFirst = true;
     		while (tuple != null) {
     			field = (IntField) tuple.getField(0);
-    			if (isFirst) {
-    				start = field.getValue();
-    				isFirst = false;
-    			}
+
     			end = field.getValue();
     			tuple = sr.addTuple();
     		}
-    		startAndEndTimes.put(i, new Pair<Integer, Integer>(start, end));
+    		endTimes.put(i, end);
 		}
 		
-		StreamToRelationTimeWindowConverter converter = new StreamToRelationTimeWindowConverter(stream, windowSize, sr.getTupleDesc());
+		StreamToRelationTupleWindowConverter converter = new StreamToRelationTupleWindowConverter(stream, windowSize, sr.getTupleDesc());
+		boolean reachedCapacity = false;
 		for (int i = 0; i < 10; i++) {
 			converter.updateRelation();
 			DbIterator iterator = converter.getRelation();
 			iterator.open();
 
-			int startTime = (i - windowSize >= 0) ? (i - windowSize) : 0;
-			int startTuple = startAndEndTimes.get(startTime).ele1;
-			int endTuple = startAndEndTimes.get(i).ele2;
+			int endTuple = endTimes.get(i);
 
+			int n = 0;
 			while (iterator.hasNext()) {
 				Tuple tuple = iterator.next();
-				if (startTuple != -1 && endTuple != -1) {
-					assertTrue(((IntField) tuple.getField(0)).getValue() >= startTuple);
+				if (endTuple != -1) {
+					assertTrue(((IntField) tuple.getField(0)).getValue() >= endTuple - windowSize);
 					assertTrue(((IntField) tuple.getField(0)).getValue() <= endTuple);
 				}
+				n++;
+			}
+			
+			if (n == windowSize) {
+				reachedCapacity = true;
+			}
+
+			// Assert number of tuples in this window is always less than or equal to the windowSize
+			if (!reachedCapacity) {
+				assertTrue(n < windowSize);
+			} else {
+				assertTrue(n == windowSize);
 			}
 			iterator.close();
 		}
