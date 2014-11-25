@@ -25,7 +25,8 @@ public class FileStreamReaderTest {
 	// g 6 4
 
 	
-    @Test public void fileTest() throws Exception {
+    @Test
+    public void fileTest() throws Exception {
     	TupleDesc td = new TupleDesc(new Type[]{Type.STRING_TYPE, Type.INT_TYPE, Type.TS_TYPE});
     	StreamReader sr = new FileStreamReader("basic_test.txt", td);
     	
