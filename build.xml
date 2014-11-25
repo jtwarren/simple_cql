@@ -248,6 +248,22 @@
         </RunJunit>
     </target>
 
+    <target name="runcqltest" depends="testcompile"
+            description="Runs the test you specify on the command line with -Dtest=">
+        <!-- Check for -Dtest command line argument -->
+        <fail unless="test" message="You must run this target with -Dtest=TestName"/>
+
+        <!-- Check if the class exists -->
+        <available property="test.exists" classname="simplecql.${test}">
+                <classpath refid="classpath.test" />
+        </available>
+        <fail unless="test.exists" message="Test ${test} could not be found"/>
+
+        <RunJunit>
+            <test name="simplecql.${test}"/>
+        </RunJunit>
+    </target>
+
     <target name="runsystest" depends="testcompile"
             description="Runs the system test you specify on the command line with -Dtest=">
         <!-- Check for -Dtest command line argument -->
