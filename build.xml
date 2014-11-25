@@ -222,6 +222,16 @@
         </RunJunit>
     </target>
 
+    <target name="cqltest" depends="testcompile" description="Run all unit tests">
+        <RunJunit>
+            <batchtest>
+                <fileset dir="${build.test}">
+                    <include name="simplecql/*Test.class"/>
+                </fileset>
+            </batchtest>
+        </RunJunit>
+    </target>
+
     <target name="systemtest" depends="testcompile" description="Run all system tests">
         <RunJunit>
             <batchtest>
