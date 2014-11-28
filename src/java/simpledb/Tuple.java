@@ -61,6 +61,13 @@ public class Tuple implements Serializable {
     public boolean hasTimeStamp() {
     	return td.getFieldType(fields.length - 1) == Type.TS_TYPE;
     }
+
+    public Field getTimeStamp() {
+        if (!hasTimeStamp()) {
+            throw new RuntimeException("trying to get a tuple's timestamp that doesn't exist");
+        }
+        return getField(fields.length - 1);
+    }
     
 
     /**
