@@ -23,6 +23,7 @@ import simpledb.SimpleStreamReader;
 import simpledb.Stream;
 import simpledb.StreamReader;
 import simpledb.StreamToRelationTimeWindowConverter;
+import simpledb.TSField;
 import simpledb.TransactionAbortedException;
 import simpledb.Tuple;
 import simpledb.TupleDesc;
@@ -132,9 +133,22 @@ public class StreamToRelationTimeWindowConverterTest {
 		return new TupleIterator(td, merge);
 	}
 	
+	private void checkEquality(DbIterator outputRelation, Stream correctStream) throws DbException, TransactionAbortedException {
+		outputRelation.open();
+		while (outputRelation.hasNext()) {
+			Tuple tuple = outputRelation.next();
+			int ts = ((TSField) tuple.getField(0)).getValue();
+			Tuple correctTuple = correctStream.getNext(ts);
+			assertNull(correctStream.getNext(ts));
+			assertEquals(((IntField) correctTuple.getField(0)).getValue(),
+					((IntField) tuple.getField(1)).getValue());
+		}
+	}
+	
 	@Test
 	public void FileStreamWithAggregationTest() throws IOException, DbException, TransactionAbortedException {
 		TupleDesc td = new TupleDesc(new Type[]{Type.INT_TYPE, Type.INT_TYPE, Type.TS_TYPE});
+		TupleDesc aggregateDesc = new TupleDesc(new Type[]{Type.TS_TYPE, Type.INT_TYPE});
 		StreamReader sr = new FileStreamReader("aggregation_test.txt", td);
 		
 		Stream stream = new Stream(sr);
@@ -147,10 +161,15 @@ public class StreamToRelationTimeWindowConverterTest {
 			Operator filter = new Filter(new Predicate(1, Op.GREATER_THAN_OR_EQ, new IntField(20)), input);
 			DbIterator intermediate = applyOperator(td, filter);
 			Operator aggregate = new Aggregate(intermediate, 1, 2, Aggregator.Op.AVG);
-			TupleDesc aggregateDesc = new TupleDesc(new Type[]{Type.TS_TYPE, Type.INT_TYPE});
 			DbIterator output = applyOperator(aggregateDesc, aggregate);
 			merge = mergeIterators(aggregateDesc, merge, output);
 		}
+		
+		StreamReader outputSr = new FileStreamReader("aggregation_test_output.txt",
+				new TupleDesc(new Type[]{Type.INT_TYPE, Type.TS_TYPE}));
+		Stream outputStream = new Stream(outputSr);
+
+		checkEquality(merge, outputStream);
 	}
 
 }
