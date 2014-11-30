@@ -21,7 +21,7 @@ public class StreamToRelationTimeWindowConverter {
 
 	// This function can only be called when we know the stream has seen all tuples upto curTimestamp, that
 	// is, it has seen at least one tuple with timestamp curTimestamp + 1
-	public void updateRelation() {
+	public DbIterator updateRelation() {
 		Tuple nextTuple = stream.getNext(curTimestamp);
 		while (nextTuple != null) {
 			relation.add(nextTuple);
@@ -37,9 +37,6 @@ public class StreamToRelationTimeWindowConverter {
 		}
 		
 		curTimestamp++;
-	}
-	
-	public DbIterator getRelation() {
 		return new TupleIterator(td, relation);
 	}
 

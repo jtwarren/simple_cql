@@ -74,8 +74,7 @@ public class StreamToRelationTupleWindowConverterTest {
 		StreamToRelationTupleWindowConverter converter = new StreamToRelationTupleWindowConverter(stream, windowSize, sr.getTupleDesc());
 		boolean reachedCapacity = false;
 		for (int i = 0; i < 10; i++) {
-			converter.updateRelation();
-			DbIterator iterator = converter.getRelation();
+			DbIterator iterator = converter.updateRelation();
 			iterator.open();
 
 			int endTuple = endTimes.get(i);
@@ -115,8 +114,7 @@ public class StreamToRelationTupleWindowConverterTest {
 		DbIterator merge = null;
 		// aggregation_test has data for 50 timesteps
 		for (int i = 0; i < 50; i++) {
-			converter.updateRelation();
-			DbIterator input = converter.getRelation();
+			DbIterator input = converter.updateRelation();
 			Operator filter = new Filter(new Predicate(1, Op.GREATER_THAN_OR_EQ, new IntField(20)), input);
 			DbIterator intermediate = Utility.applyOperator(td, filter);
 			Operator aggregate = new Aggregate(intermediate, 1, -1, Aggregator.Op.AVG);

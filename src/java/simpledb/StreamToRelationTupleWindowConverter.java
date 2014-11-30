@@ -19,7 +19,7 @@ public class StreamToRelationTupleWindowConverter {
 		relation = new ArrayList<Tuple>();
 	}
 
-	public void updateRelation() {
+	public DbIterator updateRelation() {
 		Tuple nextTuple = stream.getNext(curTimestamp);
 		while (nextTuple != null) {
 			relation.add(nextTuple);
@@ -31,9 +31,6 @@ public class StreamToRelationTupleWindowConverter {
 		}
 		
 		curTimestamp++;
-	}
-	
-	public DbIterator getRelation() {
 		return new TupleIterator(td, relation);
 	}
 
