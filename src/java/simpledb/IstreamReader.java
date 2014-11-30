@@ -16,7 +16,7 @@ public class IstreamReader implements StreamReader {
 
     public void updateStream(DbIterator Istream) throws DbException, TransactionAbortedException {
         Istream.open();
-        Tuple insert; //= Istream.next();
+        Tuple insert;
         while (Istream.hasNext()) {
             insert = Istream.next();
             if (!insert.hasTimeStamp()) {

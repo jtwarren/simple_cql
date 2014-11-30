@@ -29,7 +29,7 @@ public class RelationToIstreamConverter {
 
         ArrayList<Tuple> IstreamNew = new ArrayList<Tuple>();
         nextRelation.open();
-        Tuple nextTuple;// = nextRelation.next();
+        Tuple nextTuple;
         while (nextRelation.hasNext()) {
             nextTuple = nextRelation.next();
             if (diff.contains(nextTuple)) {
