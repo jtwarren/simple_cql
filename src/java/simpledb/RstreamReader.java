@@ -1,4 +1,4 @@
-package simpledb;
+package simplecql;
 
 import java.util.ArrayList;
 import java.util.HashMap;
