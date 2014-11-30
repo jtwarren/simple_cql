@@ -3,7 +3,7 @@ package simpledb;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class RelationToIstreamConverter {
+public class RelationToIstreamConverter implements RelationToStreamConverter {
     private TupleDesc td;
 
     private DbIterator prevRelation;
@@ -20,7 +20,7 @@ public class RelationToIstreamConverter {
         reader = new IstreamReader(td);
     }
     
-    public void updateIstream(DbIterator nextRelation) throws DbException, TransactionAbortedException {
+    public void updateStream(DbIterator nextRelation) throws DbException, TransactionAbortedException {
         HashSet<Tuple> diff = new HashSet<Tuple>();
         Tuple prevTuple;
         if (prevRelation != null) { // only diff with prev TS if existed

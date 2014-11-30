@@ -2,7 +2,7 @@ package simpledb;
 
 import java.util.ArrayList;
 
-public class StreamToRelationTimeWindowConverter {
+public class StreamToRelationTimeWindowConverter implements StreamToRelationConverter {
 	
 	private Stream stream;
 	private int curTimestamp;

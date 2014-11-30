@@ -42,7 +42,7 @@ public class RelationToStreamConverterTest {
         int ts = 0;
         for (TupleIterator relation : relations) {
             // run the relations through the converter and into the reader
-            converter.updateIstream(relation);
+            converter.updateStream(relation);
 
             relation.open();
             Tuple tupleIn = relation.next();

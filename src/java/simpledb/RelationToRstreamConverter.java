@@ -2,20 +2,21 @@ package simpledb;
 
 import java.util.ArrayList;
 
-public class RelationToRstreamConverter {
+public class RelationToRstreamConverter implements RelationToStreamConverter {
     private TupleDesc td;
 
-    private DbIterator prevRelation;
     private ArrayList<Tuple> Rstream;
+    
+    private RstreamReader reader;
 
     public RelationToRstreamConverter(TupleDesc td) {
         this.td = td;
 
-        prevRelation = null;
         Rstream = new ArrayList<Tuple>();
+        reader = new RstreamReader(td);
     }
     
-    public void updateRstream(DbIterator nextRelation) throws DbException, TransactionAbortedException {
+    public void updateStream(DbIterator nextRelation) throws DbException, TransactionAbortedException {
         ArrayList<Tuple> RstreamNew = new ArrayList<Tuple>();
         Tuple nextTuple = nextRelation.next();
         while (nextTuple != null) {
@@ -23,10 +24,11 @@ public class RelationToRstreamConverter {
             nextTuple = nextRelation.next();
         }
         Rstream = RstreamNew;
-        prevRelation = nextRelation;
+        
+        reader.updateStream(new TupleIterator(td, Rstream));
     }
 
-    public DbIterator getRstream() {
-        return new TupleIterator(td, Rstream);
+    public Stream getStream() {
+        return new Stream(reader);
     }
 }
