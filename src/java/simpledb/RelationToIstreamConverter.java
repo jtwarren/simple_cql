@@ -9,7 +9,7 @@ public class RelationToIstreamConverter implements RelationToStreamConverter {
     private DbIterator prevRelation;
     private ArrayList<Tuple> Istream;
     
-    private IstreamReader reader;
+    private RelationStreamReader reader;
 
     public RelationToIstreamConverter(TupleDesc td) {
         this.td = td;
@@ -17,7 +17,7 @@ public class RelationToIstreamConverter implements RelationToStreamConverter {
         prevRelation = null;
         Istream = new ArrayList<Tuple>();
         
-        reader = new IstreamReader(td);
+        reader = new RelationStreamReader(td);
     }
     
     public void updateStream(DbIterator nextRelation) throws DbException, TransactionAbortedException {

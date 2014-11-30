@@ -7,13 +7,13 @@ public class RelationToRstreamConverter implements RelationToStreamConverter {
 
     private ArrayList<Tuple> Rstream;
     
-    private RstreamReader reader;
+    private RelationStreamReader reader;
 
     public RelationToRstreamConverter(TupleDesc td) {
         this.td = td;
 
         Rstream = new ArrayList<Tuple>();
-        reader = new RstreamReader(td);
+        reader = new RelationStreamReader(td);
     }
     
     public void updateStream(DbIterator nextRelation) throws DbException, TransactionAbortedException {

@@ -9,14 +9,14 @@ public class RelationToDstreamConverter implements RelationToStreamConverter {
     private DbIterator prevRelation;
     private ArrayList<Tuple> Dstream;
     
-    private DstreamReader reader;
+    private RelationStreamReader reader;
 
     public RelationToDstreamConverter(TupleDesc td) {
         this.td = td;
 
         prevRelation = null;
         Dstream = new ArrayList<Tuple>();
-        reader = new DstreamReader(td);
+        reader = new RelationStreamReader(td);
     }
     
     public void updateStream(DbIterator nextRelation) throws DbException, TransactionAbortedException {
