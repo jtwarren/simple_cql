@@ -16,30 +16,32 @@ public class RelationToDstreamConverter implements RelationToStreamConverter {
 
         prevRelation = null;
         Dstream = new ArrayList<Tuple>();
+
         reader = new RelationStreamReader(td);
     }
     
     public void updateStream(DbIterator nextRelation) throws DbException, TransactionAbortedException {
         HashSet<Tuple> diff = new HashSet<Tuple>();
+        nextRelation.open();
         Tuple nextTuple;
-        if (nextRelation != null) { // only diff with prev TS if existed
+        while (nextRelation.hasNext()) {
             nextTuple = nextRelation.next();
-            while (nextTuple != null) {
-                diff.add(nextTuple);
-                nextTuple = nextRelation.next();
-            }
+            diff.add(nextTuple);
         }
 
-        ArrayList<Tuple> DstreamNew = new ArrayList<Tuple>();
-        Tuple prevTuple = prevRelation.next();
-        while (prevTuple != null) {
-            if (diff.contains(prevTuple)) {
-                continue;
+        if (prevRelation != null) { // only diff with prev TS if existed
+            ArrayList<Tuple> DstreamNew = new ArrayList<Tuple>();
+            prevRelation.rewind();
+            Tuple prevTuple; 
+            while (prevRelation.hasNext()) {
+                prevTuple = prevRelation.next();
+                if (diff.contains(prevTuple)) {
+                    continue;
+                }
+                DstreamNew.add(prevTuple);
             }
-            DstreamNew.add(prevTuple);
-            prevTuple = prevRelation.next();
+            Dstream = DstreamNew;
         }
-        Dstream = DstreamNew;
         prevRelation = nextRelation;
         
         reader.updateStream(new TupleIterator(td, Dstream));

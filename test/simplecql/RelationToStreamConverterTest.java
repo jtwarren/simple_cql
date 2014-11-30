@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import simpledb.DbException;
 import simpledb.IntField;
+import simpledb.RelationToDstreamConverter;
 import simpledb.RelationToIstreamConverter;
 import simpledb.Stream;
 import simpledb.TransactionAbortedException;
@@ -55,15 +56,70 @@ public class RelationToStreamConverterTest {
         }
     }
 
-    //@Test
-    //public void RelationToDstreamTest() {
-    //    RelationToDstreamConverter 
+    @Test
+    public void RelationToDstreamTest() 
+                throws DbException, TransactionAbortedException {
+		TupleDesc td = new TupleDesc(new Type[]{Type.INT_TYPE});
+        RelationToDstreamConverter converter = new RelationToDstreamConverter(td);
 
-    //}
+        // generate tuples
+        int numRelations = 5;
+        Tuple[] tuples = new Tuple[numRelations];
+        for (int t = 0; t < numRelations; t++) {
+            Tuple testTuple = new Tuple(td);
+            testTuple.setField(0, new IntField(t));
+            tuples[t] = testTuple;
+        }
+
+        // now generate relations to test deletions over time
+        TupleIterator[] relations = new TupleIterator[numRelations];
+        for (int i = 0; i < numRelations; i++) {
+            ArrayList<Tuple> relationTuples = new ArrayList<Tuple>();
+            // start out with all tuples (5)
+            // then for each increasing TS, remove the last tuple (4), etc
+            for (int z = 0; z < numRelations - i; z++) {
+                relationTuples.add(tuples[z]);
+            }
+            relations[i] = new TupleIterator(td, relationTuples);
+        }
+
+        // actual conversions and checks
+        Stream stream = converter.getStream();
+        for (int j = 0; j < numRelations; j++) {
+            TupleIterator relation = relations[j];
+
+            // run the relations through the converter and into the reader
+            converter.updateStream(relation);
+
+            relation.open();
+            Tuple tupleIn;
+            Tuple tupleOut;
+
+            int endIndex = numRelations - j;
+            if (endIndex < 5) {
+                tupleIn = tuples[endIndex];
+
+                // check the converter outputs what we expect for Dstream
+                tupleOut = stream.getNext(j);
+                assertTrue(tupleIn.getField(0) == tupleOut.getField(0));
+            }
+        }
+
+    }
 
     //@Test
     //public void RelationToRstreamTest() {
     //    RelationToRstreamConverter 
+            //int endIndex = numRelations - j;
+            //while (Dstream.hasNext()) { 
+            //    assertTrue(endIndex != 5); // shouldn't enter when j = 0
+            //    assertTrue(endIndex >= 0); // should never decrement below 0;
+            //    tupleIn = tuples[endIndex];
+            //    tupleOut = Dstream.next();
+            //    assertTrue(tupleIn.getField(0) == tupleOut.getField(0));
+            //    assertTrue(tupleIn.getField(1) == tupleOut.getField(1));
+            //    endIndex--;
+            //}
 
     //}
 }
