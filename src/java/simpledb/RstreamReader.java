@@ -6,20 +6,19 @@ import java.util.HashMap;
 public class RstreamReader implements StreamReader {
     private HashMap<Integer, ArrayList<Tuple>> timesteps;
     private HashMap<Integer, Integer> currIndices;
+    private int ts;
     private TupleDesc td;
 
     public RstreamReader(TupleDesc td) {
         this.td = td;
         this.timesteps = new HashMap<Integer, ArrayList<Tuple>>();
+        
+        ts = 0;
     }
 
     public void updateStream(DbIterator Rstream) throws DbException, TransactionAbortedException {
         Tuple relation = Rstream.next();
         while (relation != null) {
-            if (!relation.hasTimeStamp()) {
-                throw new RuntimeException("Tuple in RstreamReader does not have time stamp");
-            }
-            int ts = ((TSField) relation.getTimeStamp()).getValue();
             if (!timesteps.containsKey(ts)) {
                 timesteps.put(ts, new ArrayList<Tuple>());
                 currIndices.put(ts, 0);
@@ -27,6 +26,8 @@ public class RstreamReader implements StreamReader {
             timesteps.get(ts).add(relation);
             relation = Rstream.next();
         }
+        
+        ts++;
     }
 
     public Tuple getNext(int ts) {

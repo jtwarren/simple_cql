@@ -24,25 +24,25 @@ public class FileStreamReader implements StreamReader {
 		String line;
 		int lastStartTimeRecorded = -1;
 		Tuple lastTuple = null;
+		int lastTs = -1;
 		int cnt = 0;
 		while ((line = br.readLine()) != null) {
 			Tuple newTuple = makeTuple(line, td);
+			int newTs = getTs(line);
 			tuples.add(newTuple);
-			TSField tsField = (TSField) newTuple.getField(newTuple.getTupleDesc().numFields() - 1);
-			if (tsField.getValue() > lastStartTimeRecorded) {
-				startTimes.put(tsField.getValue(), cnt);
-				lastStartTimeRecorded = tsField.getValue();
+			if (newTs > lastStartTimeRecorded) {
+				startTimes.put(newTs, cnt);
+				lastStartTimeRecorded = newTs;
 				if (lastTuple != null) {
-					TSField lasttsField = (TSField) lastTuple.getField(lastTuple.getTupleDesc().numFields() - 1);
-					endTimes.put(lasttsField.getValue(), cnt - 1);
+					endTimes.put(lastTs, cnt - 1);
 				}
 			}
 			lastTuple = newTuple;
+			lastTs = newTs;
 			cnt++;
 		}
 		if (lastTuple != null) {
-			TSField lasttsField = (TSField) lastTuple.getField(lastTuple.getTupleDesc().numFields() - 1);
-			endTimes.put(lasttsField.getValue(), cnt - 1);
+			endTimes.put(lastTs, cnt - 1);
 		}
 		br.close();
 		
@@ -71,23 +71,24 @@ public class FileStreamReader implements StreamReader {
 		String[] splitted = str.split("\\s+");
 		
 		Tuple tuple = new Tuple(td);
-		for (int i = 0; i < splitted.length; i++) {
+		// Last column represents the timestamp
+		for (int i = 0; i < splitted.length - 1; i++) {
 			Type type = td.getFieldType(i);
 			if (type == Type.STRING_TYPE) {
 				tuple.setField(i, new StringField(splitted[i], Type.STRING_LEN));
-				continue;
 			} else if(type == Type.INT_TYPE) {
 				tuple.setField(i, new IntField(Integer.parseInt(splitted[i])));
-				continue;
-			} else if (type == Type.TS_TYPE) {
-				tuple.setField(i, new TSField(Integer.parseInt(splitted[i])));
-				continue;
 			} else {
 				throw new RuntimeException("Type not supported for file reading");
 			}
 		}
 		
 		return tuple;
+	}
+	
+	private int getTs(String str) {
+		String[] splitted = str.split("\\s+");
+		return Integer.parseInt(splitted[splitted.length - 1]);
 	}
 
 	@Override

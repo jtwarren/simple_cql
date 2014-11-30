@@ -15,14 +15,6 @@ public class Utility {
             types[i] = Type.INT_TYPE;
         return types;
     }
-    
-    public static Type[] getTypesWithTimestamp(int len) {
-    	Type[] types = new Type[len];
-        for (int i = 0; i < len - 1; ++i)
-            types[i] = Type.INT_TYPE;
-        types[len - 1] = Type.TS_TYPE;
-        return types;
-    }
 
     /**
      * @return a String array of length len populated with the (possibly null) strings in val,
@@ -48,21 +40,6 @@ public class Utility {
      */
     public static TupleDesc getTupleDesc(int n) {
         return new TupleDesc(getTypes(n));
-    }
-    
-    /**
-     * @return a TupleDesc with n fields of type Type.INT_TYPE, each named
-     * name + n (name1, name2, etc.).
-     */
-    public static TupleDesc getTupleDescWithTimestamp(int n, String name) {
-        return new TupleDesc(getTypesWithTimestamp(n), getStrings(n, name));
-    }
-
-    /**
-     * @return a TupleDesc with n fields of type Type.INT_TYPE
-     */
-    public static TupleDesc getTupleDescWithTimeStamp(int n) {
-        return new TupleDesc(getTypesWithTimestamp(n));
     }
 
     /**

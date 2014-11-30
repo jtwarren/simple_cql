@@ -104,7 +104,7 @@ public class StreamToRelationTimeWindowConverterTest {
 	
 	@Test
 	public void FileStreamWithAggregationTest() throws IOException, DbException, TransactionAbortedException {
-		TupleDesc td = new TupleDesc(new Type[]{Type.INT_TYPE, Type.INT_TYPE, Type.TS_TYPE});
+		TupleDesc td = new TupleDesc(new Type[]{Type.INT_TYPE, Type.INT_TYPE});
 		TupleDesc aggregateDesc = new TupleDesc(new Type[]{Type.INT_TYPE});
 		StreamReader sr = new FileStreamReader("aggregation_test.txt", td);
 		
@@ -122,7 +122,7 @@ public class StreamToRelationTimeWindowConverterTest {
 		}
 		
 		StreamReader outputSr = new FileStreamReader("aggregation_test_output.txt",
-				new TupleDesc(new Type[]{Type.INT_TYPE, Type.TS_TYPE}));
+				new TupleDesc(new Type[]{Type.INT_TYPE}));
 		Stream outputStream = new Stream(outputSr);
 
 		Utility.checkEquality(merge, outputStream);

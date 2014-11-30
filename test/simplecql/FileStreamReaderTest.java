@@ -8,7 +8,6 @@ import simpledb.FileStreamReader;
 import simpledb.IntField;
 import simpledb.StreamReader;
 import simpledb.StringField;
-import simpledb.TSField;
 import simpledb.Tuple;
 import simpledb.TupleDesc;
 import simpledb.Type;
@@ -27,7 +26,7 @@ public class FileStreamReaderTest {
 	
     @Test
     public void fileTest() throws Exception {
-    	TupleDesc td = new TupleDesc(new Type[]{Type.STRING_TYPE, Type.INT_TYPE, Type.TS_TYPE});
+    	TupleDesc td = new TupleDesc(new Type[]{Type.STRING_TYPE, Type.INT_TYPE});
     	StreamReader sr = new FileStreamReader("basic_test.txt", td);
     	
     	Tuple tuple;
@@ -38,8 +37,6 @@ public class FileStreamReaderTest {
     	assertEquals(correct, true);
     	correct = tuple.getField(1).equals(new IntField(0));
     	assertEquals(correct, true);
-    	correct = tuple.getField(2).equals(new TSField(0));
-    	assertEquals(correct, true);
     	
     	tuple = sr.getNext(0);
     	assertNull(tuple);
@@ -48,8 +45,6 @@ public class FileStreamReaderTest {
     	correct = tuple.getField(0).equals(new StringField("b", Type.STRING_LEN));
     	assertEquals(correct, true);
     	correct = tuple.getField(1).equals(new IntField(1));
-    	assertEquals(correct, true);
-    	correct = tuple.getField(2).equals(new TSField(1));
     	assertEquals(correct, true);
     	
     	tuple = sr.getNext(1);
@@ -60,8 +55,6 @@ public class FileStreamReaderTest {
     	assertEquals(correct, true);
     	correct = tuple.getField(1).equals(new IntField(2));
     	assertEquals(correct, true);
-    	correct = tuple.getField(2).equals(new TSField(2));
-    	assertEquals(correct, true);
     	
     	tuple = sr.getNext(2);
     	assertNull(tuple);
@@ -70,8 +63,6 @@ public class FileStreamReaderTest {
     	correct = tuple.getField(0).equals(new StringField("d", Type.STRING_LEN));
     	assertEquals(correct, true);
     	correct = tuple.getField(1).equals(new IntField(3));
-    	assertEquals(correct, true);
-    	correct = tuple.getField(2).equals(new TSField(3));
     	assertEquals(correct, true);
     	
     	tuple = sr.getNext(3);
@@ -82,23 +73,17 @@ public class FileStreamReaderTest {
     	assertEquals(correct, true);
     	correct = tuple.getField(1).equals(new IntField(4));
     	assertEquals(correct, true);
-    	correct = tuple.getField(2).equals(new TSField(4));
-    	assertEquals(correct, true);
     	
     	tuple = sr.getNext(4);
     	correct = tuple.getField(0).equals(new StringField("f", Type.STRING_LEN));
     	assertEquals(correct, true);
     	correct = tuple.getField(1).equals(new IntField(5));
     	assertEquals(correct, true);
-    	correct = tuple.getField(2).equals(new TSField(4));
-    	assertEquals(correct, true);
     	
     	tuple = sr.getNext(4);
     	correct = tuple.getField(0).equals(new StringField("g", Type.STRING_LEN));
     	assertEquals(correct, true);
     	correct = tuple.getField(1).equals(new IntField(6));
-    	assertEquals(correct, true);
-    	correct = tuple.getField(2).equals(new TSField(4));
     	assertEquals(correct, true);
     	
 

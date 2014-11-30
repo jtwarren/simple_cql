@@ -1,8 +1,6 @@
 package simpledb;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import junit.framework.JUnit4TestAdapter;
 
 import org.junit.Test;
@@ -38,18 +36,8 @@ public class TupleTest extends SimpleDbTestBase {
         TupleDesc td = Utility.getTupleDesc(5);
         Tuple tup = new Tuple(td);
         assertEquals(td, tup.getTupleDesc());
-        assertFalse(tup.hasTimeStamp());
     }
-    
-    /**
-     * Unit test for Tuple.getTupleDesc() with timestamp
-     */
-    @Test public void getTupleDescWithTimeStamp() {
-        TupleDesc td = Utility.getTupleDescWithTimeStamp(5);
-        Tuple tup = new Tuple(td);
-        assertEquals(td, tup.getTupleDesc());
-        assertTrue(tup.hasTimeStamp());
-    }
+
 
     /**
      * Unit test for Tuple.getRecordId() and Tuple.setRecordId()

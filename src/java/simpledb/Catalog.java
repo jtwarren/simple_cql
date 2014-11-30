@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * The Catalog keeps track of all available tables in the database and their
@@ -163,8 +162,6 @@ public class Catalog {
                         types.add(Type.INT_TYPE);
                     else if (els2[1].trim().toLowerCase().equals("string"))
                         types.add(Type.STRING_TYPE);
-                    else if (els2[1].trim().toLowerCase().equals("ts"))
-                    	types.add(Type.TS_TYPE);
                     else {
                         System.out.println("Unknown type " + els2[1]);
                         System.exit(0);

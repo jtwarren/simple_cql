@@ -7,11 +7,15 @@ public class IstreamReader implements StreamReader {
     private TupleDesc td;
     private HashMap<Integer, ArrayList<Tuple>> timesteps;
     private HashMap<Integer, Integer> currIndices;
+    
+    private int ts;
 
     public IstreamReader(TupleDesc td) {
         this.td = td;
         this.timesteps = new HashMap<Integer, ArrayList<Tuple>>();
         this.currIndices = new HashMap<Integer, Integer>();
+        
+        ts = 0;
     }
 
     public void updateStream(DbIterator Istream) throws DbException, TransactionAbortedException {
@@ -19,16 +23,14 @@ public class IstreamReader implements StreamReader {
         Tuple insert;
         while (Istream.hasNext()) {
             insert = Istream.next();
-            if (!insert.hasTimeStamp()) {
-                throw new RuntimeException("Tuple in IstreamReader does not have time stamp");
-            }
-            int ts = ((TSField) insert.getTimeStamp()).getValue();
             if (!timesteps.containsKey(ts)) {
                 timesteps.put(ts, new ArrayList<Tuple>());
                 currIndices.put(ts, 0);
             }
             timesteps.get(ts).add(insert);
         }
+        
+        ts++;
     }
 
     public Tuple getNext(int ts) {

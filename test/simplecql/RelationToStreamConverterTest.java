@@ -11,7 +11,6 @@ import simpledb.IntField;
 import simpledb.RelationToIstreamConverter;
 import simpledb.Stream;
 import simpledb.TransactionAbortedException;
-import simpledb.TSField;
 import simpledb.Tuple;
 import simpledb.TupleDesc;
 import simpledb.TupleIterator;
@@ -22,7 +21,7 @@ public class RelationToStreamConverterTest {
     @Test
     public void RelationToIstreamTest() 
                 throws DbException, TransactionAbortedException {
-		TupleDesc td = new TupleDesc(new Type[]{Type.INT_TYPE, Type.TS_TYPE});
+		TupleDesc td = new TupleDesc(new Type[]{Type.INT_TYPE});
         RelationToIstreamConverter converter = new RelationToIstreamConverter(td);
 
         // generate some relations for testing
@@ -32,7 +31,6 @@ public class RelationToStreamConverterTest {
             ArrayList<Tuple> relationTuples = new ArrayList<Tuple>();
             Tuple testTuple = new Tuple(td);
             testTuple.setField(0, new IntField(i));
-            testTuple.setField(1, new TSField(i));
             relationTuples.add(testTuple);
             relations[i] = new TupleIterator(td, relationTuples);
         }
@@ -51,7 +49,6 @@ public class RelationToStreamConverterTest {
             // Read the stream to get tupleOuts
             Tuple tupleOut = stream.getNext(ts);
             assertTrue(tupleIn.getField(0) == tupleOut.getField(0));
-            assertTrue(tupleIn.getField(1) == tupleOut.getField(1));
             
             ts++;
             

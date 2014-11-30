@@ -21,7 +21,7 @@ public class SimpleStreamReader implements StreamReader {
 	private int currentGetterTime;
 	
 	public SimpleStreamReader() {
-		td = new TupleDesc(new Type[]{Type.INT_TYPE, Type.TS_TYPE});
+		td = new TupleDesc(new Type[]{Type.INT_TYPE});
 		count = 0;
 		largestTimeSeenSoFar = 0;
 		currentGetterTime = -1;
@@ -61,7 +61,6 @@ public class SimpleStreamReader implements StreamReader {
 		// same timestamp as before
 		Tuple tuple = new Tuple(td);
 		tuple.setField(0, new IntField(count));
-		tuple.setField(1, new TSField(largestTimeSeenSoFar));
 		
 		count++;
 		

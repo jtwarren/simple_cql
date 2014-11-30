@@ -68,9 +68,6 @@ public class TupleDesc implements Serializable {
     	int n = typeAr.length;
     	tupleItems = new TDItem[n];
     	for (int i = 0; i < n; i++) {
-    		if (typeAr[i] == Type.TS_TYPE && i != n - 1) {
-    			throw new IllegalArgumentException("Timestamp field not last field.");
-    		}
     		tupleItems[i] = new TDItem(typeAr[i], fieldAr[i]);
     	}
     }

@@ -7,19 +7,19 @@ public class DstreamReader implements StreamReader {
     private HashMap<Integer, ArrayList<Tuple>> timesteps;
     private HashMap<Integer, Integer> currIndices;
     private TupleDesc td;
+    
+    private int ts;
 
     public DstreamReader(TupleDesc td) {
         this.td = td;
         this.timesteps = new HashMap<Integer, ArrayList<Tuple>>();
+        
+        ts = 0;
     }
 
     public void updateStream(DbIterator Dstream) throws DbException, TransactionAbortedException {
         Tuple delete = Dstream.next();
         while (delete != null) {
-            if (!delete.hasTimeStamp()) {
-                throw new RuntimeException("Tuple in DstreamReader does not have time stamp");
-            }
-            int ts = ((TSField) delete.getTimeStamp()).getValue();
             if (!timesteps.containsKey(ts)) {
                 timesteps.put(ts, new ArrayList<Tuple>());
                 currIndices.put(ts, 0);
@@ -27,6 +27,7 @@ public class DstreamReader implements StreamReader {
             timesteps.get(ts).add(delete);
             delete = Dstream.next();
         }
+        ts++;
     }
 
     public Tuple getNext(int ts) {
