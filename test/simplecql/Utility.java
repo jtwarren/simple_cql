@@ -2,6 +2,7 @@ package simplecql;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
 
@@ -47,16 +48,17 @@ public class Utility {
 	}
 	
 	public static void checkEquality(
-			DbIterator outputRelation, Stream correctStream) throws DbException, TransactionAbortedException {
-		outputRelation.open();
-		int ts = 0;
-		while (outputRelation.hasNext()) {
-			Tuple tuple = outputRelation.next();
-			Tuple correctTuple = correctStream.getNext(ts);
-			assertNull(correctStream.getNext(ts));
-			assertEquals(((IntField) correctTuple.getField(0)).getValue(),
-					((IntField) tuple.getField(0)).getValue());
-			ts++;
+			Stream expectedStream, Stream outputStream, int numTimeSteps) throws DbException, TransactionAbortedException {
+		for (int ts = 0; ts < numTimeSteps; ts++) {
+			Tuple expectedTuple = expectedStream.getNext(ts);
+			while (expectedTuple != null) {
+				Tuple outputTuple = outputStream.getNext(ts);
+				assertNotNull(outputTuple);
+				assertEquals(((IntField) expectedTuple.getField(0)).getValue(),
+						((IntField) outputTuple.getField(0)).getValue());
+				expectedTuple = expectedStream.getNext(ts);
+			}
+			assertNull(outputStream.getNext(ts));
 		}
 	}
 
