@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import simpledb.DbException;
 import simpledb.IntField;
-import simpledb.IstreamReader;
 import simpledb.RelationToIstreamConverter;
+import simpledb.Stream;
 import simpledb.TransactionAbortedException;
 import simpledb.TSField;
 import simpledb.Tuple;
@@ -24,7 +24,6 @@ public class RelationToStreamConverterTest {
                 throws DbException, TransactionAbortedException {
 		TupleDesc td = new TupleDesc(new Type[]{Type.INT_TYPE, Type.TS_TYPE});
         RelationToIstreamConverter converter = new RelationToIstreamConverter(td);
-        IstreamReader reader = new IstreamReader(td);
 
         // generate some relations for testing
         int numRelations = 5;
@@ -39,26 +38,22 @@ public class RelationToStreamConverterTest {
         }
 
         // actual conversions and checks
+        Stream stream = converter.getStream();
+        int ts = 0;
         for (TupleIterator relation : relations) {
             // run the relations through the converter and into the reader
             converter.updateIstream(relation);
-            TupleIterator Istream = (TupleIterator) converter.getIstream();
-            reader.updateStream(Istream);
 
             relation.open();
             Tuple tupleIn = relation.next();
-            Tuple tupleOut;
 
             // check the converter outputs what we expect for Istream
-            Istream.open();
-            tupleOut = Istream.next();
+            // Read the stream to get tupleOuts
+            Tuple tupleOut = stream.getNext(ts);
             assertTrue(tupleIn.getField(0) == tupleOut.getField(0));
             assertTrue(tupleIn.getField(1) == tupleOut.getField(1));
-
-            // check the reader receives what we expect
-            tupleOut = reader.getNext(((TSField) tupleIn.getField(1)).getValue());
-            assertTrue(tupleIn.getField(0) == tupleOut.getField(0));
-            assertTrue(tupleIn.getField(1) == tupleOut.getField(1));
+            
+            ts++;
             
         }
     }

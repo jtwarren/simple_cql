@@ -8,12 +8,16 @@ public class RelationToIstreamConverter {
 
     private DbIterator prevRelation;
     private ArrayList<Tuple> Istream;
+    
+    private IstreamReader reader;
 
     public RelationToIstreamConverter(TupleDesc td) {
         this.td = td;
 
         prevRelation = null;
         Istream = new ArrayList<Tuple>();
+        
+        reader = new IstreamReader(td);
     }
     
     public void updateIstream(DbIterator nextRelation) throws DbException, TransactionAbortedException {
@@ -39,9 +43,11 @@ public class RelationToIstreamConverter {
         }
         Istream = IstreamNew;
         prevRelation = nextRelation;
+        
+        reader.updateStream(new TupleIterator(td, Istream));
     }
 
-    public DbIterator getIstream() {
-        return new TupleIterator(td, Istream);
+    public Stream getStream() {
+        return new Stream(reader);
     }
 }
