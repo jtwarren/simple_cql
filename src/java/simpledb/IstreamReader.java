@@ -4,18 +4,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class IstreamReader implements StreamReader {
+    private TupleDesc td;
     private HashMap<Integer, ArrayList<Tuple>> timesteps;
     private HashMap<Integer, Integer> currIndices;
-    private TupleDesc td;
 
     public IstreamReader(TupleDesc td) {
         this.td = td;
         this.timesteps = new HashMap<Integer, ArrayList<Tuple>>();
+        this.currIndices = new HashMap<Integer, Integer>();
     }
 
     public void updateStream(DbIterator Istream) throws DbException, TransactionAbortedException {
-        Tuple insert = Istream.next();
-        while (insert != null) {
+        Istream.open();
+        Tuple insert; //= Istream.next();
+        while (Istream.hasNext()) {
+            insert = Istream.next();
             if (!insert.hasTimeStamp()) {
                 throw new RuntimeException("Tuple in IstreamReader does not have time stamp");
             }
@@ -25,7 +28,6 @@ public class IstreamReader implements StreamReader {
                 currIndices.put(ts, 0);
             }
             timesteps.get(ts).add(insert);
-            insert = Istream.next();
         }
     }
 

@@ -20,21 +20,22 @@ public class RelationToIstreamConverter {
         HashSet<Tuple> diff = new HashSet<Tuple>();
         Tuple prevTuple;
         if (prevRelation != null) { // only diff with prev TS if existed
-            prevTuple = prevRelation.next();
-            while (prevTuple != null) {
-                diff.add(prevTuple);
+            prevRelation.rewind();
+            while (prevRelation.hasNext()) {
                 prevTuple = prevRelation.next();
+                diff.add(prevTuple);
             }
         }
 
         ArrayList<Tuple> IstreamNew = new ArrayList<Tuple>();
-        Tuple nextTuple = nextRelation.next();
-        while (nextTuple != null) {
+        nextRelation.open();
+        Tuple nextTuple;// = nextRelation.next();
+        while (nextRelation.hasNext()) {
+            nextTuple = nextRelation.next();
             if (diff.contains(nextTuple)) {
                 continue;
             }
             IstreamNew.add(nextTuple);
-            nextTuple = nextRelation.next();
         }
         Istream = IstreamNew;
         prevRelation = nextRelation;
