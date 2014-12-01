@@ -42,7 +42,7 @@ public class RelationToDstreamConverter implements RelationToStreamConverter {
             }
             Dstream = DstreamNew;
         }
-        prevRelation = nextRelation;
+        prevRelation = new TupleIterator(td, diff);
         
         reader.updateStream(new TupleIterator(td, Dstream));
     }

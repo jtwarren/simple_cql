@@ -32,17 +32,20 @@ public class RelationToIstreamConverter implements RelationToStreamConverter {
         }
 
         ArrayList<Tuple> IstreamNew = new ArrayList<Tuple>();
-        nextRelation.open();
-        Tuple nextTuple;
+        nextRelation.open();;
+        ArrayList<Tuple> tuples = new ArrayList<Tuple> ();
         while (nextRelation.hasNext()) {
-            nextTuple = nextRelation.next();
+            Tuple nextTuple = nextRelation.next();
+            tuples.add(nextTuple);
             if (diff.contains(nextTuple)) {
                 continue;
             }
             IstreamNew.add(nextTuple);
         }
+        nextRelation.close();
         Istream = IstreamNew;
-        prevRelation = nextRelation;
+
+        prevRelation = new TupleIterator(this.td, tuples);
         
         reader.updateStream(new TupleIterator(td, Istream));
     }

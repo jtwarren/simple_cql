@@ -15,16 +15,44 @@ import simpledb.IntField;
 import simpledb.Operator;
 import simpledb.Predicate;
 import simpledb.RelationToIstreamConverter;
+import simpledb.SimpleStreamReader;
 import simpledb.Stream;
 import simpledb.StreamReader;
 import simpledb.StreamToRelationTimeWindowConverter;
 import simpledb.StreamToRelationTupleWindowConverter;
 import simpledb.TransactionAbortedException;
+import simpledb.Tuple;
 import simpledb.TupleDesc;
 import simpledb.Type;
 import simpledb.Predicate.Op;
 
 public class SystemTest {
+	
+	@Test
+	public void SimpleStreamToRelationToStreamTest() throws DbException, TransactionAbortedException {
+		TupleDesc td = new TupleDesc(new Type[]{Type.INT_TYPE});
+		SimpleStreamReader sr = new SimpleStreamReader();
+		Stream inputStream = new Stream(sr);
+		
+		for (int i = 0; i < 50; i++) {
+			Tuple tuple = sr.addTuple();
+			while (tuple != null) {
+				tuple = sr.addTuple();
+			}
+		}
+		
+		StreamToRelationTimeWindowConverter sToRConverter = new StreamToRelationTimeWindowConverter(inputStream, 0, td);
+		RelationToIstreamConverter rToSConverter = new RelationToIstreamConverter(td);
+		
+		for (int i = 0; i < 50; i++) {
+			DbIterator input = sToRConverter.updateRelation();
+			rToSConverter.updateStream(input);
+		}
+		
+		Stream outputStream = rToSConverter.getStream();
+		
+		Utility.checkEquality(inputStream, outputStream, 50);
+	}
 
 	@Test
 	public void FileStreamWithAggregationTupleWindowTest() throws IOException, DbException, TransactionAbortedException {

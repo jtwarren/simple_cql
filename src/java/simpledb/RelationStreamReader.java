@@ -8,16 +8,12 @@ public class RelationStreamReader implements StreamReader {
     private TupleDesc td;
     private HashMap<Integer, ArrayList<Tuple>> timesteps;
     private HashMap<Integer, Integer> currIndices;
-    
-    private int ts;
 
     public RelationStreamReader(TupleDesc td) {
         this.internal_ts = 0;
         this.td = td;
         this.timesteps = new HashMap<Integer, ArrayList<Tuple>>();
         this.currIndices = new HashMap<Integer, Integer>();
-        
-        ts = 0;
     }
 
     public void updateStream(DbIterator nextStream) throws DbException, TransactionAbortedException {
