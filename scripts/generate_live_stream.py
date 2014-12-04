@@ -12,11 +12,11 @@ def generate_stream():
     ]
     with open("output.txt", 'w', 0) as f:
         while True:
-            multiplier = 1.0
+            multiplier = 0.1
             if random.random() > 0.9:
-                multiplier = 5.0
+                multiplier = 1.0
             time.sleep(multiplier * random.random())
-            f.write(possible_msgs[int(random.random() * 4.2)] + "\n")
+            f.write(possible_msgs[int(random.random() * 5)] + "\n")
 
 
 if __name__ == '__main__':
