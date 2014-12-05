@@ -22,6 +22,7 @@ public class FileStreamReaderTest {
 	// e 4 4
 	// f 5 4
 	// g 6 4
+	// h 7 10
 
 	
     @Test
@@ -84,6 +85,12 @@ public class FileStreamReaderTest {
     	correct = tuple.getField(0).equals(new StringField("g", Type.STRING_LEN));
     	assertEquals(correct, true);
     	correct = tuple.getField(1).equals(new IntField(6));
+    	assertEquals(correct, true);
+    	
+    	tuple = sr.getNext(10);
+    	correct = tuple.getField(0).equals(new StringField("h", Type.STRING_LEN));
+    	assertEquals(correct, true);
+    	correct = tuple.getField(1).equals(new IntField(7));
     	assertEquals(correct, true);
     	
 
