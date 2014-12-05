@@ -7,7 +7,7 @@ public class RelationToIstreamConverter implements RelationToStreamConverter {
     private TupleDesc td;
 
     private DbIterator prevRelation;
-    private ArrayList<Tuple> Istream;
+    private ArrayList<Tuple> iStream;
     
     private RelationStreamReader reader;
 
@@ -15,7 +15,7 @@ public class RelationToIstreamConverter implements RelationToStreamConverter {
         this.td = td;
 
         prevRelation = null;
-        Istream = new ArrayList<Tuple>();
+        iStream = new ArrayList<Tuple>();
         
         reader = new RelationStreamReader(td);
     }
@@ -31,7 +31,7 @@ public class RelationToIstreamConverter implements RelationToStreamConverter {
             }
         }
 
-        ArrayList<Tuple> IstreamNew = new ArrayList<Tuple>();
+        ArrayList<Tuple> iStreamNew = new ArrayList<Tuple>();
         nextRelation.open();;
         ArrayList<Tuple> tuples = new ArrayList<Tuple> ();
         while (nextRelation.hasNext()) {
@@ -40,14 +40,14 @@ public class RelationToIstreamConverter implements RelationToStreamConverter {
             if (diff.contains(nextTuple)) {
                 continue;
             }
-            IstreamNew.add(nextTuple);
+            iStreamNew.add(nextTuple);
         }
         nextRelation.close();
-        Istream = IstreamNew;
+        iStream = iStreamNew;
 
         prevRelation = new TupleIterator(this.td, tuples);
         
-        reader.updateStream(new TupleIterator(td, Istream));
+        reader.updateStream(new TupleIterator(td, iStream));
     }
 
     public Stream getStream() {
