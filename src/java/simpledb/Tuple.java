@@ -11,7 +11,37 @@ import java.util.Iterator;
  */
 public class Tuple implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(fields);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Tuple other = (Tuple) obj;
+		if (!Arrays.equals(fields, other.fields)) {
+			return false;
+		}
+
+
+		if (td == null) {
+			if (other.td != null)
+				return false;
+		} else if (!td.equals(other.td))
+			return false;
+		return true;
+	}
+
+	private static final long serialVersionUID = 1L;
     private TupleDesc td;
     private RecordId recordId;
     private Field[] fields;
