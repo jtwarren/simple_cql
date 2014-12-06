@@ -3,6 +3,9 @@ package simplecql;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.junit.Test;
 
 import simpledb.DbIterator;
@@ -23,6 +26,7 @@ public class SimpleAdTest {
 
 	@Test
 	public void timeWindowSystemTest() throws Exception {
+		long timestart = System.currentTimeMillis();
 		TupleDesc itd = new TupleDesc(new Type[] { Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE });
 		TupleDesc etd = new TupleDesc(new Type[] { Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE });
 		TupleDesc jtd = new TupleDesc(new Type[] { Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE });
@@ -33,13 +37,13 @@ public class SimpleAdTest {
 		Stream insertStream = new Stream(isr);
 		Stream eventStream = new Stream(est);
 		
-		StreamToRelationTimeWindowConverter insertStreamConverter = new StreamToRelationTimeWindowConverter(insertStream, 5, itd);
-		StreamToRelationTimeWindowConverter eventStreamConverter = new StreamToRelationTimeWindowConverter(eventStream, 5, etd);
+		StreamToRelationTimeWindowConverter insertStreamConverter = new StreamToRelationTimeWindowConverter(insertStream, 600, itd);
+		StreamToRelationTimeWindowConverter eventStreamConverter = new StreamToRelationTimeWindowConverter(eventStream, 0, etd);
 		
 		RelationToIstreamConverter rToSConverter = new RelationToIstreamConverter(jtd);
 
-		// ad test has data for 5 timesteps
-		for (int i = 0; i < 5; i++) {
+    	long timemid = System.currentTimeMillis();
+		for (int i = 0; i < 1800; i++) {
 			DbIterator insertions = insertStreamConverter.updateRelation();
 			DbIterator events = eventStreamConverter.updateRelation();			
 			
@@ -51,16 +55,21 @@ public class SimpleAdTest {
 			rToSConverter.updateStream(output);
 			
 		}
-
-		Stream outputStream = rToSConverter.getStream();
 		
-		for (int ts = 0; ts < 5; ts++) {
-			Tuple tuple = outputStream.getNext(ts);
-			while (tuple != null) {
-				System.out.println(tuple);
-				tuple = outputStream.getNext(ts);
-			}
-		}
+		long timeend = System.currentTimeMillis();
+		
+    	System.out.println(timemid / 1000 - timestart / 1000);
+    	System.out.println(timeend / 1000 - timemid / 1000);
+    	
+//		Stream outputStream = rToSConverter.getStream();
+		
+//		for (int ts = 0; ts < 600; ts++) {
+//			Tuple tuple = outputStream.getNext(ts);
+//			while (tuple != null) {
+//				System.out.println(tuple);
+//				tuple = outputStream.getNext(ts);
+//			}
+//		}
 
 	}
 

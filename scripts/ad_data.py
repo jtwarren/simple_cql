@@ -37,7 +37,16 @@ def create_ad_data(ips, duration=1800, insert_filename='ad_insert.txt', event_fi
 
             insertions.append((insertion_id, advertiser_id, advertisement_id, cost, ts))
 
-            impression_ts = ts + 1
+            p = random.random()
+
+            if p <= 0.5:
+                impression_ts = random.randrange(ts + 1, ts + 30)
+            elif p <= 0.80:
+                impression_ts = random.randrange(ts + 30, ts + 60)
+            elif p <= 0.95:
+                impression_ts = random.randrange(ts + 60, ts + 120)
+            else:
+                impression_ts = random.randrange(ts + 1, ts + 600)
 
             if random.random() < PROB_IMPRESSION:
                 events.append((insertion_id, IMPRESSION, impression_ts))
@@ -63,4 +72,4 @@ def create_ad_data(ips, duration=1800, insert_filename='ad_insert.txt', event_fi
             event_id += 1
 
 if __name__ == '__main__':
-    create_ad_data(100000, 60, '../ad_insert.txt', '../ad_event.txt')
+    create_ad_data(200, 1800, '../ad_insert.txt', '../ad_event.txt')
