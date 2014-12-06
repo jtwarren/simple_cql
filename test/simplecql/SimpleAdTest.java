@@ -26,6 +26,7 @@ public class SimpleAdTest {
 
 	@Test
 	public void timeWindowSystemTest() throws Exception {
+		long timestart = System.currentTimeMillis();
 		TupleDesc itd = new TupleDesc(new Type[] { Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE });
 		TupleDesc etd = new TupleDesc(new Type[] { Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE });
 		TupleDesc jtd = new TupleDesc(new Type[] { Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE, Type.INT_TYPE });
@@ -40,12 +41,8 @@ public class SimpleAdTest {
 		StreamToRelationTimeWindowConverter eventStreamConverter = new StreamToRelationTimeWindowConverter(eventStream, 0, etd);
 		
 		RelationToIstreamConverter rToSConverter = new RelationToIstreamConverter(jtd);
-		
-		Calendar cal = Calendar.getInstance();
-    	cal.getTime();
-    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-    	System.out.println( sdf.format(cal.getTime()) );
 
+    	long timemid = System.currentTimeMillis();
 		for (int i = 0; i < 1800; i++) {
 			DbIterator insertions = insertStreamConverter.updateRelation();
 			DbIterator events = eventStreamConverter.updateRelation();			
@@ -59,9 +56,11 @@ public class SimpleAdTest {
 			
 		}
 		
-    	cal.getTime();
-    	System.out.println( sdf.format(cal.getTime()) );
-
+		long timeend = System.currentTimeMillis();
+		
+    	System.out.println(timemid / 1000 - timestart / 1000);
+    	System.out.println(timeend / 1000 - timemid / 1000);
+    	
 //		Stream outputStream = rToSConverter.getStream();
 		
 //		for (int ts = 0; ts < 600; ts++) {
