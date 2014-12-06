@@ -63,4 +63,4 @@ def create_ad_data(ips, duration=1800, insert_filename='ad_insert.txt', event_fi
             event_id += 1
 
 if __name__ == '__main__':
-    create_ad_data(100000, 60, '../ad_insert.txt', '../ad_event.txt')
+    create_ad_data(1000, 60, '../ad_insert.txt', '../ad_event.txt')

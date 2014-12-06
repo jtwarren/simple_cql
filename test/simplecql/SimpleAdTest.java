@@ -33,13 +33,13 @@ public class SimpleAdTest {
 		Stream insertStream = new Stream(isr);
 		Stream eventStream = new Stream(est);
 		
-		StreamToRelationTimeWindowConverter insertStreamConverter = new StreamToRelationTimeWindowConverter(insertStream, 5, itd);
-		StreamToRelationTimeWindowConverter eventStreamConverter = new StreamToRelationTimeWindowConverter(eventStream, 5, etd);
+		StreamToRelationTimeWindowConverter insertStreamConverter = new StreamToRelationTimeWindowConverter(insertStream, 10, itd);
+		StreamToRelationTimeWindowConverter eventStreamConverter = new StreamToRelationTimeWindowConverter(eventStream, 10, etd);
 		
 		RelationToIstreamConverter rToSConverter = new RelationToIstreamConverter(jtd);
 
 		// ad test has data for 5 timesteps
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 60; i++) {
 			DbIterator insertions = insertStreamConverter.updateRelation();
 			DbIterator events = eventStreamConverter.updateRelation();			
 			
