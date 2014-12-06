@@ -8,3 +8,6 @@ sudo apt-get install -y ant
 sudo apt-get install -y tmux
 
 git clone https://github.com/jtwarren/simple_cql.git
+
+pushd ~/simple_cql
+ant runcqltest -Dtest=SimpleAdTest

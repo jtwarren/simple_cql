@@ -54,13 +54,13 @@ public class SimpleAdTest {
 
 		Stream outputStream = rToSConverter.getStream();
 		
-		for (int ts = 0; ts < 5; ts++) {
-			Tuple tuple = outputStream.getNext(ts);
-			while (tuple != null) {
-				System.out.println(tuple);
-				tuple = outputStream.getNext(ts);
-			}
-		}
+//		for (int ts = 0; ts < 5; ts++) {
+//			Tuple tuple = outputStream.getNext(ts);
+//			while (tuple != null) {
+//				System.out.println(tuple);
+//				tuple = outputStream.getNext(ts);
+//			}
+//		}
 
 	}
 
