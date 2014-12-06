@@ -3,6 +3,9 @@ package simplecql;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import org.junit.Test;
 
 import simpledb.DbIterator;
@@ -37,9 +40,15 @@ public class SimpleAdTest {
 		StreamToRelationTimeWindowConverter eventStreamConverter = new StreamToRelationTimeWindowConverter(eventStream, 0, etd);
 		
 		RelationToIstreamConverter rToSConverter = new RelationToIstreamConverter(jtd);
+		
+		Calendar cal = Calendar.getInstance();
+    	cal.getTime();
+    	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    	System.out.println( sdf.format(cal.getTime()) );
 
 		// ad test has data for 600 timesteps
 		for (int i = 0; i < 600; i++) {
+			
 			DbIterator insertions = insertStreamConverter.updateRelation();
 			DbIterator events = eventStreamConverter.updateRelation();			
 			
@@ -51,8 +60,11 @@ public class SimpleAdTest {
 			rToSConverter.updateStream(output);
 			
 		}
+		
+    	cal.getTime();
+    	System.out.println( sdf.format(cal.getTime()) );
 
-		Stream outputStream = rToSConverter.getStream();
+//		Stream outputStream = rToSConverter.getStream();
 		
 //		for (int ts = 0; ts < 600; ts++) {
 //			Tuple tuple = outputStream.getNext(ts);
