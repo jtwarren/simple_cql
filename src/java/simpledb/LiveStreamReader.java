@@ -12,6 +12,7 @@ public class LiveStreamReader implements StreamReader {
 	private TupleDesc td;
 	private File file;
 	private int stepSize;
+	private int tupleLifeTime;
 
 	private long ptr;
 	private int ts;
@@ -21,9 +22,10 @@ public class LiveStreamReader implements StreamReader {
 	
 	private HashMap<Integer, ArrayList<Tuple>> tuples;
 	
-	public LiveStreamReader(TupleDesc td, String filename, int stepSize) {
+	public LiveStreamReader(TupleDesc td, String filename, int stepSize, int tupleLifeTime) {
 		this.td = td;
 		this.stepSize = stepSize;
+		this.tupleLifeTime = tupleLifeTime;
 
 		file = new File(filename);
 		ptr = file.length();
@@ -65,7 +67,9 @@ public class LiveStreamReader implements StreamReader {
 	}
 	
 	public void read() throws IOException {
-		// TODO: Implement garbage collection here
+		Runtime runtime = Runtime.getRuntime();
+		runtime.gc();
+		long startMemory = runtime.totalMemory() - runtime.freeMemory();
 		while (true) {
 			try {
 				Thread.sleep(stepSize); // Sleep for stepSize milliseconds
@@ -83,9 +87,18 @@ public class LiveStreamReader implements StreamReader {
 				synchronized(this) {
 					tuples.put(ts, currentTimestampTuples);
 					ts++;
+					// Garbage collection
+					if (tupleLifeTime != -1) {
+						if (ts - tupleLifeTime >= 0) {
+							tuples.remove(ts - tupleLifeTime);
+						}
+					}
 				}
 				ptr = raf.getFilePointer();
 				raf.close();
+				long endMemory = runtime.totalMemory() - runtime.freeMemory();
+				runtime.gc();
+				System.out.println(String.format("Memory usage for timestamp %d: %d MB", ts, (endMemory - startMemory) / (1024 * 1024)));
 			} catch (InterruptedException e) {
 				throw new RuntimeException("Sleep interrupted");
 			}
@@ -108,7 +121,7 @@ public class LiveStreamReader implements StreamReader {
 					}
 				}
 				try {
-					Thread.sleep(stepSize);
+					Thread.sleep(20);
 				} catch (InterruptedException e) {
 					// Do nothing
 				}
@@ -129,7 +142,10 @@ public class LiveStreamReader implements StreamReader {
 		// Simple demo of LiveStreamReader functionality
 		int stepSize = 5000;
 		LiveStreamReader sr = new LiveStreamReader(
-				new TupleDesc(new Type[] {Type.STRING_TYPE}), "scripts/output.txt", stepSize);
+				new TupleDesc(new Type[] {Type.STRING_TYPE}),
+				"scripts/output.txt",
+				stepSize,
+				10);
 		sr.spawnReadingThread();
 		
 		Thread.sleep(2 * stepSize + 100);
