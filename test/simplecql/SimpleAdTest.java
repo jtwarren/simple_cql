@@ -39,7 +39,10 @@ public class SimpleAdTest {
 		RelationToIstreamConverter rToSConverter = new RelationToIstreamConverter(jtd);
 
 		// ad test has data for 600 timesteps
-		for (int i = 0; i < 600; i++) {
+		for (int i = 0; i < 1800; i++) {
+			if (i % 100 == 0) {
+				System.out.println(i);
+			}
 			DbIterator insertions = insertStreamConverter.updateRelation();
 			DbIterator events = eventStreamConverter.updateRelation();			
 			
