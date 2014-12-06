@@ -33,13 +33,13 @@ public class SimpleAdTest {
 		Stream insertStream = new Stream(isr);
 		Stream eventStream = new Stream(est);
 		
-		StreamToRelationTimeWindowConverter insertStreamConverter = new StreamToRelationTimeWindowConverter(insertStream, 10, itd);
-		StreamToRelationTimeWindowConverter eventStreamConverter = new StreamToRelationTimeWindowConverter(eventStream, 10, etd);
+		StreamToRelationTimeWindowConverter insertStreamConverter = new StreamToRelationTimeWindowConverter(insertStream, 600, itd);
+		StreamToRelationTimeWindowConverter eventStreamConverter = new StreamToRelationTimeWindowConverter(eventStream, 0, etd);
 		
 		RelationToIstreamConverter rToSConverter = new RelationToIstreamConverter(jtd);
 
-		// ad test has data for 5 timesteps
-		for (int i = 0; i < 60; i++) {
+		// ad test has data for 600 timesteps
+		for (int i = 0; i < 600; i++) {
 			DbIterator insertions = insertStreamConverter.updateRelation();
 			DbIterator events = eventStreamConverter.updateRelation();			
 			
@@ -54,7 +54,7 @@ public class SimpleAdTest {
 
 		Stream outputStream = rToSConverter.getStream();
 		
-//		for (int ts = 0; ts < 5; ts++) {
+//		for (int ts = 0; ts < 600; ts++) {
 //			Tuple tuple = outputStream.getNext(ts);
 //			while (tuple != null) {
 //				System.out.println(tuple);
