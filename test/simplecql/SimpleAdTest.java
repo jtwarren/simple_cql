@@ -46,9 +46,7 @@ public class SimpleAdTest {
     	SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     	System.out.println( sdf.format(cal.getTime()) );
 
-		// ad test has data for 600 timesteps
-		for (int i = 0; i < 600; i++) {
-			
+		for (int i = 0; i < 1800; i++) {
 			DbIterator insertions = insertStreamConverter.updateRelation();
 			DbIterator events = eventStreamConverter.updateRelation();			
 			

@@ -1,6 +1,6 @@
 import random
 
-PROB_IMPRESSION = 1.0
+PROB_IMPRESSION = 0.9
 PROB_CLICK = 0.25
 
 IMPRESSION = 0
@@ -72,4 +72,4 @@ def create_ad_data(ips, duration=1800, insert_filename='ad_insert.txt', event_fi
             event_id += 1
 
 if __name__ == '__main__':
-    create_ad_data(10, 60, '../ad_insert.txt', '../ad_event.txt')
+    create_ad_data(200, 1800, '../ad_insert.txt', '../ad_event.txt')
