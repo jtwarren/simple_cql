@@ -98,7 +98,7 @@ public class LiveStreamReader implements StreamReader {
 				raf.close();
 				long endMemory = runtime.totalMemory() - runtime.freeMemory();
 				runtime.gc();
-				System.out.println(String.format("Memory usage for timestamp %d: %d MB", ts, (endMemory - startMemory) / (1024 * 1024)));
+				// System.out.println(String.format("Memory usage for timestamp %d: %d MB", ts, (endMemory - startMemory) / (1024 * 1024)));
 			} catch (InterruptedException e) {
 				throw new RuntimeException("Sleep interrupted");
 			}

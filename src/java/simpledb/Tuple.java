@@ -11,11 +11,14 @@ import java.util.Iterator;
  */
 public class Tuple implements Serializable {
 
-    @Override
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(fields);
+		result = prime * result
+				+ ((recordId == null) ? 0 : recordId.hashCode());
+		result = prime * result + ((td == null) ? 0 : td.hashCode());
 		return result;
 	}
 
@@ -28,11 +31,13 @@ public class Tuple implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Tuple other = (Tuple) obj;
-		if (!Arrays.equals(fields, other.fields)) {
+		if (!Arrays.equals(fields, other.fields))
 			return false;
-		}
-
-
+		if (recordId == null) {
+			if (other.recordId != null)
+				return false;
+		} else if (!recordId.equals(other.recordId))
+			return false;
 		if (td == null) {
 			if (other.td != null)
 				return false;
