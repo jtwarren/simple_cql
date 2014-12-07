@@ -63,8 +63,13 @@ public class Utility {
 			while (expectedTuple != null) {
 				Tuple outputTuple = outputStream.getNext(ts);
 				assertNotNull(outputTuple);
-				assertEquals(((IntField) expectedTuple.getField(0)).getValue(),
-						((IntField) outputTuple.getField(0)).getValue());
+				
+				for(int i = 0; i < expectedTuple.getTupleDesc().numFields(); i++) {
+					assertEquals(expectedTuple.getField(0),  outputTuple.getField(0));
+				}
+				
+//				assertEquals(((IntField) expectedTuple.getField(0)).getValue(),
+//						((IntField) outputTuple.getField(0)).getValue());
 				expectedTuple = expectedStream.getNext(ts);
 			}
 			assertNull(outputStream.getNext(ts));
