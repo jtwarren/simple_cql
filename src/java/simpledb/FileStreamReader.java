@@ -15,6 +15,8 @@ public class FileStreamReader implements StreamReader {
 	private TupleDesc td;
 	private HashMap<Integer, ArrayList<Tuple>> tuples;
 	
+	private int counter = 0;
+	
 	public FileStreamReader(String filename, TupleDesc td) throws IOException {
 		this.tuples = new HashMap<Integer, ArrayList<Tuple>> ();
 		
@@ -53,6 +55,7 @@ public class FileStreamReader implements StreamReader {
 		String[] splitted = str.split("\\s+");
 		
 		Tuple tuple = new Tuple(td);
+		tuple.setRecordId(new RecordId(null, counter++));
 		// Last column represents the timestamp
 		for (int i = 0; i < splitted.length - 1; i++) {
 			Type type = td.getFieldType(i);

@@ -4,10 +4,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
+import simpledb.Database;
 import simpledb.DbException;
 import simpledb.DbIterator;
+import simpledb.HeapFile;
+import simpledb.HeapPage;
+import simpledb.HeapPageId;
 import simpledb.IntField;
 import simpledb.Operator;
 import simpledb.Stream;
@@ -15,6 +23,7 @@ import simpledb.TransactionAbortedException;
 import simpledb.Tuple;
 import simpledb.TupleDesc;
 import simpledb.TupleIterator;
+import simpledb.Type;
 
 public class Utility {
 	

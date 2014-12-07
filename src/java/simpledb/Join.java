@@ -114,6 +114,8 @@ public class Join extends Operator {
             		// Set all fields
             		int offset = curTuple.getTupleDesc().numFields();
             		Tuple newTuple = new Tuple(getTupleDesc());
+            		RecordId rid = new RecordId(new HeapPageId(0, 0), curTuple.getRecordId().tupleno() * 10000000 + nextTuple.getRecordId().tupleno());
+            		newTuple.setRecordId(rid);
             		for (int i = 0; i < curTuple.getTupleDesc().numFields(); i++) {
             			Field f = curTuple.getField(i);
             			newTuple.setField(i, f);
