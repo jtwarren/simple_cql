@@ -1,16 +1,9 @@
 package simplecql;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import org.junit.Test;
 
 import simpledb.DbIterator;
 import simpledb.FileStreamReader;
-import simpledb.IntField;
 import simpledb.Join;
 import simpledb.JoinPredicate;
 import simpledb.Predicate;
@@ -18,11 +11,10 @@ import simpledb.RelationToIstreamConverter;
 import simpledb.Stream;
 import simpledb.StreamReader;
 import simpledb.StreamToRelationTimeWindowConverter;
-import simpledb.Tuple;
 import simpledb.TupleDesc;
 import simpledb.Type;
 
-public class SimpleAdTest {
+public class PerformanceAdTest {
 
 	@Test
 	public void timeWindowSystemTest() throws Exception {
