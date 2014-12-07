@@ -56,8 +56,11 @@ public class DemoAggregate {
 	public static void main(String[] args) {
 		try {
 			runLiveStreamWithAggregate();
-		} catch (DbException | TransactionAbortedException
-				| InterruptedException e) {
+		} catch (DbException e) {
+			e.printStackTrace();
+		} catch (TransactionAbortedException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
