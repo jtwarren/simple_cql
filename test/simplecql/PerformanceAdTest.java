@@ -52,16 +52,6 @@ public class PerformanceAdTest {
 		
     	System.out.println(timemid / 1000 - timestart / 1000);
     	System.out.println(timeend / 1000 - timemid / 1000);
-    	
-//		Stream outputStream = rToSConverter.getStream();
-		
-//		for (int ts = 0; ts < 600; ts++) {
-//			Tuple tuple = outputStream.getNext(ts);
-//			while (tuple != null) {
-//				System.out.println(tuple);
-//				tuple = outputStream.getNext(ts);
-//			}
-//		}
 
 	}
 
