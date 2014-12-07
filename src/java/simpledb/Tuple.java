@@ -125,7 +125,7 @@ public class Tuple implements Serializable {
         	if (i < (td.numFields() - 1)) {
         		sb.append(fields[i].toString() + "\t");
         	} else {
-        		sb.append(fields[i].toString() + "\n");
+        		sb.append(fields[i].toString());
         	}
         }
         return sb.toString();
