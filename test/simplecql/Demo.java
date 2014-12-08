@@ -1,8 +1,22 @@
-package simpledb;
+package simplecql;
 
-import simplecql.Utility;
+import simpledb.Aggregate;
+import simpledb.Aggregator;
+import simpledb.DbException;
+import simpledb.DbIterator;
+import simpledb.IntField;
+import simpledb.LiveStreamReader;
+import simpledb.Operator;
+import simpledb.RelationToIstreamConverter;
+import simpledb.Stream;
+import simpledb.StreamToRelationTimeWindowConverter;
+import simpledb.StringField;
+import simpledb.TransactionAbortedException;
+import simpledb.Tuple;
+import simpledb.TupleDesc;
+import simpledb.Type;
 
-public class DemoAggregate {
+public class Demo {
 	
 	public static void runLiveStreamWithAggregate() throws DbException, TransactionAbortedException, InterruptedException {
 		int stepSize = 500;
@@ -24,7 +38,7 @@ public class DemoAggregate {
 		Stream outputStream = rToSConverter.getStream();
 		
 		int ts = 0;
-		while (ts < 1000) {
+		while (true) {
 			long startTime = System.currentTimeMillis();
 			DbIterator input = null;
 			try {
@@ -38,17 +52,17 @@ public class DemoAggregate {
 			rToSConverter.updateStream(output);
 			
 			Tuple outputTuple = outputStream.getNext(ts);
-			// System.out.println("__________________________________________");
-			// System.out.println(String.format("Printing results for time %d", ts));
-			// System.out.println("__________________________________________");
+			System.out.println("__________________________________________");
+			System.out.println(String.format("Printing results for time %d", ts));
+			System.out.println("__________________________________________");
 			while (outputTuple != null) {
-				// System.out.println(String.format("%s: %d",
-				// 		((StringField) outputTuple.getField(0)).getValue(),
-				//     	((IntField) outputTuple.getField(1)).getValue()));
+				System.out.println(String.format("%s: %d",
+						((StringField) outputTuple.getField(0)).getValue(),
+				    	((IntField) outputTuple.getField(1)).getValue()));
 				outputTuple = outputStream.getNext(ts);
 			}
 			long endTime = System.currentTimeMillis();
-			System.out.println(String.format("Total execution time for timestep %d: %d ms", ts, (endTime - startTime)));
+			// System.out.println(String.format("Total execution time for timestep %d: %d ms", ts, (endTime - startTime)));
 			ts++;
 		}
 	}
