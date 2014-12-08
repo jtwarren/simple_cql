@@ -38,7 +38,7 @@ public class Demo {
 		Stream outputStream = rToSConverter.getStream();
 		
 		int ts = 0;
-		while (ts < 1000) {
+		while (true) {
 			long startTime = System.currentTimeMillis();
 			DbIterator input = null;
 			try {
