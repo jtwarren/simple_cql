@@ -38,17 +38,17 @@ public class DemoAggregate {
 			rToSConverter.updateStream(output);
 			
 			Tuple outputTuple = outputStream.getNext(ts);
-			// System.out.println("__________________________________________");
-			// System.out.println(String.format("Printing results for time %d", ts));
-			// System.out.println("__________________________________________");
+			System.out.println("__________________________________________");
+			System.out.println(String.format("Printing results for time %d", ts));
+			System.out.println("__________________________________________");
 			while (outputTuple != null) {
-				// System.out.println(String.format("%s: %d",
-				// 		((StringField) outputTuple.getField(0)).getValue(),
-				//     	((IntField) outputTuple.getField(1)).getValue()));
+				System.out.println(String.format("%s: %d",
+						((StringField) outputTuple.getField(0)).getValue(),
+				    	((IntField) outputTuple.getField(1)).getValue()));
 				outputTuple = outputStream.getNext(ts);
 			}
 			long endTime = System.currentTimeMillis();
-			System.out.println(String.format("Total execution time for timestep %d: %d ms", ts, (endTime - startTime)));
+			// System.out.println(String.format("Total execution time for timestep %d: %d ms", ts, (endTime - startTime)));
 			ts++;
 		}
 	}
