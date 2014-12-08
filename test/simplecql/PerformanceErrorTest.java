@@ -68,7 +68,6 @@ public class PerformanceErrorTest {
 		
 		System.out.print("qwerty Metrics for Naive implementation: ");
     	System.out.println(timeend / 1000 - timemid / 1000);
-    	System.out.println("");
 	}
 
 	@Test
@@ -102,7 +101,6 @@ public class PerformanceErrorTest {
 		
 		System.out.print("qwerty Metrics for windowing implementation: ");
     	System.out.println(timeend / 1000 - timemid / 1000);
-    	System.out.println("");
 
 	}
 }

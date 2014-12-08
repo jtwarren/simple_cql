@@ -11,3 +11,5 @@ git clone https://github.com/jtwarren/simple_cql.git
 
 pushd ~/simple_cql
 ant runcqltest -Dtest=SimpleAdTest
+
+export _JAVA_OPTIONS="-Xmx32g -Xms4g"
