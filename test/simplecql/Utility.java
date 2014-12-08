@@ -4,26 +4,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.UUID;
+import java.util.NoSuchElementException;
 
-import simpledb.Database;
 import simpledb.DbException;
 import simpledb.DbIterator;
-import simpledb.HeapFile;
-import simpledb.HeapPage;
-import simpledb.HeapPageId;
-import simpledb.IntField;
 import simpledb.Operator;
 import simpledb.Stream;
 import simpledb.TransactionAbortedException;
 import simpledb.Tuple;
 import simpledb.TupleDesc;
 import simpledb.TupleIterator;
-import simpledb.Type;
 
 public class Utility {
 	
@@ -65,7 +56,7 @@ public class Utility {
 				assertNotNull(outputTuple);
 				
 				for(int i = 0; i < expectedTuple.getTupleDesc().numFields(); i++) {
-					assertEquals(expectedTuple.getField(0),  outputTuple.getField(0));
+					assertEquals(expectedTuple.getField(i),  outputTuple.getField(i));
 				}
 				
 //				assertEquals(((IntField) expectedTuple.getField(0)).getValue(),
@@ -74,6 +65,21 @@ public class Utility {
 			}
 			assertNull(outputStream.getNext(ts));
 		}
+	}
+	
+	public static void checkEqualityBetweenStreamAndRelation(
+			Stream expectedStream, DbIterator output, int ts) throws NoSuchElementException, DbException, TransactionAbortedException {
+		output.open();
+		while (output.hasNext()) {
+			Tuple outputTuple = output.next();
+			Tuple expectedTuple = expectedStream.getNext(ts);
+			assertNotNull(expectedTuple);
+			for(int i = 0; i < expectedTuple.getTupleDesc().numFields(); i++) {
+				assertEquals(expectedTuple.getField(i),  outputTuple.getField(i));
+			}
+		}
+		Tuple tuple = expectedStream.getNext(ts);
+		assertNull(tuple);
 	}
 
 }

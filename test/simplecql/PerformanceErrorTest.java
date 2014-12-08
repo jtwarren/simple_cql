@@ -12,8 +12,6 @@ import simpledb.DbIterator;
 import simpledb.FileStreamReader;
 import simpledb.Filter;
 import simpledb.IntField;
-import simpledb.Join;
-import simpledb.JoinPredicate;
 import simpledb.Operator;
 import simpledb.Predicate;
 import simpledb.RelationToIstreamConverter;
@@ -32,7 +30,6 @@ public class PerformanceErrorTest {
 	
 	@Test
 	public void timeWindowSystemTestNaive() throws IOException, DbException, TransactionAbortedException {
-		long timestart = System.currentTimeMillis();
 		TupleDesc td = new TupleDesc(new Type[] { Type.STRING_TYPE });
 		TupleDesc ntd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE });
 		TupleDesc otd = new TupleDesc(new Type[] { Type.INT_TYPE });
@@ -76,7 +73,6 @@ public class PerformanceErrorTest {
 
 	@Test
 	public void timeWindowSystemTest() throws IOException, DbException, TransactionAbortedException {
-		long timestart = System.currentTimeMillis();
 		TupleDesc td = new TupleDesc(new Type[] { Type.STRING_TYPE });
 		TupleDesc otd = new TupleDesc(new Type[] { Type.INT_TYPE });
 

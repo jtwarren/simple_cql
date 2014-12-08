@@ -30,6 +30,68 @@ import simpledb.Type;
 import simpledb.Predicate.Op;
 
 public class SimpleTrendingTest {
+	
+	@Test
+	public void streamingTrendingTestNaive() throws IOException, TransactionAbortedException, DbException {
+		TupleDesc td = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.STRING_TYPE });
+		TupleDesc ntd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.STRING_TYPE, Type.INT_TYPE });
+		TupleDesc mtd = new TupleDesc(new Type[] { Type.INT_TYPE });
+		TupleDesc otd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE });
+		TupleDesc jtd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE, Type.INT_TYPE });
+		TupleDesc rtd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE });
+
+		StreamReader isr = new FileStreamReader("simple_trending.txt", td);
+		
+		StreamReader expectedSr = new FileStreamReader("simple_trending_output.txt", rtd);
+		Stream expectedStream = new Stream(expectedSr);
+		
+		ArrayList<Tuple> tweetTuples = new ArrayList<Tuple> ();
+
+		for (int i = 0; i < 300; i++) {
+			Tuple tuple = isr.getNext(i);
+			while (tuple != null) {
+				Tuple newTuple = new Tuple(ntd);
+				newTuple.setField(0, tuple.getField(0));
+				newTuple.setField(1, tuple.getField(1));
+				newTuple.setField(2, new IntField(i));
+				tweetTuples.add(newTuple);
+				tuple = isr.getNext(i);
+			}
+			
+			Operator filter1 = new Filter(
+					new Predicate(2, Op.GREATER_THAN_OR_EQ, new IntField(i - 120)),
+					new TupleIterator(ntd, tweetTuples));
+			DbIterator tweets = Utility.applyOperator(ntd, filter1);
+
+			Operator filter2 = new Filter(new Predicate(1, Op.EQUALS, new StringField("boston", Type.STRING_LEN)), tweets);
+			DbIterator intermediate = Utility.applyOperator(ntd, filter2);
+			
+			Operator count = new Aggregate(intermediate, 0, 0, Aggregator.Op.COUNT);
+			DbIterator counts = Utility.applyOperator(otd, count);
+
+			Operator max = new Aggregate(counts, 1, -1, Aggregator.Op.MAX);
+			DbIterator maxes = Utility.applyOperator(mtd, max);
+
+			JoinPredicate p = new JoinPredicate(1, Predicate.Op.EQUALS, 0);
+	        Join joinOp = new Join(p, counts, maxes);
+	        
+	        DbIterator output =  Utility.applyOperator(jtd, joinOp);
+	         
+	        ArrayList<Integer> outFields = new ArrayList<Integer>();
+	        outFields.add(0);
+	        outFields.add(1);
+	        ArrayList<Type> outTypes = new ArrayList<Type>();
+	        outTypes.add(Type.STRING_TYPE);
+	        outTypes.add(Type.INT_TYPE);
+	        Project proj = new Project(outFields, outTypes, output);
+	        
+	        DbIterator results =  Utility.applyOperator(rtd, proj);
+	        
+	        Utility.checkEqualityBetweenStreamAndRelation(expectedStream, results, i);
+			
+		}
+
+	}
 
 	@Test
 	public void streamingTrendingTest() throws Exception {

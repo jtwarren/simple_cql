@@ -130,7 +130,7 @@ public class PerformanceAdTest {
 		
 		System.out.println("Metrics for windowing implementation");
     	System.out.println(timemid / 1000 - timestart / 1000);
-	System.out.print("qwerty Windowing implementation time: ");
+    	System.out.print("qwerty Windowing implementation time: ");
     	System.out.println(timeend / 1000 - timemid / 1000);
     	System.out.println("");
 
