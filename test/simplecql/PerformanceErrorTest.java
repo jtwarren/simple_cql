@@ -53,7 +53,7 @@ public class PerformanceErrorTest {
 			}
 			
 			Operator filter1 = new Filter(
-					new Predicate(1, Op.GREATER_THAN_OR_EQ, new IntField(i - 2)),
+					new Predicate(1, Op.GREATER_THAN_OR_EQ, new IntField(i)),
 					new TupleIterator(ntd, allTuples));
 			DbIterator intermediate1 = Utility.applyOperator(ntd, filter1);
 			
@@ -69,8 +69,7 @@ public class PerformanceErrorTest {
 		
 		long timeend = System.currentTimeMillis();
 		
-		System.out.println("Metrics for Naive implementation");
-		System.out.println(timemid / 1000 - timestart / 1000);
+		System.out.print("qwerty Metrics for Naive implementation: ");
     	System.out.println(timeend / 1000 - timemid / 1000);
     	System.out.println("");
 	}
@@ -85,7 +84,7 @@ public class PerformanceErrorTest {
 
 		Stream logStream = new Stream(isr);
 		
-		StreamToRelationTimeWindowConverter insertStreamConverter = new StreamToRelationTimeWindowConverter(logStream, 2, td);
+		StreamToRelationTimeWindowConverter insertStreamConverter = new StreamToRelationTimeWindowConverter(logStream, 0, td);
 		RelationToIstreamConverter rToSConverter = new RelationToIstreamConverter(otd);
 
     	long timemid = System.currentTimeMillis();
@@ -105,8 +104,7 @@ public class PerformanceErrorTest {
 		
 		long timeend = System.currentTimeMillis();
 		
-		System.out.println("Metrics for windowing implementation");
-    	System.out.println(timemid / 1000 - timestart / 1000);
+		System.out.print("qwerty Metrics for windowing implementation: ");
     	System.out.println(timeend / 1000 - timemid / 1000);
     	System.out.println("");
 
