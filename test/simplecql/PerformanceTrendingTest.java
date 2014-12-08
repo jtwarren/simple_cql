@@ -41,7 +41,7 @@ public class PerformanceTrendingTest {
 		TupleDesc jtd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE, Type.INT_TYPE });
 		TupleDesc rtd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE });
 
-		StreamReader isr = new FileStreamReader("simple_trending.txt", td);
+		StreamReader isr = new FileStreamReader("trending.txt", td);
 		
 		ArrayList<Tuple> tweetTuples = new ArrayList<Tuple> ();
 
@@ -91,11 +91,9 @@ public class PerformanceTrendingTest {
 		}
 		
 		long timeend = System.currentTimeMillis();
-		
-		System.out.println("Metrics for Naive implementation");
-		System.out.println(timemid / 1000 - timestart / 1000);
+    	
+    	System.out.print("qwerty Metrics for Naive implementation: ");
     	System.out.println(timeend / 1000 - timemid / 1000);
-    	System.out.println("");
 
 	}
 
@@ -151,10 +149,8 @@ public class PerformanceTrendingTest {
 		
 		long timeend = System.currentTimeMillis();
 		
-		System.out.println("Metrics for windowing implementation");
-    	System.out.println(timemid / 1000 - timestart / 1000);
+		System.out.print("qwerty Metrics for windowing implementation: ");
     	System.out.println(timeend / 1000 - timemid / 1000);
-    	System.out.println("");
 	}
 
 }
