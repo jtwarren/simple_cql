@@ -1,8 +1,22 @@
-package simpledb;
+package simplecql;
 
-import simplecql.Utility;
+import simpledb.Aggregate;
+import simpledb.Aggregator;
+import simpledb.DbException;
+import simpledb.DbIterator;
+import simpledb.IntField;
+import simpledb.LiveStreamReader;
+import simpledb.Operator;
+import simpledb.RelationToIstreamConverter;
+import simpledb.Stream;
+import simpledb.StreamToRelationTimeWindowConverter;
+import simpledb.StringField;
+import simpledb.TransactionAbortedException;
+import simpledb.Tuple;
+import simpledb.TupleDesc;
+import simpledb.Type;
 
-public class DemoAggregate {
+public class Demo {
 	
 	public static void runLiveStreamWithAggregate() throws DbException, TransactionAbortedException, InterruptedException {
 		int stepSize = 500;
