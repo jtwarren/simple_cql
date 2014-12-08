@@ -1,4 +1,5 @@
 import random
+import sys
 
 PROB_ERROR = 0.5
 
@@ -30,4 +31,6 @@ def create_ad_data(ips, duration=1800, filename='error_log.txt'):
             f.write('%s %s\n' % message)
 
 if __name__ == '__main__':
-    create_ad_data(25000, 30, '../error_log.txt')
+    rps = int(sys.argv[1])
+    print "qwerty rps", rps
+    create_ad_data(rps, 1800, '../error_log.txt')
