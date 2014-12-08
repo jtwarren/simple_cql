@@ -29,10 +29,10 @@ import simpledb.TupleIterator;
 import simpledb.Type;
 import simpledb.Predicate.Op;
 
-public class PerformanceTweetTest {
+public class PerformanceTrendingTest {
 
 	@Test
-	public void streamingErrorNaiveTest() throws IOException, TransactionAbortedException, DbException {
+	public void streamingTrendingNaiveTest() throws IOException, TransactionAbortedException, DbException {
 		long timestart = System.currentTimeMillis();
 		TupleDesc td = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.STRING_TYPE });
 		TupleDesc ntd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.STRING_TYPE, Type.INT_TYPE });
@@ -54,6 +54,7 @@ public class PerformanceTweetTest {
 				newTuple.setField(1, tuple.getField(1));
 				newTuple.setField(2, new IntField(i));
 				tweetTuples.add(newTuple);
+				tuple = isr.getNext(i);
 			}
 			
 			Operator filter1 = new Filter(
@@ -99,7 +100,7 @@ public class PerformanceTweetTest {
 	}
 
 	@Test
-	public void streamingErrorTest() throws Exception {
+	public void streamingTrendingTest() throws Exception {
 		long timestart = System.currentTimeMillis();
 		TupleDesc td = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.STRING_TYPE });
 		TupleDesc mtd = new TupleDesc(new Type[] { Type.INT_TYPE });

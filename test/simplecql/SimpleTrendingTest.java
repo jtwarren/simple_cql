@@ -32,7 +32,7 @@ import simpledb.Predicate.Op;
 public class SimpleTrendingTest {
 
 	@Test
-	public void streamingErrorTest() throws Exception {
+	public void streamingTrendingTest() throws Exception {
 		TupleDesc td = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.STRING_TYPE });
 		TupleDesc mtd = new TupleDesc(new Type[] { Type.INT_TYPE });
 		TupleDesc otd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE });
