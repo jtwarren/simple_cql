@@ -106,7 +106,7 @@ public class PerformanceTrendingTest {
 		TupleDesc jtd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE, Type.INT_TYPE });
 		TupleDesc rtd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE });
 
-		StreamReader isr = new FileStreamReader("simple_trending.txt", td);
+		StreamReader isr = new FileStreamReader("trending.txt", td);
 
 		Stream tweetStream = new Stream(isr);
 		
