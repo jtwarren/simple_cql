@@ -34,14 +34,14 @@ public class SimpleErrorTest {
 		TupleDesc ntd = new TupleDesc(new Type[] { Type.STRING_TYPE, Type.INT_TYPE });
 		TupleDesc otd = new TupleDesc(new Type[] { Type.INT_TYPE });
 		
-		StreamReader isr = new FileStreamReader("error_log.txt", td);
+		StreamReader isr = new FileStreamReader("simple_error_log.txt", td);
 		Stream logStream = new Stream(isr);
 		
 		ArrayList<Tuple> allTuples = new ArrayList<Tuple> ();
 		
 		StreamReader expectedSr = new FileStreamReader("simple_error_log_output.txt", otd);
 		Stream expectedStream = new Stream(expectedSr);
-		for (int i = 0; i < 1800; i++) {
+		for (int i = 0; i < 6; i++) {
 			Tuple tuple = logStream.getNext(i);
 			while (tuple != null) {
 				Tuple newTuple = new Tuple(ntd);
