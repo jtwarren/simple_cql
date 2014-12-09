@@ -10,9 +10,9 @@ def generate_stream():
         "Hive log message",
         "HDFS error"
     ]
-    with open("output.txt", 'w', 0) as f:
+    with open("../logstream.txt", 'w', 0) as f:
         while True:
-            multiplier = 0.001
+            multiplier = 0.1
             if random.random() > 0.9:
                 multiplier = 0.01
             time.sleep(multiplier * random.random())

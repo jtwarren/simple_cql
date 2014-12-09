@@ -6,6 +6,19 @@ import java.util.UUID;
 
 /** Helper methods used for testing and implementing random features. */
 public class Utility {
+	
+	public static DbIterator applyOperator(
+			TupleDesc td, Operator operator) throws DbException, TransactionAbortedException {
+		ArrayList<Tuple> output = new ArrayList<Tuple> ();
+		operator.open();
+		while (operator.hasNext()) {
+			output.add(operator.next());
+		}
+		operator.close();
+		return new TupleIterator(td, output);
+	}
+	
+	
     /**
      * @return a Type array of length len populated with Type.INT_TYPE
      */
