@@ -355,8 +355,6 @@ The projected throughput of SimpleCQL is approximately 8k tuples/second, whereas
 \subsection{Garbage Collection}
 Garbage collecting tuples that are no longer needed using a time-based collection policy drastically reduced the memory footprint of the system.  This is expected as keeping tupled in memory indefinitely will continuously consume more memory.  There is a performance tradeoff to discarding old tuples, but we show that this outweighs the memory usage in Figure~\ref{fig:gc_perf}.  The impact to execution time per timestep when garbage collection is enabled is approximately 20ms, or roughly 4\%.
 
-As expected Garbage collection drastically reduced the memory footprint of the system, but reduced performance slightly. These points are better illustrated in the following graphs, which were produced using our LiveStreamReader.
-
 \begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=5cm]{gc_perf.png}}
