@@ -372,7 +372,7 @@ As expected Garbage collection drastically reduced the memory footprint of the s
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
-*note: be explicit about how the goal is to support stream processing using traditional SQL-like semantics/relational operators. We have motivated the need for a continuous query language, shown the meaning of a ``continuous query language" through abstract semantics, and built a system that supports a large variety of complex queries.  Our system performs very well and has much room for improvement and optimizations.  TODO.
+We have augmented SimpleDB, a static relational database, with implementations of the abstract semantics in a Continuous Query Language. The resulting SimpleCQL is our successful implementation of a streaming database management system that supports SQL-like relational operations on real-time streams. We have exemplified the motivation for such a continuous query processing system through our examples of error logs aggregations, trending tweets computations, and advertising statistics calculations. Despite being built on SimpleDB, a foundation with plenty of room for improvement and optimizations, SimpleCQL performs considerably well on these three tested workloads, all the while leaving a negligible memory footprint when processing unbounded streams of data.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{plain}
