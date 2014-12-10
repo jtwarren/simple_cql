@@ -69,13 +69,33 @@ A typical advertising event timeline usually looks something like the following,
 
 Formally, we define the following schema for advertisers, advertisements insertions streams and event streams:
 
-\texttt{Advertiser\{AdvertiserId:INT, Name:STRING\}}
 
-\texttt{Advertisement\{AdvertisementId:INT, AdvertiserId:INT, Text:STRING\}}
+% \begin{table}[!ht]
+%     \centering
+%     \small
+%     \caption{
+%     \bf{Caption}}
 
-\texttt{InsertionStream\{InsertionId:INT, AdvertisementId:int, Cost:INT\}}
+% \end{table}
 
-\texttt{EventStream\{EventId:INT, InsertionId:int, Type:STRING\}}
+
+
+\begin{table}[h]
+\resizebox{0.55\textwidth}{!}{\begin{minipage}{\textwidth}
+    \begin{tabular}{ |l|l| }
+        \hline
+        \texttt{Advertiser} & \texttt{AdvertiserId:INT, Name:STRING} \\ \hline
+        \texttt{Advertisement} & \texttt{AdvertisementId:INT, AdvertiserId:INT, Text:STRING} \\ \hline
+        \texttt{InsertionStream} & \texttt{InsertionId:INT, AdvertisementId:int, Cost:INT} \\ \hline
+        \texttt{EventStream} & \texttt{EventId:INT, InsertionId:int, Type:STRING} \\ \hline
+    \end{tabular}
+\label{table:schma}
+\end{minipage} }
+\caption[Table caption text]{Schema of Relations and Streams used in ``Advertising Statistics" }
+\end{table}
+
+
+
 
 The two streams, \texttt{InsertionStream} and \texttt{EventStream}, are joined on \texttt{InsertionId} in order to produce rich statistical information.  For example, per-advertisement click-through rates are computed by joining \texttt{InsertionStream} and \texttt{EventStream} on \texttt{InsertionId}, grouping by \texttt{AdvertisementId}, and then computing the quotient of the sum of clicks and the sum of impressions.
 
@@ -88,9 +108,9 @@ Prior work defines a comprehensive abstract semantic foundation for continuous q
 \subsection{Data Types}
 In order to support continuous queries we have defined and implemented a set of streaming primitives: streams and relations. It should be noted that both streams and relations have traditional fixed, but not necessarily equal, schemas.
 
-\textbf{Definition (Stream)}: A stream S is an unbounded set of elements <s, t> where s is a tuple belonging to the schema of S and t $\in$ T is the timestamp of the element.
+\textbf{Definition (Stream)}: A stream $S$ is an unbounded set of elements $<s, t>$ where $s$ is a tuple belonging to the schema of $S$ and $t$ $\in$ $T$ is the timestamp of the element.
 
-\textbf{Definition (Relation)}:  A relation R is a mapping from T to a finite but unbounded set of tuples belonging to the schema of R.
+\textbf{Definition (Relation)}:  A relation $R$ is a mapping from $T$ to a finite but unbounded set of tuples belonging to the schema of $R$.
 
 Due to the undefined correctness conditions of applying relational operators directly to streams (for example, considering the notion of joining two streams), we first convert streams to relations through a class of operators known as Stream-to-Relation converters. Then, we are free to apply relational operations like joins, filters and aggregations over these relations produced from the streams. 
 
@@ -215,7 +235,7 @@ SimpleDB was intended to be a toy database designed for teaching core concepts o
 
 SimpleDB’s code is largely unoptimized, so the SimpleCQL performance metrics we present in this paper can be greatly improved upon using standard optimization techniques prevalent in the literature. 
 
-Many of the benchmark tests were run over $D = 1800$ timesteps and the number of tuples per timestep $R$ was increased to measure performance.  Equation ~\ref{eq:throughput} is used to estimate the projected throughput $N$ of the system.
+Many of the benchmark tests were run over $D = 1800$ timesteps and the number of tuples per timestep $R$ was increased to measure performance.  Equation ~\ref{eq:throughput} is used to estimate the projected throughput of the system.
 
 \begin{equation} \label{eq:throughput}
     \text{Throughput} = R \text{ tuples/timestep} \times \dfrac{D \text{ timesteps}}{T \text{ seconds}}
