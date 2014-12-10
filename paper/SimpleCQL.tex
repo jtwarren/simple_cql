@@ -154,7 +154,7 @@ The most important Relation-to-Stream converter is the IStream. Considering the 
 
 Using these different operators, we see that a query that takes a stream as input and returns a stream as output can be modeled in the following way.
 
-\begin{figure}[tpH]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=2.5cm]{operators.png}}
     \caption{Figure showing how a query that takes a stream as input and emits a stream as output is executed under the hood.}
@@ -196,7 +196,7 @@ We implemented both a time-based Stream-to-Relation converter and a tuple-based 
 
 \item \textbf{Time-based Stream-to-Relation Converter:} The time-based converter is parameterized by a \textit{stream}, which is the input data source, and a \textit{windowSize}, which is the number of most recent timesteps to window the stream per advance in unit time. A time-windowed relation at $t = \tau$ with $windowSize = w$ will include all tuples from the stream with time labels $\in [\tau - w, \tau]$. The converter maintains the time-windowed relation as a list of tuples, and this data structure is initialized to be empty until consumption from the stream begins. We invoke the converter once to consume one timestep from the stream and incrementally update the internal relation data structure, adding only the new tuples that enter the window and removing only the old tuples that leave the window. Repeated invocation simulates the continuous forward motion of discretized time. Figure~\ref{fig:time_window} illustrates the relation data structure state with the passage of time. 
 
-\begin{figure}[tpH]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=4cm]{time_window.png}}
     \caption{Example time-based Stream-to-Relation converter: windowed relation at three consecutive discretized timesteps with $windowSize = 4$.}
@@ -205,7 +205,7 @@ We implemented both a time-based Stream-to-Relation converter and a tuple-based 
 
 \item \textbf{Tuple-based Stream-to-Relation Converter:} The tuple-based converter is similarly parameterized by a \textit{stream} and a \textit{tupleCount}, which is the number of most recent tuples to include per advance in unit time. A tuple-windowed relation at $t = \tau$ with $tupleCount = c$ will include the most recent $c$ tuples from the stream since time $\tau$. We similarly invoke the converter to incrementally consume one timestep from the stream, adding the tuples at the new timestep and removing old tuples until the relation size is $c$. Figure~\ref{fig:tuple_window} illustrates the relation data structure with the passage of time. 
 
-\begin{figure}[tpH]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=4cm]{tuple_window.png}}
     \caption{Example tuple-based Stream-to-Relation converter: windowed relation at three consecutive discretized timesteps with $tupleCount = 4$.}
@@ -228,7 +228,7 @@ The Relation-to-Stream converters are similar to the Stream-to-Relation converte
 
 We implement these diffs-based computations by maintaining the \texttt{prevRelation}, hashing the tuples of \texttt{prevRelation}, and then probing into the hash set with tuples of \texttt{nextRelation} to determine the differences across timesteps. Figure Z illustrates the emitted tuples for each of the Relation-to-Stream converters with respect to time; the IStream is highlighted because it is most illustrative and most significant in our system. 
 
-\begin{figure}[tpH]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=3cm]{stream_converter.png}}
     \caption{Changes in the input Relation $R$ over time and the corresponding updates to IStream, Dstream, and RStream.}
@@ -281,7 +281,7 @@ GROUP BY LogStream.Message;
 
 Data for the \texttt{LogStream} was generated prior to running tests and read using a custom \texttt{FileStreamReader}.  The data generated represents 30 minutes of log messages.
 
-\begin{figure}[tpH!]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=5cm]{attack.png}}
     \caption{Performance of SimpleDB and SimpleCQL detecting attacks.}
@@ -309,7 +309,7 @@ GROUP BY TweetStream.Hashtag;
 
 Data for the \texttt{TweetStream} was generated prior to running tests.  The data generated represents 30 minutes of tweets with text, hashtags, and locations.   
 
-\begin{figure}[tpH!]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=5cm]{trending.png}}
     \caption{Performance of SimpleDB and SimpleCQL calculating trending tweets.}
@@ -341,14 +341,14 @@ GROUP BY advertisement_id;
 
 Data for the \texttt{InsertionStream} and \texttt{EventStream} was generated prior to running tests.  The data generated represents 30 minutes of advertisement insertions.  Each insertion in the \texttt{InsertionStream} may have a corresponding impression and click event in the EventStream that appears up to 10 minutes after the insertion.
 
-\begin{figure}[tpH!]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=5cm]{ads.png}}
     \caption{Performance of SimpleDB and SimpleCQL computing real-time click-through rates.}
     \label{fig:ads}
 \end{figure}
 
-\begin{figure}[tpH!]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=5cm]{ads_window.png}}
     \caption{Performance of SimpleDB and SimpleCQL computing real-time click-through rates with varying window.}
@@ -362,7 +362,7 @@ The projected throughput of SimpleCQL is approximately 8k tuples/second, whereas
 \subsection{Garbage Collection}
 As expected Garbage collection drastically reduced the memory footprint of the system, but reduced performance slightly. This point is better illustrated in the graph above, which was produced using our \texttt{LiveStreamReader} to simulate tuples actually coming in real time into the system.
 
-\begin{figure}[tpH!]
+\begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=5cm]{gc_perf.png}}
     \caption{Plot of execution time per timestamp versus timestamp with and without garbage collection. With Garbage Collection enabled, the system performs marginally worse than with Garbage Collection disabled}
