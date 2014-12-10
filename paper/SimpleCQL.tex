@@ -249,20 +249,15 @@ For now, we have only implemented the time based garbage collection policy. Effe
 Benchmarks of SimpleCQL were performed on an AWS Compute Optimized (c3.8xlarge) instance with 60 GiB of memory, 32 vCPUs, 640 GB of SSD-based local instance storage, and a 64-bit platform.  When applicable, SimpleCQL performance was compared to that of SimpleDB and the continuous workload of SimpleCQL is shown to outperform equivalent discretized workloads of SimpleDB.  
 
 \subsection{Testing Conditions}
-SimpleDB was intended to be a toy database designed for teaching core concepts of database internals.  As such, the performance of both SimpleDB and SimpleCQL suffer from a lack of optimizations.  However, a pairwise comparison uses the same underlying operations and care was taken to keep comparison even, i.e. SimpleDB never wrote tuple insertions to disk.
+SimpleDB was intended to be a toy database designed for teaching core concepts of database internals.  As such, the performance of both SimpleDB and SimpleCQL suffer from a lack of optimizations.  However, a pairwise comparison uses the same underlying operations and care was taken to keep comparison even. For example, we configured SimpleDB to not write tuples to disk because SimpleCQL operates entirely in-memory, and SimpleDB does not use a B+Tree index because there is no indexing in SimpleCQL; thus, our measurements will closely isolate the gains or losses produced from SimpleCQL's iterative processing.
 
 SimpleDB's code is largely unoptimized, so the SimpleCQL performance metrics we present in this paper can be greatly improved upon using standard optimization techniques prevalent in the literature. 
 
-Many of the benchmark tests were run over $D = 1800$ timesteps and the number of tuples per timestep $R$ was increased to measure performance.  Equation ~\ref{eq:throughput} is used to estimate the projected throughput of the system.
+Many of the benchmark tests were run over $D = 1800$ timesteps and the number of tuples per timestep $R$ was increased to measure performance.  Equation~\ref{eq:throughput} is used to estimate the projected throughput of the system.
 
 \begin{equation} \label{eq:throughput}
     \text{Throughput} = R \text{ tuples/timestep} \times \dfrac{D \text{ timesteps}}{T \text{ seconds}}
 \end{equation}
-
-
-TODO: Note that file reading was not accounted for in execution time.
-
-We didn't use B+Trees, and other optimizations built into SimpleDB because we wanted to do an apples-apples comparison, and wanted to measure the gain produced from our windowing strategy alone.
 
 \subsection{Log Analysis: Detecting Attacks}
 Most web companies wish to keep their users accounts safe and out of reach of hackers and spammers.  On occasion though, hackers obtain lists of potentially millions of usernames.  These users can then be victims of a brute-force attack, where attackers try to brute force through all possible strings to guess a user'€™s password. This leads to a spike in the number of failed login attempts. Access to real-time error log statistics allows spam and abuse teams to easily detect such an attack and respond as necessary.
