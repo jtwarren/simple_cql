@@ -39,7 +39,7 @@ Matei Zaharia, Tathagata Das, Haoyuan Li, Scott Shenker, and Ion Stoica.
 \newblock Discretized streams: An efficient and fault-tolerant model for stream
   processing on large clusters.
 \newblock In {\em Proceedings of the 4th USENIX Conference on Hot Topics in
-  Cloud Ccomputing}, HotCloud'12, pages 10--10, Berkeley, CA, USA, 2012. USENIX
+  Cloud Computing}, HotCloud'12, pages 10--10, Berkeley, CA, USA, 2012. USENIX
   Association.
 
 \end{thebibliography}
