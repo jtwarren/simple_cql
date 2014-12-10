@@ -92,13 +92,10 @@ Formally, we define the following schema for advertisers, advertisements inserti
         \texttt{InsertionStream} & \texttt{InsertionId:INT, AdvertisementId:int, Cost:INT} \\ \hline
         \texttt{EventStream} & \texttt{EventId:INT, InsertionId:int, Type:STRING} \\ \hline
     \end{tabular}
-\label{table:schma}
 \end{minipage} }
-\caption[Table caption text]{Schema of Relations and Streams used in ``Advertising Statistics" }
+\caption[Table caption text]{Schema of Relations and Streams used in the ``Advertising Statistics" example. }
+\label{table:schema}
 \end{table}
-
-
-
 
 The two streams, \texttt{InsertionStream} and \texttt{EventStream}, are joined on \texttt{InsertionId} in order to produce rich statistical information.  For example, per-advertisement click-through rates are computed by joining \texttt{InsertionStream} and \texttt{EventStream} on \texttt{InsertionId}, grouping by \texttt{AdvertisementId}, and then computing the quotient of the sum of clicks and the sum of impressions.
 
@@ -113,9 +110,11 @@ In order to support continuous queries we have defined and implemented a set of 
 
 We now present formal definitions of a stream and a relation.
 
-\textbf{Definition (Stream)}: A stream $S$ is an unbounded set of elements $<s, t>$ where $s$ is a tuple belonging to the schema of $S$ and $t$ $\in$ $T$ is the timestamp of the element.
+\textbf{Definition (Stream)}: A stream $S$ is an unbounded set of elements $<s, \tau>$ where $s$ is a tuple belonging to the schema of $S$ and $\tau$ $\in$ $T$ is the timestamp of the element.
 
 \textbf{Definition (Relation)}:  A relation $R$ is a mapping from $T$ to a finite but unbounded set of tuples belonging to the schema of $R$.
+
+In our ``Advertising Statistics" example we process two streams of tuples.  The \texttt{InsertionStream} and \texttt{EventStream} both contained structured tuples as seen in Table~\ref{table:schema} with each tuple occuring at a discrete timestep.  A relation in this context consists of a windowed-snapshot of the stream at some timestamp $\tau$.
 
 Due to the undefined correctness conditions of applying relational operators directly to streams (for example, considering the notion of joining two streams), we first convert streams to relations through a class of operators known as Stream-to-Relation converters. Then, we are free to apply relational operations like joins, filters and aggregations over these relations produced from the streams. 
 
@@ -372,7 +371,7 @@ As expected Garbage collection drastically reduced the memory footprint of the s
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
-We have augmented SimpleDB, a static relational database, with implementations of the abstract semantics in a Continuous Query Language. The resulting SimpleCQL is our successful implementation of a streaming database management system that supports SQL-like relational operations on real-time streams. We have exemplified the motivation for such a continuous query processing system through our examples of error logs aggregations, trending tweets computations, and advertising statistics calculations. Despite being built on SimpleDB, a foundation with plenty of room for improvement and optimizations, SimpleCQL performs considerably well on these three tested workloads, all the while leaving a negligible memory footprint when processing unbounded streams of data.
+We have augmented SimpleDB, a static relational database, with implementations of the abstract semantics in a Continuous Query Language. The resulting SimpleCQL is our successful implementation of a streaming database management system that supports SQL-like relational operations on real-time streams of structured data. We have exemplified the motivation for such a continuous query processing system through our examples of error logs aggregations, trending tweets computations, and advertising statistics calculations. Despite being built on SimpleDB, a foundation with plenty of room for improvement and optimizations, SimpleCQL performs considerably well on these three tested workloads, all the while leaving a negligible memory footprint when processing unbounded streams of data.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{plain}
