@@ -23,3 +23,13 @@ ad_event.txt
 ad_insert.txt
 scripts/output.txt
 /bin1/
+
+# Annoying LaTeX files
+*.log
+*.aux
+*.synctex.gz
+*.out
+*.nav
+*.snm
+*.toc
+*.pdf
