@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  9 DEC 2014 21:42
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  10 DEC 2014 13:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -148,34 +148,89 @@ Package: graphicx 2014/04/25 v1.0g Enhanced LaTeX Graphics (DPC,SPQR)
 \Gin@req@height=\dimen118
 \Gin@req@width=\dimen119
 )
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/times.sty
+Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2013/01/14 v2.14 AMS math features
+\@mathmargin=\skip48
+
+For additional information on amsmath, use the `?' option.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks18
+\ex@=\dimen120
+))
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen121
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count91
+LaTeX Info: Redefining \frac on input line 210.
+\uproot@=\count92
+\leftroot@=\count93
+LaTeX Info: Redefining \overline on input line 306.
+\classnum@=\count94
+\DOTSCASE@=\count95
+LaTeX Info: Redefining \ldots on input line 378.
+LaTeX Info: Redefining \dots on input line 381.
+LaTeX Info: Redefining \cdots on input line 466.
+\Mathstrutbox@=\box27
+\strutbox@=\box28
+\big@size=\dimen122
+LaTeX Font Info:    Redeclaring font encoding OML on input line 566.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 567.
+\macc@depth=\count96
+\c@MaxMatrixCols=\count97
+\dotsspace@=\muskip10
+\c@parentequation=\count98
+\dspbrk@lvl=\count99
+\tag@help=\toks19
+\row@=\count100
+\column@=\count101
+\maxfields@=\count102
+\andhelp@=\toks20
+\eqnshift@=\dimen123
+\alignsep@=\dimen124
+\tagshift@=\dimen125
+\tagwidth@=\dimen126
+\totwidth@=\dimen127
+\lineht@=\dimen128
+\@envbody=\toks21
+\multlinegap=\skip49
+\multlinetaggap=\skip50
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2665.
+LaTeX Info: Redefining \] on input line 2666.
+)
 
 LaTeX Warning: Unused global option(s):
     [conference].
 
-(./SimpleCQL.aux
-
-LaTeX Warning: Label `fig:attack' multiply defined.
-
-
-LaTeX Warning: Label `fig:attack' multiply defined.
-
-)
+(./SimpleCQL.aux)
 \openout1 = `SimpleCQL.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 19.
- (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 20.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 *geometry* driver: auto-detecting
@@ -212,20 +267,19 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-\big@size=\dimen120
 (/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count91
-\scratchdimen=\dimen121
-\scratchbox=\box27
-\nofMPsegments=\count92
-\nofMParguments=\count93
-\everyMPshowfont=\toks18
-\MPscratchCnt=\count94
-\MPscratchDim=\dimen122
-\MPnumerator=\count95
-\makeMPintoPDFobject=\count96
-\everyMPtoPDFconversion=\toks19
+\scratchcounter=\count103
+\scratchdimen=\dimen129
+\scratchbox=\box29
+\nofMPsegments=\count104
+\nofMParguments=\count105
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count106
+\MPscratchDim=\dimen130
+\MPnumerator=\count107
+\makeMPintoPDFobject=\count108
+\everyMPtoPDFconversion=\toks24
 ) (/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -271,52 +325,47 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 21.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 22.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 21.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 22.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 21.
-LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 21
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 22.
+LaTeX Font Info:    Try loading font information for OT1+ztmcm on input line 22
 .
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd
 File: ot1ztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OT1/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 21
+LaTeX Font Info:    Try loading font information for OML+ztmcm on input line 22
 .
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/omlztmcm.fd
 File: omlztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OML/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 21
+LaTeX Font Info:    Try loading font information for OMS+ztmcm on input line 22
 .
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/omsztmcm.fd
 File: omsztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMS/ztmcm.
 )
-LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 21
+LaTeX Font Info:    Try loading font information for OMX+ztmcm on input line 22
 .
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/omxztmcm.fd
 File: omxztmcm.fd 2000/01/03 Fontinst v1.801 font definitions for OMX/ztmcm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 21.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 22.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 21.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 22.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 21.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 22.
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-
-Underfull \hbox (badness 6300) in paragraph at lines 45--45
- |[]\OT1/ptm/b/n/12 RUNNING EX-AM-PLE: AD-VER-TIS-
- []
-
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
@@ -326,69 +375,78 @@ Missing character: There is no ù in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 48.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 48.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 48.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 48.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 53.
-(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/omsptm.fd
-File: omsptm.fd 
-)
-LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 53.
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 53.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 1668) in paragraph at lines 53--54
-[]\OT1/ptm/m/n/10 An \OT1/ptm/m/it/10 ad-ver-tise-ment in-ser-tion \OT1/ptm/m/n
-/10 is made when an
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 53.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 53.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 53.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 53.
+
+Underfull \hbox (badness 1320) in paragraph at lines 53--54
+[]\OT1/ptm/m/n/10 An naive ad-ver-tis-ing ar-chi-tec-ture in-volves two
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 60.
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 60.
+
+Underfull \hbox (badness 2205) in paragraph at lines 60--61
+\OT1/ptm/m/n/10 and writ-ten to an \OT1/pcr/m/n/10 InsertionStream \OT1/ptm/m/n
+/10 with
  []
 
 
-Underfull \hbox (badness 1205) in paragraph at lines 53--54
-\OT1/ptm/m/n/10 and there is space for an ad. For ex-am-ple,
+Underfull \hbox (badness 2368) in paragraph at lines 60--61
+\OT1/ptm/m/n/10 rel-e-vant in-for-ma-tion such as \OT1/pcr/m/n/10 InsertionId\O
+T1/ptm/m/n/10 ,
  []
 
 [1{/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 ]
-Underfull \hbox (badness 7116) in paragraph at lines 61--66
-[]\OT1/ptm/m/n/10 Formally, we de-fine the fol-low-ing schema:
+LaTeX Font Info:    Try loading font information for OMS+pcr on input line 70.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/omspcr.fd
+File: omspcr.fd 
+)
+LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 70.
+
+Underfull \hbox (badness 10000) in paragraph at lines 70--71
+[]\OT1/pcr/m/n/10 Advertiser\OMS/cmsy/m/n/10 f\OT1/pcr/m/n/10 AdvertiserId:INT,
+
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--66
-\OT1/ptm/m/n/10 Ad-ver-tiser\OMS/cmsy/m/n/10 f\OT1/ptm/m/n/10 AdvertiserId:INT,
- Name:STRING\OMS/cmsy/m/n/10 g
+Underfull \hbox (badness 10000) in paragraph at lines 72--73
+[]\OT1/pcr/m/n/10 Advertisement\OMS/cmsy/m/n/10 f\OT1/pcr/m/n/10 AdvertisementI
+d:INT,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--66
-\OT1/ptm/m/n/10 Ad-ver-tise-ment\OMS/cmsy/m/n/10 f\OT1/ptm/m/n/10 Advertisement
-Id:INT, Ad-
+Underfull \hbox (badness 10000) in paragraph at lines 74--75
+[]\OT1/pcr/m/n/10 InsertionStream\OMS/cmsy/m/n/10 f\OT1/pcr/m/n/10 InsertionId:
+INT,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--66
-\OT1/ptm/m/n/10 ver-tis-erId:INT, Text:STRING\OMS/cmsy/m/n/10 g \OT1/ptm/m/n/10
- In-ser-tion-
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
+[]\OT1/pcr/m/n/10 EventStream\OMS/cmsy/m/n/10 f\OT1/pcr/m/n/10 EventId:INT,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--66
-\OT1/ptm/m/n/10 Stream\OMS/cmsy/m/n/10 f\OT1/ptm/m/n/10 InsertionId:INT, Ad-ver
--tise-men-tId:int,
- []
-
-
-Underfull \hbox (badness 6252) in paragraph at lines 67--68
+Underfull \hbox (badness 6252) in paragraph at lines 78--79
 []\OT1/ptm/m/n/10 The two streams, \OT1/pcr/m/n/10 InsertionStream \OT1/ptm/m/n
 /10 and
  []
@@ -400,71 +458,102 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 74.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 86.
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
+[2]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 
-Underfull \hbox (badness 1953) in paragraph at lines 93--94
+Underfull \hbox (badness 1953) in paragraph at lines 109--110
 []\OT1/ptm/m/n/10 Weve im-ple-mented three dif-fer-ent Relation-to-
  []
 
 
-Underfull \hbox (badness 1895) in paragraph at lines 95--96
+Underfull \hbox (badness 1895) in paragraph at lines 111--112
 \OT1/ptm/m/n/10 IStreams, and RStreams are ag-gre-gated IStreams--
  []
 
-[2]
-Underfull \hbox (badness 10000) in paragraph at lines 100--101
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
 []\OT1/ptm/b/n/10 Deletion Streams\OT1/ptm/m/n/10 : At ev-ery in-cre-ment-ing
  []
 
 <operators.png, id=17, 864.22874pt x 309.155pt>
 File: operators.png Graphic file (type png)
  <use operators.png>
-Package pdftex.def Info: operators.png used on input line 109.
+Package pdftex.def Info: operators.png used on input line 126.
 (pdftex.def)             Requested size: 198.84755pt x 71.13188pt.
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 110.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 127.
 
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
 )
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <10> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 110.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 127.
 
-Underfull \hbox (badness 5022) in paragraph at lines 139--140
+Underfull \hbox (badness 2913) in paragraph at lines 136--137
+[]\OT1/ptm/m/n/10 SimpleCQL is built on top of Sim-pleDB, a
+ []
+
+
+Underfull \vbox (badness 3826) has occurred while \output is active []
+
+ [3 <./operators.png>]
+Underfull \hbox (badness 5022) in paragraph at lines 158--159
 []\OT1/ptm/m/n/10 We im-ple-mented both a time-based Stream-
  []
 
 
-Underfull \hbox (badness 1590) in paragraph at lines 139--140
+Underfull \hbox (badness 1590) in paragraph at lines 158--159
 \OT1/ptm/m/n/10 to-Relation con-verter and a tuple-based Stream-to-
  []
 
-<time_window.png, id=18, 624.3325pt x 330.23375pt>
+<time_window.png, id=22, 624.3325pt x 330.23375pt>
 File: time_window.png Graphic file (type png)
  <use time_window.png>
-Package pdftex.def Info: time_window.png used on input line 145.
+Package pdftex.def Info: time_window.png used on input line 164.
 (pdftex.def)             Requested size: 215.1663pt x 113.81102pt.
 
-<tuple_window.png, id=19, 513.92pt x 327.2225pt>
+Underfull \hbox (badness 1931) in paragraph at lines 165--165
+[]\OT1/phv/b/n/10 Figure 2. Ex-am-ple time-based Stream-to-
+ []
+
+
+Underfull \hbox (badness 3919) in paragraph at lines 165--165
+\OT1/phv/b/n/10 Relation con-verter: win-dowed re-la-tion at
+ []
+
+<tuple_window.png, id=23, 513.92pt x 327.2225pt>
 File: tuple_window.png Graphic file (type png)
  <use tuple_window.png>
-Package pdftex.def Info: tuple_window.png used on input line 154.
+Package pdftex.def Info: tuple_window.png used on input line 173.
 (pdftex.def)             Requested size: 178.74547pt x 113.81102pt.
 
-[3 <./operators.png>] <stream_converter.png, id=24, 832.10875pt x 293.095pt>
+Underfull \hbox (badness 1292) in paragraph at lines 174--174
+[]\OT1/phv/b/n/10 Figure 3. Ex-am-ple tuple-based Stream-to-
+ []
+
+
+Underfull \hbox (badness 3919) in paragraph at lines 174--174
+\OT1/phv/b/n/10 Relation con-verter: win-dowed re-la-tion at
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [4 <./time_window.png> <./tuple_window.png>]
+<stream_converter.png, id=27, 832.10875pt x 293.095pt>
 File: stream_converter.png Graphic file (type png)
 
 <use stream_converter.png>
-Package pdftex.def Info: stream_converter.png used on input line 175.
+Package pdftex.def Info: stream_converter.png used on input line 193.
 (pdftex.def)             Requested size: 242.3338pt x 85.35826pt.
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
@@ -472,47 +561,36 @@ Missing character: There is no ô in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
- [4 <./time_window.png> <./tuple_window.png> <./stream_converter.png>]
-LaTeX Font Info:    Try loading font information for OMS+pcr on input line 198.
-
-
-(/usr/local/texlive/2014/texmf-dist/tex/latex/psnfss/omspcr.fd
-File: omspcr.fd 
-)
-LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 198.
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+ [5 <./stream_converter.png>]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ú in font ptmr7t!
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font pcrr7t!
-Missing character: There is no Ä in font pcrr7t!
-Missing character: There is no ò in font pcrr7t!
-Missing character: There is no ‚ in font pcrr7t!
-Missing character: There is no Ä in font pcrr7t!
-Missing character: There is no ô in font pcrr7t!
 
-Overfull \hbox (36.67313pt too wide) in paragraph at lines 207--207
-[]\OT1/pcr/m/n/10 WHERE LogStream.Message LIKE %failed login%[] 
+Overfull \hbox (48.67313pt too wide) in paragraph at lines 240--240
+[]\OT1/pcr/m/n/10 WHERE LogStream.Message LIKE "%failed login%"[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 209--210
+Underfull \hbox (badness 10000) in paragraph at lines 242--243
 []\OT1/ptm/m/n/10 Data for the \OT1/pcr/m/n/10 LogStream \OT1/ptm/m/n/10 was ge
 n-er-ated
  []
 
 
-Underfull \hbox (badness 3312) in paragraph at lines 209--210
+Underfull \hbox (badness 3312) in paragraph at lines 242--243
 \OT1/ptm/m/n/10 prior to run-ning tests and read us-ing a cus-tom
  []
 
-<attack.png, id=28, 602.25pt x 372.39125pt>
+<attack.png, id=31, 602.25pt x 372.39125pt>
 File: attack.png Graphic file (type png)
  <use attack.png>
-Package pdftex.def Info: attack.png used on input line 213.
+Package pdftex.def Info: attack.png used on input line 246.
 (pdftex.def)             Requested size: 230.07959pt x 142.26378pt.
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
@@ -521,29 +599,29 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ù in font ptmr7t!
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
 []\OT1/ptm/m/n/10 In this ex-am-ple, we con-sider a stream
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
 \OT1/ptm/m/n/10 of Twit-ter tweets, \OT1/pcr/m/n/10 TweetStream\OT1/ptm/m/n/10 
 . We
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
 \OT1/ptm/m/n/10 for-mally de-fine the schema of the stream
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
 \OT1/ptm/m/n/10 as: \OT1/pcr/m/n/10 TweetStream\OMS/cmsy/m/n/10 f\OT1/pcr/m/n/1
 0 Text:STRING,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 223--224
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
 \OT1/pcr/m/n/10 Hashtag:STRING, Location:STRING\OMS/cmsy/m/n/10 g\OT1/ptm/m/n/1
 0 .
  []
@@ -554,109 +632,123 @@ Missing character: There is no ò in font pcrr7t!
 Missing character: There is no ‚ in font pcrr7t!
 Missing character: There is no Ä in font pcrr7t!
 Missing character: There is no ô in font pcrr7t!
-<trending.png, id=30, 602.25pt x 372.39125pt>
+<trending.png, id=33, 602.25pt x 372.39125pt>
 File: trending.png Graphic file (type png)
  <use trending.png>
-Package pdftex.def Info: trending.png used on input line 240.
+Package pdftex.def Info: trending.png used on input line 274.
 (pdftex.def)             Requested size: 230.07959pt x 142.26378pt.
 
-Underfull \hbox (badness 1484) in paragraph at lines 246--247
+Underfull \hbox (badness 1325) in paragraph at lines 281--282
+\OT1/ptm/m/n/10 through-put of Sim-pleDB is ap-prox-i-mately 35k tu-
+ []
+
+
+Underfull \hbox (badness 1484) in paragraph at lines 284--285
 \OT1/ptm/m/n/10 de-tail in sec-tion 2, in-volves join-ing ad-ver-tise-ment
  []
 
 
-Underfull \hbox (badness 2142) in paragraph at lines 246--247
+Underfull \hbox (badness 2142) in paragraph at lines 284--285
 \OT1/ptm/m/n/10 in-ser-tions across two dis-parate streams. Specif-i-
  []
 
 
-Underfull \hbox (badness 1502) in paragraph at lines 246--247
+Underfull \hbox (badness 1502) in paragraph at lines 284--285
 \OT1/ptm/m/n/10 cally a stream of ad-ver-tise-ment in-ser-tions, known
  []
 
-[5 <./attack.png> <./trending.png>]
-Overfull \hbox (30.67313pt too wide) in paragraph at lines 262--262
+[6 <./attack.png> <./trending.png>]
+Overfull \hbox (30.67313pt too wide) in paragraph at lines 300--300
 []    \OT1/pcr/m/n/10 SELECT ISTREAM(advertisement_id, type)[] 
  []
 
 
-Overfull \hbox (30.67313pt too wide) in paragraph at lines 262--262
+Overfull \hbox (30.67313pt too wide) in paragraph at lines 300--300
 []    \OT1/pcr/m/n/10 FROM InsertStream [Range 600 seconds],[] 
  []
 
 
-Overfull \hbox (0.67313pt too wide) in paragraph at lines 262--262
+Overfull \hbox (0.67313pt too wide) in paragraph at lines 300--300
 []         \OT1/pcr/m/n/10 EventStream [Range 1 second][] 
  []
 
 
-Overfull \hbox (0.67313pt too wide) in paragraph at lines 262--262
+Overfull \hbox (0.67313pt too wide) in paragraph at lines 300--300
 []    \OT1/pcr/m/n/10 WHERE InsertStream.insertion_id =[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 264--265
+Underfull \hbox (badness 10000) in paragraph at lines 302--303
 []\OT1/ptm/m/n/10 Data for the \OT1/pcr/m/n/10 InsertionStream \OT1/ptm/m/n/10 
 and
  []
 
 
-Underfull \hbox (badness 6510) in paragraph at lines 264--265
+Underfull \hbox (badness 6510) in paragraph at lines 302--303
 \OT1/pcr/m/n/10 EventStream \OT1/ptm/m/n/10 was gen-er-ated prior to run-ning
  []
 
 
-Underfull \hbox (badness 1917) in paragraph at lines 264--265
+Underfull \hbox (badness 1917) in paragraph at lines 302--303
 \OT1/ptm/m/n/10 tests. The data gen-er-ated rep-re-sents 30 min-utes
  []
 
 
-Underfull \hbox (badness 6332) in paragraph at lines 264--265
+Underfull \hbox (badness 6332) in paragraph at lines 302--303
 \OT1/pcr/m/n/10 InsertionStream \OT1/ptm/m/n/10 may have a cor-re-spond-ing
  []
 
-<ads.png, id=36, 602.25pt x 372.39125pt>
+<ads.png, id=39, 602.25pt x 372.39125pt>
 File: ads.png Graphic file (type png)
  <use ads.png>
-Package pdftex.def Info: ads.png used on input line 268.
+Package pdftex.def Info: ads.png used on input line 306.
 (pdftex.def)             Requested size: 230.07959pt x 142.26378pt.
- (./SimpleCQL.bbl
+
+Underfull \hbox (badness 2245) in paragraph at lines 307--307
+[]\OT1/phv/b/n/10 Figure 7. Per-for-mance of Sim-pleDB and
+ []
+
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ú in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ù in font ptmr7t!
+(./SimpleCQL.bbl
 Overfull \hbox (4.0265pt too wide) in paragraph at lines 4--5
 []\OT1/ptm/m/n/9 Storm: http://storm.apache.org/documentation/home.html. 
  []
 
 
-Underfull \hbox (badness 3375) in paragraph at lines 29--35
+Underfull \hbox (badness 3375) in paragraph at lines 37--43
 []\OT1/ptm/m/n/9 Matei Za-haria, Tatha-gata Das, Haoyuan Li, Scott
  []
 
-) [6 <./ads.png>] (./SimpleCQL.aux)
+[7 <./ads.png>]) [8
 
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+] (./SimpleCQL.aux) ) 
 Here is how much of TeX's memory you used:
- 2683 strings out of 493117
- 39034 string characters out of 6135433
- 106121 words of memory out of 5000000
- 6065 multiletter control sequences out of 15000+600000
+ 3278 strings out of 493117
+ 45952 string characters out of 6135433
+ 117510 words of memory out of 5000000
+ 6642 multiletter control sequences out of 15000+600000
  50128 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 37i,9n,28p,968b,238s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
-xlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
-ive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texli
-ve/2014/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2014/
-texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/texlive/2014/texmf-d
-ist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2014/texmf-dist/fonts/t
-ype1/urw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/t
-imes/utmr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/times/utmri
-8a.pfb>
-Output written on SimpleCQL.pdf (6 pages, 233822 bytes).
+ 38i,9n,28p,974b,249s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8
+r.enc}</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10
+.pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.p
+fb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
+b></usr/local/texlive/2014/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/
+local/texlive/2014/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/local/t
+exlive/2014/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2014
+/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dis
+t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/ty
+pe1/urw/times/utmri8a.pfb>
+Output written on SimpleCQL.pdf (8 pages, 239941 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
- 43 compressed objects within 1 object stream
+ 79 PDF objects out of 1000 (max. 8388607)
+ 49 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  36 words of extra memory for PDF output out of 10000 (max. 10000000)
 

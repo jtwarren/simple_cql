@@ -18,6 +18,14 @@ Arvind Arasu, Shivnath Babu, and Jennifer Widom.
   execution.
 \newblock {\em The VLDB Journal}, 15(2):121--142, June 2006.
 
+\bibitem{linear}
+Arvind Arasu, Mitch Cherniack, Eduardo Galvez, David Maier, Anurag~S. Maskey,
+  Esther Ryvkina, Michael Stonebraker, and Richard Tibbetts.
+\newblock Linear road: A stream data management benchmark.
+\newblock In {\em Proceedings of the Thirtieth International Conference on Very
+  Large Data Bases - Volume 30}, VLDB '04, pages 480--491. VLDB Endowment,
+  2004.
+
 \bibitem{simpledb}
 Edward Sciore.
 \newblock Simpledb: A simple java-based multi-user system for teaching database
