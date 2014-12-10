@@ -27,10 +27,9 @@
 
 \newcommand{\unit}[1]{\ensuremath{\, \mathrm{#1}}}
 
-\title{\LARGE \bf
-SimpleCQL: A Continuous Query Language for SimpleDB
-}
+\setlength\parindent{10pt}
 
+\title{\LARGE \bf SimpleCQL: A Continuous Query Language for SimpleDB}
 \author{Deepak Narayanan, Tuan Andrew Nguyen, Jeffrey Warren}
 
 \begin{document}
@@ -249,7 +248,6 @@ For now, we have only implemented the time based garbage collection policy. Effe
 \section{Evaluation}
 Benchmarks of SimpleCQL were performed on an AWS Compute Optimized (c3.8xlarge) instance with 60 GiB of memory, 32 vCPUs, 640 GB of SSD-based local instance storage, and a 64-bit platform.  When applicable, SimpleCQL performance was compared to that of SimpleDB and the continuous workload of SimpleCQL is shown to outperform equivalent discretized workloads of SimpleDB.  
 
-\subsection{Testing Conditions}
 SimpleDB was intended to be a toy database designed for teaching core concepts of database internals.  As such, the performance of both SimpleDB and SimpleCQL suffer from a lack of optimizations.  However, we made sure to use the same underlying operations when benchmarking both SimpleDB and SimpleCQL, as well as holding many other factors constant to make for a fair comparison. For example, we configured SimpleDB to not have to write inserted tuples to disk because SimpleCQL operates entirely in-memory. Further, SimpleDB does not use an index because there is no indexing in SimpleCQL at all. With these kinds of controls in place, we anticipate our experimental results will closely delineate the performance differences between SimpleDB and SimpleCQL.
 
 Many of the benchmark tests were run over $D = 1800$ timesteps, and the number of tuples per timestep $R$ was used to vary the work density per timestep.  We measured the time $T$ it took to process $D$ timesteps with respect to $R$.  Equation~\ref{eq:throughput} is used to estimate the projected throughput of the system.
