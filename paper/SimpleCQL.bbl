@@ -1,0 +1,36 @@
+\begin{thebibliography}{1}
+
+\bibitem{storm}
+Storm: http://storm.apache.org/documentation/home.html.
+
+\bibitem{photon}
+Rajagopal Ananthanarayanan, Venkatesh Basker, Sumit Das, Ashish Gupta, Haifeng
+  Jiang, Tianhao Qiu, Alexey Reznichenko, Deomid Ryabkov, Manpreet Singh, and
+  Shivakumar Venkataraman.
+\newblock Photon: Fault-tolerant and scalable joining of continuous data
+  streams.
+\newblock In {\em SIGMOD '13: Proceedings of the 2013 international conference
+  on Management of data}, pages 577--588, New York, NY, USA, 2013.
+
+\bibitem{cql}
+Arvind Arasu, Shivnath Babu, and Jennifer Widom.
+\newblock The cql continuous query language: Semantic foundations and query
+  execution.
+\newblock {\em The VLDB Journal}, 15(2):121--142, June 2006.
+
+\bibitem{simpledb}
+Edward Sciore.
+\newblock Simpledb: A simple java-based multi-user system for teaching database
+  internals.
+\newblock In {\em Proceedings of the 28th SIGCSE Technical Symposium on
+  Computer Science Education}, pages 561--565, 2007.
+
+\bibitem{spark_streaming}
+Matei Zaharia, Tathagata Das, Haoyuan Li, Scott Shenker, and Ion Stoica.
+\newblock Discretized streams: An efficient and fault-tolerant model for stream
+  processing on large clusters.
+\newblock In {\em Proceedings of the 4th USENIX Conference on Hot Topics in
+  Cloud Ccomputing}, HotCloud'12, pages 10--10, Berkeley, CA, USA, 2012. USENIX
+  Association.
+
+\end{thebibliography}
