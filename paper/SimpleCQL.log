@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  10 DEC 2014 13:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2014.5.25)  10 DEC 2014 13:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -362,18 +362,6 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 22.
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 53.
 
@@ -451,20 +439,8 @@ Underfull \hbox (badness 6252) in paragraph at lines 78--79
 /10 and
  []
 
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 86.
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
 [2]
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
@@ -565,63 +541,50 @@ Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
 Missing character: There is no ô in font ptmr7t!
  [5 <./stream_converter.png>]
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-
-Overfull \hbox (48.67313pt too wide) in paragraph at lines 240--240
+Overfull \hbox (48.67313pt too wide) in paragraph at lines 239--239
 []\OT1/pcr/m/n/10 WHERE LogStream.Message LIKE "%failed login%"[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 242--243
+Underfull \hbox (badness 10000) in paragraph at lines 241--242
 []\OT1/ptm/m/n/10 Data for the \OT1/pcr/m/n/10 LogStream \OT1/ptm/m/n/10 was ge
 n-er-ated
  []
 
 
-Underfull \hbox (badness 3312) in paragraph at lines 242--243
+Underfull \hbox (badness 3312) in paragraph at lines 241--242
 \OT1/ptm/m/n/10 prior to run-ning tests and read us-ing a cus-tom
  []
 
 <attack.png, id=31, 602.25pt x 372.39125pt>
 File: attack.png Graphic file (type png)
  <use attack.png>
-Package pdftex.def Info: attack.png used on input line 246.
+Package pdftex.def Info: attack.png used on input line 245.
 (pdftex.def)             Requested size: 230.07959pt x 142.26378pt.
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--259
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 []\OT1/ptm/m/n/10 In this ex-am-ple, we con-sider a stream
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--259
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 \OT1/ptm/m/n/10 of Twit-ter tweets, \OT1/pcr/m/n/10 TweetStream\OT1/ptm/m/n/10 
 . We
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--259
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 \OT1/ptm/m/n/10 for-mally de-fine the schema of the stream
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--259
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 \OT1/ptm/m/n/10 as: \OT1/pcr/m/n/10 TweetStream\OMS/cmsy/m/n/10 f\OT1/pcr/m/n/1
 0 Text:STRING,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 258--259
+Underfull \hbox (badness 10000) in paragraph at lines 257--258
 \OT1/pcr/m/n/10 Hashtag:STRING, Location:STRING\OMS/cmsy/m/n/10 g\OT1/ptm/m/n/1
 0 .
  []
@@ -635,106 +598,111 @@ Missing character: There is no ô in font pcrr7t!
 <trending.png, id=33, 602.25pt x 372.39125pt>
 File: trending.png Graphic file (type png)
  <use trending.png>
-Package pdftex.def Info: trending.png used on input line 274.
+Package pdftex.def Info: trending.png used on input line 273.
 (pdftex.def)             Requested size: 230.07959pt x 142.26378pt.
 
-Underfull \hbox (badness 1325) in paragraph at lines 281--282
+Underfull \hbox (badness 1325) in paragraph at lines 280--281
 \OT1/ptm/m/n/10 through-put of Sim-pleDB is ap-prox-i-mately 35k tu-
  []
 
 
-Underfull \hbox (badness 1484) in paragraph at lines 284--285
+Underfull \hbox (badness 1484) in paragraph at lines 283--284
 \OT1/ptm/m/n/10 de-tail in sec-tion 2, in-volves join-ing ad-ver-tise-ment
  []
 
 
-Underfull \hbox (badness 2142) in paragraph at lines 284--285
+Underfull \hbox (badness 2142) in paragraph at lines 283--284
 \OT1/ptm/m/n/10 in-ser-tions across two dis-parate streams. Specif-i-
  []
 
 
-Underfull \hbox (badness 1502) in paragraph at lines 284--285
+Underfull \hbox (badness 1502) in paragraph at lines 283--284
 \OT1/ptm/m/n/10 cally a stream of ad-ver-tise-ment in-ser-tions, known
  []
 
 [6 <./attack.png> <./trending.png>]
-Overfull \hbox (30.67313pt too wide) in paragraph at lines 300--300
+Overfull \hbox (30.67313pt too wide) in paragraph at lines 299--299
 []    \OT1/pcr/m/n/10 SELECT ISTREAM(advertisement_id, type)[] 
  []
 
 
-Overfull \hbox (30.67313pt too wide) in paragraph at lines 300--300
+Overfull \hbox (30.67313pt too wide) in paragraph at lines 299--299
 []    \OT1/pcr/m/n/10 FROM InsertStream [Range 600 seconds],[] 
  []
 
 
-Overfull \hbox (0.67313pt too wide) in paragraph at lines 300--300
+Overfull \hbox (0.67313pt too wide) in paragraph at lines 299--299
 []         \OT1/pcr/m/n/10 EventStream [Range 1 second][] 
  []
 
 
-Overfull \hbox (0.67313pt too wide) in paragraph at lines 300--300
+Overfull \hbox (0.67313pt too wide) in paragraph at lines 299--299
 []    \OT1/pcr/m/n/10 WHERE InsertStream.insertion_id =[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 302--303
+Underfull \hbox (badness 10000) in paragraph at lines 301--302
 []\OT1/ptm/m/n/10 Data for the \OT1/pcr/m/n/10 InsertionStream \OT1/ptm/m/n/10 
 and
  []
 
 
-Underfull \hbox (badness 6510) in paragraph at lines 302--303
+Underfull \hbox (badness 6510) in paragraph at lines 301--302
 \OT1/pcr/m/n/10 EventStream \OT1/ptm/m/n/10 was gen-er-ated prior to run-ning
  []
 
 
-Underfull \hbox (badness 1917) in paragraph at lines 302--303
+Underfull \hbox (badness 1917) in paragraph at lines 301--302
 \OT1/ptm/m/n/10 tests. The data gen-er-ated rep-re-sents 30 min-utes
  []
 
 
-Underfull \hbox (badness 6332) in paragraph at lines 302--303
+Underfull \hbox (badness 6332) in paragraph at lines 301--302
 \OT1/pcr/m/n/10 InsertionStream \OT1/ptm/m/n/10 may have a cor-re-spond-ing
  []
 
 <ads.png, id=39, 602.25pt x 372.39125pt>
 File: ads.png Graphic file (type png)
  <use ads.png>
-Package pdftex.def Info: ads.png used on input line 306.
+Package pdftex.def Info: ads.png used on input line 305.
 (pdftex.def)             Requested size: 230.07959pt x 142.26378pt.
 
-Underfull \hbox (badness 2245) in paragraph at lines 307--307
+Underfull \hbox (badness 2245) in paragraph at lines 306--306
 []\OT1/phv/b/n/10 Figure 7. Per-for-mance of Sim-pleDB and
  []
 
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-(./SimpleCQL.bbl
-Overfull \hbox (4.0265pt too wide) in paragraph at lines 4--5
-[]\OT1/ptm/m/n/9 Storm: http://storm.apache.org/documentation/home.html. 
+<ads_window.png, id=40, 602.25pt x 372.39125pt>
+File: ads_window.png Graphic file (type png)
+ <use ads_window.png>
+Package pdftex.def Info: ads_window.png used on input line 312.
+(pdftex.def)             Requested size: 230.07959pt x 142.26378pt.
+
+Underfull \hbox (badness 2245) in paragraph at lines 313--313
+[]\OT1/phv/b/n/10 Figure 8. Per-for-mance of Sim-pleDB and
+ []
+
+(./SimpleCQL.bbl [7 <./ads.png> <./ads_window.png>]
+Overfull \hbox (32.52039pt too wide) in paragraph at lines 34--36
+[]\OT1/ptm/m/n/9 Apache Storm.  http://storm.apache.org/documentation/home.html
+. 
  []
 
 
-Underfull \hbox (badness 3375) in paragraph at lines 37--43
+Underfull \hbox (badness 3375) in paragraph at lines 38--44
 []\OT1/ptm/m/n/9 Matei Za-haria, Tatha-gata Das, Haoyuan Li, Scott
  []
 
-[7 <./ads.png>]) [8
+) [8
 
 ] (./SimpleCQL.aux) ) 
 Here is how much of TeX's memory you used:
- 3278 strings out of 493117
- 45952 string characters out of 6135433
- 117510 words of memory out of 5000000
- 6642 multiletter control sequences out of 15000+600000
+ 3284 strings out of 493117
+ 46057 string characters out of 6135433
+ 117518 words of memory out of 5000000
+ 6647 multiletter control sequences out of 15000+600000
  50128 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,9n,28p,974b,249s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 38i,9n,28p,974b,253s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2014/texmf-dist/fonts/enc/dvips/base/8
 r.enc}</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10
 .pfb></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.p
@@ -745,10 +713,10 @@ exlive/2014/texmf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/local/texlive/2014
 /texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2014/texmf-dis
 t/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2014/texmf-dist/fonts/ty
 pe1/urw/times/utmri8a.pfb>
-Output written on SimpleCQL.pdf (8 pages, 239941 bytes).
+Output written on SimpleCQL.pdf (8 pages, 256831 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
+ 81 PDF objects out of 1000 (max. 8388607)
  49 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

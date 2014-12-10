@@ -1,8 +1,5 @@
 \begin{thebibliography}{1}
 
-\bibitem{storm}
-Storm: http://storm.apache.org/documentation/home.html.
-
 \bibitem{photon}
 Rajagopal Ananthanarayanan, Venkatesh Basker, Sumit Das, Ashish Gupta, Haifeng
   Jiang, Tianhao Qiu, Alexey Reznichenko, Deomid Ryabkov, Manpreet Singh, and
@@ -32,6 +29,10 @@ Edward Sciore.
   internals.
 \newblock In {\em Proceedings of the 28th SIGCSE Technical Symposium on
   Computer Science Education}, pages 561--565, 2007.
+
+\bibitem{storm}
+Apache Storm.
+\newblock http://storm.apache.org/documentation/home.html.
 
 \bibitem{spark_streaming}
 Matei Zaharia, Tathagata Das, Haoyuan Li, Scott Shenker, and Ion Stoica.
