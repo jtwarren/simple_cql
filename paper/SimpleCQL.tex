@@ -23,6 +23,7 @@
   morekeywords={Range}
   captionpos=b,
 }
+\usepackage[font=small,labelfont=bf]{caption}
 
 \newcommand{\unit}[1]{\ensuremath{\, \mathrm{#1}}}
 
@@ -42,9 +43,9 @@ SimpleCQL: A Continuous Query Language for SimpleDB
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{abstract}
 
-SimpleCQL is an extension to SimpleDB \cite{simpledb} that includes continuous query semantics introduced in CQL \cite{cql}. SimpleCQL supports a wide range of complex SQL-like queries over continuous, unbounded streams of data.  We illustrate the versatility of SimpleCQL through three primary examples -- aggregation of key statistics from real-time error logs, computation of trends in real-time tweets, and computation of advertising statistics.  We benchmark SimpleCQL on these examples, rather than those used to benchmark Stream Data Management Systems (SDMS) such as Linear Road \cite{linear}, though we do think with minor adjustments we would be able to support the Linear Road benchmark.
+SimpleCQL is an extension to SimpleDB \cite{simpledb} that includes continuous query semantics introduced in CQL \cite{cql}. SimpleCQL supports a wide range of complex SQL-like queries over continuous, unbounded streams of data.  We illustrate the versatility of SimpleCQL through three primary examples -- aggregation of key statistics from real-time error logs, computation of trends in real-time tweets, and computation of advertising statistics.  We benchmark SimpleCQL on these examples, rather than those used to benchmark Stream Data Management Systems (SDMS) such as Linear Road \cite{linear}, though only minor adjustments are needed in able to support the Linear Road benchmark.
 
-We evaluate SimpleCQL and show that its performance is on par with many other stream processing systems.  SimpleCQL achieves real-time processing speeds of up to 400k tuples per second on our benchmarks.
+We evaluate SimpleCQL and show that its performance is on par with many other stream processing systems.  SimpleCQL is able to achieve real-time processing speeds of up to 400k tuples per second on our benchmarks, and supports complex stream processing queries.
 
 \end{abstract}
 
@@ -352,6 +353,13 @@ The projected throughput of SimpleCQL is approximately 8k tuples/second, whereas
 
 \subsection{Garbage Collection}
 As expected Garbage collection drastically reduced the memory footprint of the system, but reduced performance slightly. These points are better illustrated in the following graphs, which were produced using our LiveStreamReader.
+
+\begin{figure}[tpH!]
+    \centering
+    \centerline{\includegraphics[totalheight=5cm]{gc_perf.png}}
+    \caption{TODO.}
+    \label{fig:gc_perf}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
