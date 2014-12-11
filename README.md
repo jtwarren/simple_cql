@@ -4,4 +4,4 @@ SimpleCQL is an extension to SimpleDB that introduces continuous query semantics
 
 We evaluate SimpleCQL and show that its performance is on par with most stream-processing systems.  SimpleCQL achieves real-time processing speeds of up to 400k tuples/second based on our benchmarks.  Furthermore, this system allows for the processing of complex queries against streaming data.
 
-The full paper can be found [here](./paper/SimpleCQL.pdf).
+This system was built for MIT's 6.830 Database Systems class and the fina paper can be found [here](https://github.com/jtwarren/simple_cql/raw/master/paper/SimpleCQL.pdf).
