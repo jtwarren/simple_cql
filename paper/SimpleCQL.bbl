@@ -32,7 +32,7 @@ Edward Sciore.
 
 \bibitem{storm}
 Apache Storm.
-\newblock http://storm.apache.org/documentation/home.html.
+\newblock https://storm.apache.org/.
 
 \bibitem{spark_streaming}
 Matei Zaharia, Tathagata Das, Haoyuan Li, Scott Shenker, and Ion Stoica.

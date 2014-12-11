@@ -99,9 +99,7 @@ It should be noted that there can often be a delay of up to several minutes betw
 It does not seem straightforward to apply relation operators directly to streams.  It seems necessary to reason about continuous semantics.  Prior work defines a comprehensive abstract semantic foundation for continuous query execution \cite{cql}.  The abstract semantics defined in the CQL paper define two data types and three classes of operators.  SimpleCQL is built on these same constructs.
 
 \subsection{Data Types}
-In order to support continuous queries we have defined and implemented a set of streaming primitives: streams and relations. It should be noted that both streams and relations have traditional fixed, but not necessarily equal, schemas.
-
-We now present formal definitions of a stream and a relation.
+Two data types that are important for stream processing are \textit{streams} and \textit{relations}.  These two data types act as primatives for the streaming semantics and become building blocks for continuous queries.  It should be noted that both streams and relations have fixed schemas. We now present formal definitions of a stream and a relation.
 
 \begin{description}
   \item[Stream] \hfill \\
@@ -111,7 +109,7 @@ We now present formal definitions of a stream and a relation.
   A relation $R$ is a mapping from $T$ to a finite but unbounded set of tuples belonging to the schema of $R$.
 \end{description}
 
-The ``Advertisement Statistics'' example consists of two streams.  \texttt{InsertionStream} and \texttt{EventStream} both contained structured tuples with schemas defined in Table~\ref{table:schema} with each tuple occuring at a discrete timestep, $\tau$.  A relation in this context consists of a windowed-snapshot of the stream at some timestamp $\tau$.  Relations in the ``Advertisement Statistics'' example are used to compute joins and aggregate statistics.
+The ``Advertisement Statistics'' example consists of two streams.  \texttt{InsertionStream} and \texttt{EventStream} both contain structured tuples, each occuring at a discrete timestep $\tau$. The streams have schemas defined in Table~\ref{table:schema}.  A relation in this context consists of a time-based or tuple-based windowed-snapshot of the stream at some timestamp $\tau$.  Relations in the ``Advertisement Statistics'' example are used to compute joins and aggregate statistics.
 
 \subsection{Stream-to-Relation Converters}
 Converting a stream to a relation can be done by windowing the stream over some interval.  This interval might be a range in terms of time or tuples.  SimpleCQL implements two such converters.
@@ -135,15 +133,15 @@ Converting from a relation to a stream can be done in several ways.  A relation 
 
 \begin{description}
     \item[Insertion Streams] \hfill \\
-    At every timestep $\tau$ an insertion stream consists of all tuples that were in a relation at timestep $\tau$ but were not in the relation at timestep $\tau - 1$.  Informally this is the set of tuples that were ``inserted'' into a relation at timestep $\tau$.
+    At every timestep $\tau$ an insertion stream consists of all tuples that were in a relation at timestep $\tau$ but were not in the relation at timestep $\tau - 1$.  Informally this is the set of tuples that were ``inserted'' into a relation at timestep $\tau$. Formally,
     $$\text{IStream}(R) = \bigcup_{\tau \geq 0} ((R(\tau) - R(\tau - 1)) \times \{\tau\})$$
 
     \item[Deletion Streams] \hfill \\
-    At every timestep $\tau$ a deletion stream consists of all tuples that were in a relation at time $\tau - 1$ but are not in the relation at time $\tau$. Informally this is the set of tuples that were ``deleted'' from a relation at timestep $\tau$.
+    At every timestep $\tau$ a deletion stream consists of all tuples that were in a relation at time $\tau - 1$ but are not in the relation at time $\tau$. Informally this is the set of tuples that were ``deleted'' from a relation at timestep $\tau$. Formally, 
     $$\text{DStream}(R) = \bigcup_{\tau > 0} ((R(\tau - 1) - R(\tau)) \times \{\tau\})$$
 
     \item[Relation Streams] \hfill \\
-    At every timestep $\tau$ a relation stream consists of all of the tuples that were in a relation at time $\tau$.  Informally this is the set of tuples that were in a relation at timestep $\tau$.
+    At every timestep $\tau$ a relation stream consists of all of the tuples that were in a relation at time $\tau$.  Informally this is the set of tuples that were in a relation at timestep $\tau$. Formally, 
     $$\text{RStream}(R) = \bigcup_{\tau \geq 0} (R(\tau) \times \{\tau\})$$
 
 \end{description}
@@ -156,7 +154,7 @@ Streams can be processed by combining the aforementioned operators.  An incoming
 \begin{figure}[h!]
     \centering
     \centerline{\includegraphics[totalheight=2.5cm]{operators.png}}
-    \caption{Figure showing how a query that takes a stream as input and emits a stream as output is executed under the hood.}
+    \caption{Combining operators to take a stream as input and emit a stream as output with multiple relation-to-relation operators in between.}
     \label{fig:operators}
 \end{figure}
 
@@ -282,7 +280,7 @@ WHERE LogStream.Message
 	LIKE "%failed login%"
 GROUP BY LogStream.Message;
 \end{lstlisting}
-\captionof{lstlisting}{SimpleCQL query that computes number of times ``failed login'' was found in LogStream}
+% \captionof{lstlisting}{SimpleCQL query that computes number of times ``failed login'' was found in LogStream}
 
 Data for the \texttt{LogStream} was generated prior to running tests and read using a custom \texttt{FileStreamReader}.  The data generated represents 30 minutes of log messages.
 
@@ -311,7 +309,7 @@ FROM TweetStream [Range 30 seconds]
 WHERE TweetStream.Location = "Boston"
 GROUP BY TweetStream.Hashtag;
 \end{lstlisting}
-\captionof{lstlisting}{SimpleCQL query that computes the trending hashtags in Boston given an input TweetStream}
+% \captionof{lstlisting}{SimpleCQL query that computes the trending hashtags in Boston given an input TweetStream}
 
 Data for the \texttt{TweetStream} was generated prior to running tests.  The data generated represents 30 minutes of tweets with text, hashtags, and locations.   
 
@@ -344,7 +342,7 @@ FROM (
 ) 
 GROUP BY advertisement_id;
 \end{lstlisting}
-\captionof{lstlisting}{SimpleCQL query that computes CTR of advertisements given an EventStream and an InsertStream}
+% \captionof{lstlisting}{SimpleCQL query that computes CTR of advertisements given an EventStream and an InsertStream}
 
 Data for the \texttt{InsertionStream} and \texttt{EventStream} was generated prior to running tests.  The data generated represents 30 minutes of advertisement insertions.  Each insertion in the \texttt{InsertionStream} may have a corresponding impression and click event in the EventStream that appears up to 10 minutes after the insertion.
 
