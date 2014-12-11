@@ -245,7 +245,7 @@ The Relation-to-Stream converters are similar to the Stream-to-Relation converte
 \end{description}
 
 
-We implement these diffs-based computations by maintaining the \texttt{prevRelation}, hashing the tuples of \texttt{prevRelation}, and then probing into the hash set with tuples of \texttt{nextRelation} to determine the differences across timesteps. Figure Z illustrates the emitted tuples for each of the Relation-to-Stream converters with respect to time; the IStream is highlighted because it is most illustrative and most significant in our system. 
+We implement these diffs-based computations by maintaining the \texttt{prevRelation}, hashing the tuples of \texttt{prevRelation}, and then probing into the hash set with tuples of \texttt{nextRelation} to determine the differences across timesteps. Figure~\ref{fig:stream_converter} illustrates the emitted tuples for each of the Relation-to-Stream converters with respect to time; the IStream is highlighted because it is most illustrative and most significant in our system. 
 
 \begin{figure}[h!]
     \centering
