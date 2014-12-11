@@ -8,6 +8,12 @@
 \usepackage[T1]{fontenc} 
 \usepackage[scaled]{beramono}
 \usepackage{listings}
+\usepackage{hyperref}
+\hypersetup{colorlinks=false}
+
+
+
+
 
 \lstset{
   language=SQL,
@@ -100,7 +106,7 @@ It should be noted that there can often be a delay of up to several minutes betw
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Abstract Semantics}
-It does not seem straightforward to apply relation operators directly to streams.  It seems necessary to reason about continuous semantics.  Prior work defines a comprehensive abstract semantic foundation for continuous query execution \cite{cql}.  The abstract semantics defined in the CQL paper define two data types and three classes of operators.  SimpleCQL is built on these same constructs.
+It does not seem straightforward to apply relational operators directly to streams.  It seems necessary to reason about continuous semantics.  Prior work defines a comprehensive abstract semantic foundation for continuous query execution \cite{cql}.  The abstract semantics defined in the CQL paper define two data types and three classes of operators.  SimpleCQL is built on these same constructs.
 
 \subsection{Data Types}
 Two data types that are important for stream processing are \textit{streams} and \textit{relations}.  These two data types act as primatives for the streaming semantics and become building blocks for continuous queries.  It should be noted that both streams and relations have fixed schemas. We now present formal definitions of a stream and a relation.
@@ -150,7 +156,7 @@ Converting from a relation to a stream can be done in several ways.  A relation 
 
 \end{description}
 
-The ``Advertisting Statistics'' example makes use of insertions streams.  After joining on \texttt{InsertionId} a stream of newly joined advertisements are produced.  The data from these can then be computed on in order to product real-time statistics.
+The ``Advertisting Statistics'' example makes use of insertions streams.  After joining on \texttt{InsertionId} a stream of newly joined advertisements are produced.  The data from these can then be computed on in order to produce real-time statistics.
 
 \subsection{Combining Operators}
 Streams can be processed by combining the aforementioned operators.  An incoming stream may be converted to a relation using a stream-to-relation operator.  This relation might be processed through several relation-to-relation operators in order to get more useful information, and the results can be continuously output in a new stream.  Figure~\ref{fig:operators} shows a representation of these steps.
@@ -393,6 +399,10 @@ Garbage collecting tuples that are no longer needed using a time-based collectio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion}
 We have augmented SimpleDB, a static relational database, with implementations of the abstract semantics in a Continuous Query Language. The resulting SimpleCQL is our successful implementation of a streaming database management system that supports SQL-like relational operations on real-time streams of structured data. We have exemplified the motivation for such a continuous query processing system through our examples of error logs aggregations, trending tweets computations, and Advertisement Statistics calculations. Despite being built on SimpleDB, a foundation with plenty of room for improvement and optimizations, SimpleCQL performs considerably well on these three tested workloads, all the while leaving a negligible memory footprint when processing unbounded streams of data.
+
+The code for SimpleCQL is hosted on \href{https://github.com/jtwarren/simple_cql}{\underline{GitHub}}.
+A demo is available on \href{https://www.youtube.com/watch?v=6b7C-D5wxIg}{\underline{YouTube}}.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{plain}
