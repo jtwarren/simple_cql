@@ -18,7 +18,11 @@
   basicstyle=\ttfamily,
   morekeywords={Range}
   captionpos=b,
+  belowskip=-7pt
 }
+
+
+
 \usepackage[font=small,labelfont=bf]{caption}
 \renewcommand{\lstlistingname}{Query}
 
@@ -282,7 +286,9 @@ GROUP BY LogStream.Message;
 \end{lstlisting}
 \begingroup
 \captionof{lstlisting}{SimpleCQL query that computes number of times ``failed login'' was found in LogStream}
-\endgroup
+\endgroup 
+
+\vspace{3mm}
 
 Data for the \texttt{LogStream} was generated prior to running tests and read using a custom \texttt{FileStreamReader}.  The data generated represents 30 minutes of log messages.
 
@@ -314,6 +320,8 @@ GROUP BY TweetStream.Hashtag;
 \begingroup
 \captionof{lstlisting}{SimpleCQL query that computes the trending hashtags in Boston given an input TweetStream}
 \endgroup
+
+\vspace{3mm}
 
 Data for the \texttt{TweetStream} was generated prior to running tests.  The data generated represents 30 minutes of tweets with text, hashtags, and locations.   
 
@@ -349,6 +357,8 @@ GROUP BY advertisement_id;
 \begingroup
 \captionof{lstlisting}{SimpleCQL query that computes CTR of advertisements given an EventStream and an InsertStream}
 \endgroup
+
+\vspace{3mm}
 
 Data for the \texttt{InsertionStream} and \texttt{EventStream} was generated prior to running tests.  The data generated represents 30 minutes of advertisement insertions.  Each insertion in the \texttt{InsertionStream} may have a corresponding impression and click event in the EventStream that appears up to 10 minutes after the insertion.
 
