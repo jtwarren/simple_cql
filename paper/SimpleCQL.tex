@@ -48,7 +48,7 @@ We evaluate SimpleCQL and show that its performance is on par with many other st
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-\textit{Big data} often arrives in the form of real-time streams and usually this data is most valuable at the time of arrival. For example, advertising statistics based on real-time data provide tremendous business value to an advertisement system.  Real-time click-through rates can be used by ad auction models to maximize total profits, and real-time budget analysis helps evenly distribute advertisements among available inventory.
+\textit{Big data} often arrives in the form of real-time streams and is generally most valuable at the time of arrival. For example, advertising statistics based on real-time data provide tremendous business value to an advertisement system.  Real-time click-through rates can be used by ad auction models to maximize total profits, and real-time budget analysis helps evenly distribute advertisements among available inventory.
 
 One option for processing streaming data is to create custom solutions that fit the specific needs of the problem at hand.  This solution leads to complicated systems that do not generalize well.  Another option is to use a general stream-processing system such as Apache Storm \cite{storm} or Spark Streaming \cite{spark_streaming}.  These systems lack a familiar SQL-like syntax for querying streams of data and can often become unwieldy, which reduces the benefit associated with using such a general stream-processing system.
 
@@ -113,20 +113,20 @@ We now present formal definitions of a stream and a relation.
   A relation $R$ is a mapping from $T$ to a finite but unbounded set of tuples belonging to the schema of $R$.
 \end{description}
 
-The ``Advertising Statistics'' example consists of two streams.  \texttt{InsertionStream} and \texttt{EventStream} both contained structured tuples as seen in Table~\ref{table:schema} with each tuple occuring at a discrete timestep, $\tau$.  A relation in this context consists of a windowed-snapshot of the stream at some timestamp $\tau$.  Relations in the ``Advertising Statistics'' example are used to compute joins and aggregate statistics.
+The ``Advertising Statistics'' example consists of two streams.  \texttt{InsertionStream} and \texttt{EventStream} both contained structured tuples with schemas defined in Table~\ref{table:schema} with each tuple occuring at a discrete timestep, $\tau$.  A relation in this context consists of a windowed-snapshot of the stream at some timestamp $\tau$.  Relations in the ``Advertising Statistics'' example are used to compute joins and aggregate statistics.
 
 \subsection{Stream-to-Relation Converters}
 Converting from a stream to relation can be done by windowing the stream over some interval.  This interval might be a range in terms of time or tuples.  SimpleCQL implements two such converters.
 
 \begin{description}
   \item[Time-based window] \hfill \\
-  Here, we consider all tuples in the stream that have an associated timestep in the range $[t-\tau, t]$ where t is the current timestep and $\tau$ is a parameter that defines the size of the window. For example, a time-based window of size $10$ seconds would return all tuples in the stream that appeared in the last $10$ seconds.
+  A time-based window considers all tuples in the stream that have an associated timestep in the range $[t-\tau, t]$ where t is the current timestep and $\tau$ is a parameter that defines the size of the window. For example, a time-based window of size $10$ seconds would return all tuples in the stream that appeared in the last $10$ seconds.
   
   \item[Tuple-based window] \hfill \\
-  Here we consider the last $N$ tuples in the stream, where $N$ is a parameter that defines the size of the window. For example, a tuple-based window of size $N$ tuples, would return the last $N$ tuples that appeared in the stream.
+  A tuple-based window considers the last $N$ tuples in the stream, where $N$ is a parameter that defines the size of the window. For example, a tuple-based window of size $N$ tuples, would return the last $N$ tuples that appeared in the stream.
 \end{description}
 
-Since advertisement events may not occur for many minutes, the ``Advertising Statistics'' example uses a time-based window on the insertion stream.  This allows for events happening in real-time to be joined with insertions that existed several minutes ago.
+The ``Advertising Statistics'' example uses a time-based window on the insertion stream since advertisement events may not occur for many minutes.  This allows for events happening in real-time to be joined with insertions that existed several minutes ago.
 
 \subsection{Relation-to-Relation Converters}
 
@@ -137,15 +137,15 @@ Converting from a relation to a stream can be done in several ways.  A relation 
 
 \begin{description}
     \item[Insertion Streams] \hfill \\
-    At every timestep $\tau$ an insertion stream consists of all tuples that were in a relation at time $\tau$ but were not in the relation at time $\tau - 1$.  Effectively this is all of the ``inserted'' tuples into the relation.
+    At every timestep $\tau$ an insertion stream consists of all tuples that were in a relation at timestep $\tau$ but were not in the relation at timestep $\tau - 1$.  Informally this is the set of tuples that were ``inserted'' into a relation at timestep $\tau$.
     $$\text{IStream}(R) = \bigcup_{\tau \geq 0} ((R(\tau) - R(\tau - 1)) \times \{\tau\})$$
 
     \item[Deletion Streams] \hfill \\
-    At every timestep $\tau$ a deletion stream consists of all tuples that were in a relation at time $\tau - 1$ but are not in the relation at time $\tau$. Effectively this is all of the ``deleted'' tuples from the relation. 
+    At every timestep $\tau$ a deletion stream consists of all tuples that were in a relation at time $\tau - 1$ but are not in the relation at time $\tau$. Informally this is the set of tuples that were ``deleted'' from a relation at timestep $\tau$.
     $$\text{DStream}(R) = \bigcup_{\tau > 0} ((R(\tau - 1) - R(\tau)) \times \{\tau\})$$
 
     \item[Relation Streams] \hfill \\
-    At every timestep $\tau$ a relation stream consists of all of the tuples that were in a relation at time $\tau$.  Effectively this is all of the tuples from the relation.
+    At every timestep $\tau$ a relation stream consists of all of the tuples that were in a relation at time $\tau$.  Informally this is the set of tuples that were in a relation at timestep $\tau$.
     $$\text{RStream}(R) = \bigcup_{\tau \geq 0} (R(\tau) \times \{\tau\})$$
 
 \end{description}
@@ -165,10 +165,10 @@ Streams can be processed by combining the aforementioned operators.  An incoming
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Implementation}
-SimpleCQL is built on top of SimpleDB, a lightweight database implemented in Java. The \textit{relation} data primitive is already well-defined in SimpleDB, as are all of the Relation-to-Relation converters. As such, we only need to augment SimpleDB with implementations of the \textit{stream} data primitive, Stream-to-Relation operators, and Relation-to-Stream operators to fully support stream processing in SimpleCQL. 
+SimpleCQL is built on top of SimpleDB, a lightweight database implemented in Java. The \textit{relation} data primitive is already well-defined in SimpleDB, as are all of the relation-to-relation converters. As such, we only need to augment SimpleDB with implementations of the \textit{stream} data primitive, stream-to-relation operators, and relation-to-stream operators to fully support stream processing in SimpleCQL. 
 
 \subsection{Discretized Time}
-SimpleCQL introduces a discretized notion of time in order to process continuous streams. Our system maintains an internal \textit{timestep} that is used to label tuples from continuous streams. This \textit{timestep} assignment does not correlate directly to cpu-time, application-time, or real-time, but serves to preserve the relative time ordering of incoming data. We require such an ordering to reason about and operate on tuples and relations in our concrete semantics.
+SimpleCQL introduces a discretized notion of time in order to process continuous streams. Our system maintains an internal \textit{timestep} that is used to label tuples from continuous streams. This \textit{timestep} assignment does not correlate directly to cpu-time, application-time, or wall-clock time, but serves to preserve the relative time ordering of incoming data. We require such an ordering to reason about and operate on tuples and relations in our concrete semantics.
 
 The internal \textit{timestep} is updated each time our operators are invoked to consume from an input stream or emit to an output stream. Each update to \textit{timestep} represents the passage of one unit of discretized time -- our input and output streams also use this notion of discretized time. 
 
@@ -177,7 +177,7 @@ A \textit{StreamReader} is an implementation construct we developed to represent
 
 We implemented a generic StreamReader interface -- specific types of StreamReaders need to implement this interface. All StreamReaders need to implement a getNext(int timestep) function -- this function throws an exception if the requested timestep is too far out in the future, otherwise returns the next tuple that appears at that timestep (null if no such tuple exists).
 
-We will now discuss two specific StreamReaders we implemented that are interesting, and relevant to the results presented later in this paper.
+We will now discuss two specific StreamReaders we implemented that are interesting, and relevant to the results presented in section 5.
 
 \begin{description}
   \item[FileStreamReader] \hfill \\
