@@ -113,7 +113,7 @@ We now present formal definitions of a stream and a relation.
   A relation $R$ is a mapping from $T$ to a finite but unbounded set of tuples belonging to the schema of $R$.
 \end{description}
 
-The ``Advertising Statistics'' example consists of two streams.  \texttt{InsertionStream} and \texttt{EventStream} both contained structured tuples as seen in Table~\ref{table:schema} with each tuple occuring at a discrete timestep, $\tau$.  A relation in this context consists of a windowed-snapshot of the stream at some timestamp $\tau$.
+The ``Advertising Statistics'' example consists of two streams.  \texttt{InsertionStream} and \texttt{EventStream} both contained structured tuples as seen in Table~\ref{table:schema} with each tuple occuring at a discrete timestep, $\tau$.  A relation in this context consists of a windowed-snapshot of the stream at some timestamp $\tau$.  Relations in the ``Advertising Statistics'' example are used to compute joins and aggregate statistics.
 
 \subsection{Stream-to-Relation Converters}
 Converting from a stream to relation can be done by windowing the stream over some interval.  This interval might be a range in terms of time or tuples.  SimpleCQL implements two such converters.
@@ -126,27 +126,31 @@ Converting from a stream to relation can be done by windowing the stream over so
   Here we consider the last $N$ tuples in the stream, where $N$ is a parameter that defines the size of the window. For example, a tuple-based window of size $N$ tuples, would return the last $N$ tuples that appeared in the stream.
 \end{description}
 
+Since advertisement events may not occur for many minutes, the ``Advertising Statistics'' example uses a time-based window on the insertion stream.  This allows for events happening in real-time to be joined with insertions that existed several minutes ago.
+
 \subsection{Relation-to-Relation Converters}
 
-Relation-to-relation converters are well-known relational operators such as \textit{joins}, \textit{filters}, and \textit{aggregators} that take in relations and output relations. They are used to map a relation $R$ into a new relation $R'$.  
+Relation-to-relation converters are used to map a relation $R$ into a new relation $R'$.  They include well-known relational operators such as \textit{joins}, \textit{filters}, and \textit{aggregators} that produce new relations from existing ones. 
 
 \subsection{Relation-to-Stream Converters}
-Converting from a relation to a stream can be done in several ways.  A relation may change over time and can be though of as having tuple insertions and/or tuple deletions from a previous timestep.  As such, we look at three relation-to-stream converters.  
+Converting from a relation to a stream can be done in several ways.  A relation may change over time and can be thought of as having tuple insertions and/or tuple deletions from a previous timestep.  As such, we look at three relation-to-stream converters.  
 
 \begin{description}
     \item[Insertion Streams] \hfill \\
-    This is our most important type of Relation-to-Stream converter. At every incrementing timestep, it produces all tuples that were in the relation at that timestep but were not in the relation at the previous timestep.
+    At every timestep $\tau$ an insertion stream consists of all tuples that were in a relation at time $\tau$ but were not in the relation at time $\tau - 1$.  Effectively this is all of the ``inserted'' tuples into the relation.
     $$\text{IStream}(R) = \bigcup_{\tau \geq 0} ((R(\tau) - R(\tau - 1)) \times \{\tau\})$$
 
     \item[Deletion Streams] \hfill \\
-    At every incrementing timestep, it produces all tuples that were in the relation at the previous timestep but are not in the relation at the current timestep.
+    At every timestep $\tau$ a deletion stream consists of all tuples that were in a relation at time $\tau - 1$ but are not in the relation at time $\tau$. Effectively this is all of the ``deleted'' tuples from the relation. 
     $$\text{DStream}(R) = \bigcup_{\tau > 0} ((R(\tau - 1) - R(\tau)) \times \{\tau\})$$
 
     \item[Relation Streams] \hfill \\
-    This operator snapshots the relation at every incrementing timestep.
+    At every timestep $\tau$ a relation stream consists of all of the tuples that were in a relation at time $\tau$.  Effectively this is all of the tuples from the relation.
     $$\text{RStream}(R) = \bigcup_{\tau \geq 0} (R(\tau) \times \{\tau\})$$
 
 \end{description}
+
+The ``Advertisting Statistics'' example makes use of insertions streams.  After joining on \texttt{InsertionId} a stream of newly joined advertisements are produced.
 
 \subsection{Combining Operators}
 Streams can be processed by combining the aforementioned operators.  An incoming stream may be converted to a relation using a stream-to-relation operator.  This relation might be processed through several relation-to-relation operators in order to get more useful information, and the results can be continuously output in a new stream.  Figure~\ref{operators} shows a representation of these steps.
