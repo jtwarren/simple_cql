@@ -98,7 +98,7 @@ It should be noted that there can often be a delay of up to several minutes betw
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Abstract Semantics}
-Prior work defines a comprehensive abstract semantic foundation for continuous query execution \cite{cql}.  The abstract semantics is based on two data types and three classes of operators.  SimpleCQL is built on these constructs.
+It is not straighforward how relational operators can be applied directly to streams.  There is a need for reasoning about continuous semantics.  Prior work defines a comprehensive abstract semantic foundation for continuous query execution \cite{cql}.  The abstract semantics is based on two data types and three classes of operators.  SimpleCQL is built on these constructs.
 
 \subsection{Data Types}
 In order to support continuous queries we have defined and implemented a set of streaming primitives: streams and relations. It should be noted that both streams and relations have traditional fixed, but not necessarily equal, schemas.
@@ -167,7 +167,7 @@ Streams can be processed by combining the aforementioned operators.  An incoming
 \section{Implementation}
 SimpleCQL is built on top of SimpleDB, a lightweight database implemented in Java. The \textit{relation} data primitive is already well-defined in SimpleDB, as are all of the Relation-to-Relation converters. As such, we only need to augment SimpleDB with implementations of the \textit{stream} data primitive, Stream-to-Relation operators, and Relation-to-Stream operators to fully support stream processing in SimpleCQL. 
 
-\subsection*{Discretized Time}
+\subsection{Discretized Time}
 SimpleCQL introduces a discretized notion of time in order to process continuous streams. Our system maintains an internal \textit{timestep} that is used to label tuples from continuous streams. This \textit{timestep} assignment does not correlate directly to cpu-time, application-time, or real-time, but serves to preserve the relative time ordering of incoming data. We require such an ordering to reason about and operate on tuples and relations in our concrete semantics.
 
 The internal \textit{timestep} is updated each time our operators are invoked to consume from an input stream or emit to an output stream. Each update to \textit{timestep} represents the passage of one unit of discretized time -- our input and output streams also use this notion of discretized time. 
